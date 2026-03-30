@@ -2,9 +2,9 @@
 
 **Version** : 0.1.0-draft  
 **Date** : 2026-03-30  
-**Auteur** : Luc Schmitt
+**Auteur** : [à compléter]  
 **Licence** : CC BY-SA 4.0  
-**Dépôt** : [https://github.com/Lucschmitt/labascule]
+**Dépôt** : [url GitHub à compléter]
 
 ---
 
@@ -960,6 +960,231 @@ syndicales et culturelles socialistes en Italie, saisie des Maisons du Peuple.
 *Fin de la section 3.*
 *Section 4 — Protocole d'application : à rédiger.*
 *Section 5 — Journal des versions : à rédiger.*
+
+---
+
+## Section 4 — Protocole d'application
+
+### 4.1 Architecture du pipeline — 4 agents + orchestrateur
+
+Le pipeline repose sur quatre agents IA spécialisés, chacun stateless,
+opérant dans un contexte isolé. Un orchestrateur gère le routing, l'état
+partagé et les cas non-nominaux. La spécification technique complète est
+dans `agents/spec-agents.md`.
+
+**Vue d'ensemble :**
+
+```
+Orchestrateur
+    │
+    ▼
+Agent 1 — Extraction factuelle
+    │  (JSON structuré — pas d'interprétation)
+    ├──────────────────────┐
+    ▼                      ▼
+Agent 2 — Favorable    Agent 3 — Défavorable
+[contexte A isolé]     [contexte B isolé]
+    │                      │
+    └──────────┬───────────┘
+               ▼
+          Agent 4 — Scoring
+          [bord politique masqué]
+               │
+               ▼
+          Draft fiche JSON
+               │
+               ▼
+          Validation humaine
+               │
+               ▼
+          Publication
+```
+
+**Agent 1 — Extraction factuelle.**
+Produit la structure JSON complète à partir de la source brute. Ne connaît
+pas les critères de la grille. Archive automatiquement les sources
+modifiables (réseaux sociaux, sites de partis) au moment de l'analyse.
+Aucune interprétation.
+
+**Agent 2 — Arguments favorables.**
+Reçoit l'extraction factuelle uniquement. Produit le meilleur argumentaire
+possible en faveur du texte. Contexte isolé — ne reçoit pas la sortie de
+l'Agent 3. Le bord politique de l'auteur n'est pas mentionné dans l'input.
+
+**Agent 3 — Arguments défavorables.**
+Input identique à l'Agent 2. Produit le meilleur argumentaire possible
+contre le texte. Appel API séparé — contexte ne contenant pas la sortie
+de l'Agent 2.
+
+**Agent 4 — Synthèse et scoring.**
+Reçoit la fiche complète avec les deux jeux d'arguments. Le champ
+`auteurs[].parti` est masqué dans l'input — le scoring est aveugle au
+bord politique. Applique la grille C-01 à C-17 et positionne sur la frise.
+
+**Cas non-nominaux gérés par l'orchestrateur :**
+
+| Cas | Agents relancés |
+|-----|----------------|
+| Nouveau fait sur fiche publiée | Agent 1 uniquement |
+| Analyse symétrique (texte B) | Agents 2, 3, 4 — Agent 4 compare A et B |
+| Nouvelle version de grille | Agent 4 uniquement |
+| Source disparue | Agent 1 sur archive locale |
+
+---
+
+### 4.2 Règles de non-contournement
+
+Ces règles sont non négociables. Elles constituent les garde-fous centraux
+du projet.
+
+**Règle 1 — Isolation stricte des contextes agents.**
+Les Agents 2 et 3 opèrent dans des appels API distincts avec des contextes
+entièrement séparés. L'Agent 2 ne reçoit jamais la sortie de l'Agent 3,
+et vice versa. L'Agent 4 reçoit les deux sorties mais avec le bord politique
+de l'auteur masqué dans l'input. Voir `agents/spec-agents.md` pour
+l'implémentation technique.
+
+**Règle 2 — Ordre immuable des agents.**
+L'Agent 4 (scoring) ne peut être lancé qu'une fois les Agents 2 et 3
+complétés et leurs outputs sauvegardés dans la fiche JSON. Un scoring
+produit avant la complétion des arguments est invalide et non publiable.
+
+**Règle 3 — Symétrie sous 30 jours.**
+Toute analyse d'un texte porté par un parti ou bord politique donne lieu
+à une analyse d'un texte comparable de l'autre bord dans les 30 jours
+calendaires suivant la publication. Si aucun texte comparable n'existe,
+la mention « pas d'équivalent identifié à ce jour — mise à jour prévue »
+est ajoutée à la fiche.
+
+**Règle 4 — Traçabilité obligatoire.**
+Chaque fiche publiée mentionne obligatoirement :
+- la version de la grille utilisée (ex. : `v0.1.0`)
+- le modèle IA utilisé (ex. : `claude-sonnet-4-6`)
+- les `run_id` des quatre appels API (Agents 1 à 4)
+- la date d'analyse
+- l'identité du validateur humain
+- le lien vers la source primaire du texte analysé
+- l'URL de l'archive locale pour les sources modifiables
+
+**Règle 5 — Correction publique.**
+Toute erreur factuelle signalée par un lecteur est traitée dans un délai
+de 7 jours ouvrés. La correction est publiée sur la fiche avec mention
+explicite de la modification, de sa date, et de son auteur. La version
+initiale erronée reste accessible via l'historique Git. Les erreurs ne
+sont jamais effacées silencieusement.
+
+**Règle 6 — Seuil de publication.**
+Une fiche ne peut être publiée que si :
+- au moins 3 critères de la grille ont été évalués
+- l'étape de validation humaine (étape 6) a été complétée
+- la source primaire est accessible publiquement en ligne
+
+---
+
+### 4.3 Périmètre des acteurs analysés
+
+Le baromètre analyse les textes et comportements des acteurs suivants,
+sans exclusion partisane :
+
+| Catégorie | Exemples | Source de données |
+|-----------|----------|-------------------|
+| Gouvernement | Premier ministre, ministres | Journal officiel, communiqués |
+| Assemblée nationale | Députés, groupes parlementaires | data.assemblee-nationale.fr |
+| Sénat | Sénateurs, groupes | senat.fr |
+| Parlement européen | Eurodéputés français | europarl.europa.eu |
+| Partis politiques | Programmes, déclarations officielles | Sources partisanes + presse |
+| Conseils régionaux | Délibérations | Bulletins officiels régionaux |
+| Maires et exécutifs locaux | Arrêtés, délibérations | Bulletins officiels locaux |
+| Anciens présidents et ministres | Déclarations publiques | Presse + archives |
+
+**Ce qui n'est pas dans le périmètre :** les simples citoyens, les
+commentateurs médiatiques sans mandat électif, les syndicats et associations
+(sauf s'ils exercent une influence institutionnelle documentée), les acteurs
+étrangers.
+
+---
+
+### 4.4 Procédure de désaccord entre analystes
+
+En cas de contribution de plusieurs analystes sur une même fiche, la procédure
+suivante s'applique.
+
+**Désaccord sur un fait (étape 2) :** la source primaire fait foi. En l'absence
+de source primaire, le fait est retiré de la fiche jusqu'à vérification.
+
+**Désaccord sur un argument (étapes 3-4) :** les deux arguments sont conservés
+et publiés, avec indication de leur auteur respectif. Le lecteur dispose ainsi
+des deux lectures.
+
+**Désaccord sur le scoring d'un critère (étape 5) :** le directeur de
+publication tranche. Sa décision est motivée par écrit dans les métadonnées
+de la fiche. L'analyste en désaccord peut publier une note contradictoire
+attachée à la fiche, sous sa propre signature.
+
+**Désaccord sur la publication (étape 6) :** le directeur de publication
+a le droit de veto. Une fiche bloquée est archivée avec mention du motif
+du blocage, accessible dans le dépôt Git.
+
+---
+
+### 4.5 Prompts système de référence
+
+Les prompts système des quatre agents sont versionnés séparément dans
+`/prompts/`. Ils sont résumés dans `agents/spec-agents.md` section 2.
+
+Le principe commun à tous les agents : aucun ne qualifie un acteur de
+fasciste, tous citent leurs sources, tous opèrent en contexte isolé.
+
+Le prompt de l'Agent 4 contient une contrainte supplémentaire critique :
+le bord politique de l'auteur du texte est masqué dans son input.
+Le scoring est aveugle au parti.
+
+---
+
+*Fin de la section 4.*
+
+---
+
+## Section 5 — Journal des versions
+
+Ce tableau enregistre toutes les modifications substantielles apportées
+au document. Une modification substantielle est toute modification qui
+change la définition d'un critère, ajoute ou supprime un critère, modifie
+un seuil, ou change une règle du protocole.
+
+Les corrections typographiques et les reformulations sans impact sur le sens
+ne sont pas enregistrées ici — elles sont tracées via l'historique Git.
+
+| Version | Date | Nature | Critères affectés | Auteur | Motif |
+|---------|------|--------|-------------------|--------|-------|
+| 0.1.0-draft | 2026-03-30 | Création | C-01 à C-17 | Luc Schmitt | Version initiale |
+| 0.1.1-draft | 2026-03-30 | Patch section 4 | Aucun | Luc Schmitt | Refonte architecture pipeline : passage de 7 étapes séquentielles à 4 agents isolés + orchestrateur. Ajout spec-agents.md. |
+
+### 5.1 Règles de versionnement
+
+Le document suit le versionnement sémantique adapté au contenu :
+
+- **Patch** (0.1.0 → 0.1.1) : correction d'une source, reformulation d'une
+  définition sans changement de sens, ajout d'un exemple historique
+- **Mineur** (0.1.0 → 0.2.0) : ajout d'un critère, modification d'un seuil,
+  ajout d'un cas historique de référence
+- **Majeur** (0.1.0 → 1.0.0) : refonte de la structure de la grille,
+  changement du cadre théorique de référence, publication académique validée
+
+Le statut `-draft` est retiré lors du passage en version `1.0.0`, après
+validation par au moins un expert académique extérieur au projet.
+
+### 5.2 Politique de rétrocompatibilité
+
+Chaque fiche du baromètre indique la version de la grille utilisée pour
+son analyse. Une fiche analysée avec la version 0.1.0 n'est pas
+automatiquement mise à jour lors du passage en version 0.2.0. Elle peut
+faire l'objet d'une réévaluation volontaire, signalée par la mention
+« réévalué avec la grille v[VERSION] le [DATE] ».
+
+---
+
+*Fin de la section 5. Document complet — version 0.1.0-draft.*
 
 ---
 
