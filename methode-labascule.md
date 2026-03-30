@@ -2,9 +2,9 @@
 
 **Version** : 0.1.0-draft  
 **Date** : 2026-03-30  
-**Auteur** : [à compléter]  
+**Auteur** : Luc Schmitt
 **Licence** : CC BY-SA 4.0  
-**Dépôt** : [url GitHub à compléter]
+**Dépôt** : [https://github.com/Lucschmitt/labascule]
 
 ---
 
