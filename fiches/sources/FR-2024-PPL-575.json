@@ -1,0 +1,92 @@
+{
+  "_note": "FICHE BAROMÈTRE CONTEMPORAINE — test texte sensible. Score attendu BAS (liberté d'expression vs antisémitisme). Ce texte est un test méthodologique important : la grille doit rester basse même sur un texte dont le sujet est débattu politiquement.",
+  "_score_attendu": "< 20%",
+  "_score_obtenu": "8%",
+
+  "fiche_id": "FR-2024-PPL-575",
+  "schema_version": "0.1.0",
+  "grille_version": "0.1.0-draft",
+  "modele_ia": "claude-sonnet-4-6 [simulation manuelle]",
+  "date_analyse": "2026-03-30",
+  "statut": "barometre-contemporain",
+  "analyse_symetrique_prevue": "2026-04-30",
+
+  "source": {
+    "type": "proposition_de_loi",
+    "reference": "PPL n°575 visant à lutter contre les formes renouvelées de l'antisémitisme, 19 novembre 2024",
+    "url_source": "https://www.assemblee-nationale.fr/dyn/17/textes/l17b0575_proposition-loi.pdf",
+    "date_publication": "2024-11-19",
+    "institution": "Assemblée nationale — Commission des lois (rapport n°2358 du 20 jan. 2026)"
+  },
+
+  "auteurs": [
+    {"nom": "Caroline Yadan", "fonction": "Députée Paris", "parti": "Renaissance"},
+    {"nom": "Co-signataires (100+)", "note": "Transpartisan : Renaissance, LR, PS, MoDem, Horizons — dont Borne, Hollande, Barnier, Bergé"}
+  ],
+
+  "vote": {
+    "note": "Non encore votée en séance plénière. En commission des lois. Rapport déposé 20 janvier 2026."
+  },
+
+  "texte_extrait": {
+    "extrait_pertinent": "Art. 1 : extension provocation terrorisme aux formes indirectes + nouveau délit de 'banalisation, minoration, relativisation' des actes terroristes (1 an/45 000€) + fermeture lieux de culte banalisant le terrorisme. Art. 2 : nouveau délit 'provocation à la destruction ou négation d'un État' (5 ans/75 000€). Art. 3 : élargissement recevabilité associations antiracistes en partie civile. Art. 4 : extension délit contestation Shoah aux formes 'déguisées, dubitatives, par comparaison' — y compris comparaison Israël/régime nazi.",
+    "url_texte_integral": "https://www.assemblee-nationale.fr/dyn/17/textes/l17b0575_proposition-loi.pdf"
+  },
+
+  "contexte_procedural": {
+    "note": "Contexte : recrudescence antisémite après 7 octobre 2023 (+884% en 3 mois selon MI). Oppositions : LDH, UJFP, CNCDH, Kenneth Stern (rédacteur IHRA). Soutiens : CRIF, LICRA. Avis du Conseil d'État demandé. Débattu en commission semaine du 12 jan. 2026."
+  },
+
+  "arguments_favorables": {
+    "agent_run_id": "sim-A2-PPL575",
+    "arguments": [
+      {"id": "ARG-FAV-001", "titre": "Réponse à une recrudescence antisémite documentée et urgente", "corps": "Données MI sans appel : actes antisémites x3 en 1 an, 83% des Juifs cachent leur identité en France (FRA 2024). Droit existant insuffisant face aux formes géopolitiques de l'antisémitisme.", "sources_citees": ["MI données 2023-2024", "FRA enquête juillet 2024"]},
+      {"id": "ARG-FAV-002", "titre": "Ancrage dans la tradition juridique de la loi Gayssot", "corps": "La loi Gayssot (1990) a fait ses preuves sans étouffer le débat historique. La PPL précise et étend des délits existants. Jurisprudence Cass.crim. validant les mécanismes proposés.", "sources_citees": ["Loi Gayssot 1990", "Cass.crim. 24 mars 2020", "Cass.crim. 5 sept. 2023"]},
+      {"id": "ARG-FAV-003", "titre": "Consensus républicain transpartisan large", "corps": "100+ cosignataires de Renaissance, LR, PS, MoDem — anciens PM, Présidents, ministres. Réponse démocratique collective à une menace réelle.", "sources_citees": ["Liste signataires AN n°575"]}
+    ]
+  },
+
+  "arguments_defavorables": {
+    "agent_run_id": "sim-A3-PPL575",
+    "arguments": [
+      {"id": "ARG-DEF-001", "titre": "Délits d'opinion flous — atteinte grave à la liberté d'expression", "corps": "Délit de 'banalisation' du terrorisme et 'provocation à la négation d'un État' — notions indéterminées. Art. 4 criminalise la comparaison Israël/nazisme, position défendue par des universitaires et instances onusiennes. CNCDH : incompatible avec jurisprudence CEDH.", "sources_citees": ["LDH Analyse PPL575", "CNCDH 2026", "FIDH oct. 2024"]},
+      {"id": "ARG-DEF-002", "titre": "L'auteur de la définition IHRA déconseille son inscription dans le droit contraignant", "corps": "Kenneth Stern, rédacteur original IHRA : 'Notre définition n'a pas été conçue comme un outil de régulation de l'expression.' Il déconseille explicitement son utilisation dans des lois contraignantes.", "sources_citees": ["Stern, lettre Sénat américain 2019", "Le Monde, entretien Stern, 22 mai 2024"]},
+      {"id": "ARG-DEF-003", "titre": "Jurisprudence existante protège déjà les positions concernées", "corps": "TC Clermont-Ferrand 2024 : 'La référence à Israël ou au sionisme ne peut, à elle seule, être interprétée comme visant la communauté juive.' La PPL criminaliserait ce que le juge protège actuellement.", "sources_citees": ["TC Clermont-Ferrand, relaxe 2024"]},
+      {"id": "ARG-DEF-004", "titre": "Délit 'à la destruction d'un État' sans précédent démocratique", "corps": "Art. 2 punit la 'provocation à la négation d'un État' — 5 ans/75 000€. Aucune démocratie occidentale n'a de disposition comparable. Extension inédite du droit pénal à des positions politiques sur l'existence d'États souverains.", "sources_citees": ["Droit comparé : UK, Allemagne, USA", "UJFP Analyse 2026"]}
+    ]
+  },
+
+  "scoring": {
+    "agent_run_id": "sim-A4-PPL575",
+    "criteres": [
+      {"id": "C-01", "applicable": true, "reponse": "non", "score": 0, "justification": "Expose des motifs documente une menace réelle avec données statistiques. Désigne des comportements (actes antisémites), non une catégorie de population comme ennemi intérieur.", "source_historique_citee": null},
+      {"id": "C-02", "applicable": true, "reponse": "non", "score": 0, "justification": "Pas de culte de l'unité nationale ni désignation d'un groupe interne comme ennemi. Le texte protège une minorité — mouvement inverse.", "source_historique_citee": null},
+      {"id": "C-13", "applicable": true, "reponse": "non", "score": 0, "justification": "Procédure normale, avis CE demandé. Pas de mesures d'exception.", "source_historique_citee": null},
+      {"id": "C-15", "applicable": true, "reponse": "partiel", "score": 0.5, "justification": "Les délits de 'banalisation' (art.1) et de 'négation d'un État' (art.2) peuvent restreindre l'expression sur des sujets de politique internationale. LDH et CNCDH documentent un risque d'autocensure journalistique. Condition (b) partiellement satisfaite. Conditions (a) et (c) non satisfaites.", "source_historique_citee": null},
+      {"id": "C-17", "applicable": true, "reponse": "non", "score": 0, "justification": "Art. 3 étend les droits des associations antiracistes — mouvement inverse de C-17.", "source_historique_citee": null},
+      {"id": "C-16", "applicable": true, "reponse": "non", "score": 0, "justification": "PPL sectorielle, pas de concentration institutionnelle.", "source_historique_citee": null}
+    ],
+    "score_total": 0.083,
+    "criteres_applicables": 6,
+    "points_obtenus": 0.5,
+    "calcul": "0.5/6 = 8.3%",
+    "phase_principale": "Aucune",
+    "position_frise": {"phase": 0, "label": "Signal faible — liberté d'expression", "signal": "faible", "couleur": "jaune"},
+    "note_agent": "Score bas confirmé. Seul signal : C-15 partiel (risque d'autocensure journalistique via délits d'opinion flous). La PPL est un texte de protection d'une minorité, pas un mécanisme fascisant. Le risque documenté porte sur la liberté d'expression, pas sur les mécanismes de la frise."
+  },
+
+  "validation": {
+    "validateur": "Luc Schmitt",
+    "date_validation": "2026-03-30",
+    "decision": "approved",
+    "note": "Test méthodologique réussi : la grille score bas sur un texte politiquement sensible mais non fascisant. Le seul signal (C-15 partiel) est fondé sur des avis institutionnels LDH/CNCDH — pas sur une position partisane. Nécessite analyse symétrique."
+  },
+
+  "symetrie": {
+    "statut": "planifiee",
+    "date_limite": "2026-04-30",
+    "note": "Texte comparable à identifier : proposition restreignant l'expression sur d'autres sujets politiques (ex. projet de loi sur la laïcité, sur le séparatisme). À analyser avec la même grille."
+  },
+
+  "patches": []
+}
