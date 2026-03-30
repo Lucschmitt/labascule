@@ -1,0 +1,287 @@
+{
+  "_commentaire": "FICHE DE CALIBRATION — score attendu : ÉLEVÉ (>80%). Ne pas modifier sans mise à jour du journal de calibration.",
+  "_score_attendu": "100% sur critères applicables",
+  "_criteres_attendus_oui": ["C-01", "C-02", "C-13", "C-15", "C-16", "C-17"],
+  "_criteres_non_applicables": ["C-03", "C-04", "C-05", "C-06", "C-07", "C-08", "C-09", "C-10", "C-11", "C-12", "C-14"],
+
+  "fiche_id": "CAL-DE-1933-001",
+  "schema_version": "0.1.0",
+  "grille_version": "0.1.0-draft",
+  "modele_ia": "claude-sonnet-4-6 [simulation manuelle — à remplacer par run réel]",
+  "date_analyse": "2026-03-30",
+  "statut": "calibration-historique",
+  "analyse_symetrique_prevue": null,
+
+  "source": {
+    "type": "decret",
+    "reference": "Verordnung des Reichspräsidenten zum Schutz von Volk und Staat, 28 février 1933 (RGBl. I S. 83)",
+    "url_source": "https://www.documentarchiv.de/ns/reichstagsbrand-vo.html",
+    "url_archive": "calibration/sources/CAL-DE-1933-001.html",
+    "date_publication": "1933-02-28",
+    "date_vote": null,
+    "institution": "Présidence du Reich — signé Hindenburg, contresigné Hitler et Frick"
+  },
+
+  "auteurs": [
+    {
+      "nom": "Paul von Hindenburg",
+      "fonction": "Président du Reich",
+      "parti": "Indépendant (droite conservatrice)",
+      "mandat": "Président de la République de Weimar 1925-1934"
+    },
+    {
+      "nom": "Adolf Hitler",
+      "fonction": "Chancelier du Reich",
+      "parti": "NSDAP",
+      "mandat": "Chancelier depuis le 30 janvier 1933"
+    }
+  ],
+
+  "vote": {
+    "pour": null,
+    "contre": null,
+    "abstentions": null,
+    "note": "Décret présidentiel — aucun vote parlementaire. Fondé sur l'article 48 alinéa 2 de la Constitution de Weimar."
+  },
+
+  "texte_extrait": {
+    "extrait_pertinent": "Article 1 : Les articles 114, 115, 117, 118, 123, 124 et 153 de la Constitution du Reich allemand sont suspendus jusqu'à nouvel ordre. Des restrictions à la liberté individuelle, au droit à la libre expression d'opinion, y compris la liberté de la presse, au droit de réunion et d'association, des violations du secret des communications postales, télégraphiques et téléphoniques, des perquisitions à domicile ainsi que des confiscations de biens sont donc admissibles au-delà des limites légales normalement prescrites. Article 2 : Si dans un Land les mesures nécessaires au rétablissement de la sécurité et de l'ordre public ne sont pas prises, le gouvernement du Reich peut provisoirement assumer les pouvoirs des autorités de ce Land.",
+    "url_texte_integral": "https://www.documentarchiv.de/ns/reichstagsbrand-vo.html",
+    "archive_locale": "calibration/sources/CAL-DE-1933-001-texte.txt"
+  },
+
+  "contexte_procedural": {
+    "commission": null,
+    "lectures": 0,
+    "conseil_constitutionnel": false,
+    "note": "Pris 24h après l'incendie du Reichstag (27 février 1933). Invoque l'article 48-2. Reste en vigueur jusqu'en 1945. Permet l'arrestation immédiate de 4 000 militants communistes dès le 28 février. Fondement juridique de toute la dictature nazie selon Evans [EVA03] p. 334."
+  },
+
+  "arguments_favorables": {
+    "agent_run_id": "sim-agent2-001-manuel",
+    "timestamp": "2026-03-30",
+    "arguments": [
+      {
+        "id": "ARG-FAV-001",
+        "titre": "Réponse légale à une menace terroriste documentée",
+        "corps": "L'incendie du Reichstag constituait une menace immédiate à l'ordre constitutionnel. L'article 48-2 de la Constitution de Weimar prévoit explicitement que le Président peut prendre les mesures nécessaires en cas de trouble grave. Le recours à cet article avait un précédent établi : il avait été utilisé 66 fois en 1932 par les gouvernements précédents.",
+        "sources_citees": ["Constitution de Weimar art. 48-2", "Evans, The Coming of the Third Reich, p. 312"]
+      },
+      {
+        "id": "ARG-FAV-002",
+        "titre": "Cadre temporaire et réversible en droit",
+        "corps": "Le texte mentionne 'jusqu'à nouvel ordre', ce qui implique un caractère provisoire soumis à révision. Les mesures d'exception fondées sur un état de nécessité sont admises dans la plupart des démocraties libérales de l'époque.",
+        "sources_citees": ["Texte du décret — RGBl. I S. 83"]
+      },
+      {
+        "id": "ARG-FAV-003",
+        "titre": "Signé par le Président légalement élu",
+        "corps": "Hindenburg, élu avec 53% des voix en avril 1932, contresigné par le chancelier nommé conformément à la Constitution. La légitimité formelle des signataires est incontestable.",
+        "sources_citees": ["Résultats élection présidentielle allemande avril 1932", "Constitution de Weimar art. 48 et 53"]
+      }
+    ]
+  },
+
+  "arguments_defavorables": {
+    "agent_run_id": "sim-agent3-001-manuel",
+    "timestamp": "2026-03-30",
+    "arguments": [
+      {
+        "id": "ARG-DEF-001",
+        "titre": "Suspension permanente des droits fondamentaux",
+        "corps": "Suspend sept articles constitutionnels garantissant les libertés fondamentales. N'est jamais levé — reste en vigueur jusqu'en 1945. Devient le fondement juridique permanent de la dictature.",
+        "sources_citees": ["Evans, The Coming of the Third Reich, p. 334", "Haffner, Histoire d'un Allemand, p. 112"]
+      },
+      {
+        "id": "ARG-DEF-002",
+        "titre": "Prétexte non étayé — l'incendie non attribuable aux communistes",
+        "corps": "L'historiographie établit que l'incendie a été commis par un seul individu sans lien documenté avec le KPD. Le décret est donc pris sur la base d'une menace non établie.",
+        "sources_citees": ["Evans, The Third Reich in Power, p. 4-8", "Kershaw, Hitler 1889-1936, p. 459"]
+      },
+      {
+        "id": "ARG-DEF-003",
+        "titre": "Destruction immédiate du pluralisme politique",
+        "corps": "4 000 militants communistes arrêtés sans mandat dès le 28 février. Usage immédiatement détourné de sa finalité déclarée vers l'élimination de l'opposition.",
+        "sources_citees": ["Evans, The Coming of the Third Reich, p. 340", "Chapoutot, Les Irresponsables, p. 215"]
+      },
+      {
+        "id": "ARG-DEF-004",
+        "titre": "Abus caractérisé de l'article 48",
+        "corps": "L'article 48-2 avait été conçu pour des crises économiques ou troubles civils, non pour supprimer définitivement les libertés constitutionnelles. Détournement de finalité selon les juristes non alignés de l'époque.",
+        "sources_citees": ["Anschütz, Die Verfassung des deutschen Reichs, 1933", "Evans, p. 316"]
+      }
+    ]
+  },
+
+  "scoring": {
+    "agent_run_id": "sim-agent4-001-manuel",
+    "timestamp": "2026-03-30",
+    "criteres": [
+      {
+        "id": "C-01",
+        "applicable": true,
+        "reponse": "oui",
+        "score": 1.0,
+        "justification": "Invoque une menace existentielle (attaque communiste contre l'État) — condition (c) : urgence existentielle justifiant des mesures exceptionnelles.",
+        "source_historique_citee": "PAX04, GRI91"
+      },
+      {
+        "id": "C-02",
+        "applicable": true,
+        "reponse": "oui",
+        "score": 1.0,
+        "justification": "Désigne les communistes comme ennemi intérieur menaçant l'unité nationale. Conditions (a) et (b) réunies.",
+        "source_historique_citee": "GEN04"
+      },
+      {
+        "id": "C-03",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Critère non applicable à ce texte — concerne les organisations para-étatiques, pas un décret d'État.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-04",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Critère contextuel — ne s'applique pas à un texte de loi spécifique.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-05",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Critère non applicable — concerne le financement patronal, pas un décret.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-06",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Critère non applicable à ce texte spécifique.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-07",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Critère non applicable — concerne la concentration médiatique.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-08",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Critère non applicable — concerne la progression électorale.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-09",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Critère non applicable à ce texte — concerne les alliances partisanes.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-10",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Critère non applicable à ce texte spécifique.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-11",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Critère non applicable à ce texte spécifique.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-12",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Critère applicable uniquement après prise de pouvoir effective — la prise de pouvoir est en cours au moment du décret mais le critère concerne le vote de confiance des partis modérés, pas ce décret.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-13",
+        "applicable": true,
+        "reponse": "oui",
+        "score": 1.0,
+        "justification": "Mesure restreignant liberté de presse, réunion, association — prise par décret sans vote parlementaire. Usage récurrent de l'article 48 (66 fois en 1932). Conditions (a) et (b) pleinement satisfaites.",
+        "source_historique_citee": "EVA03"
+      },
+      {
+        "id": "C-14",
+        "applicable": false,
+        "reponse": null,
+        "score": null,
+        "justification": "Ce décret ne cible pas les syndicats directement. C-14 s'applique au décret du 2 mai 1933.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-15",
+        "applicable": true,
+        "reponse": "oui",
+        "score": 1.0,
+        "justification": "Suspend explicitement la liberté de la presse (article 118 de la Constitution). Condition (a) satisfaite directement par le texte.",
+        "source_historique_citee": "EVA03"
+      },
+      {
+        "id": "C-16",
+        "applicable": true,
+        "reponse": "oui",
+        "score": 1.0,
+        "justification": "Article 2 : le gouvernement peut assumer les pouvoirs des Länder. Combiné à la situation politique, conditions (a), (b) et (c) réunies dans les 30 jours.",
+        "source_historique_citee": "PAX04, GEN04"
+      },
+      {
+        "id": "C-17",
+        "applicable": true,
+        "reponse": "oui",
+        "score": 1.0,
+        "justification": "Permet la dissolution de facto d'organisations politiques — KPD dissous immédiatement. Condition (a) satisfaite. Condition (b) : touche de manière disproportionnée la gauche.",
+        "source_historique_citee": "PAX04, MAT23"
+      }
+    ],
+    "score_total": 1.0,
+    "criteres_applicables": 6,
+    "points_obtenus": 6.0,
+    "calcul": "6/6 critères applicables = 100%",
+    "phase_principale": "Phase 4-5",
+    "position_frise": {
+      "phase": 5,
+      "label": "Destruction des contre-pouvoirs",
+      "signal": "critique",
+      "couleur": "rouge foncé"
+    },
+    "note_agent": "Score maximal sur 6 critères applicables. Étalon haut de calibration."
+  },
+
+  "validation": {
+    "validateur": "Luc Schmitt",
+    "date_validation": "2026-03-30",
+    "signature_git": null,
+    "decision": "approved",
+    "motif_rejet": null,
+    "corrections_apportees": [],
+    "note": "Fiche de calibration historique — simulation manuelle. À re-tester avec le pipeline réel dès que disponible. Score attendu : 100% sur critères applicables."
+  },
+
+  "symetrie": {
+    "statut": "non_applicable",
+    "note": "Texte historique — pas d'analyse symétrique requise."
+  },
+
+  "patches": []
+}
