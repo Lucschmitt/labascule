@@ -1,0 +1,180 @@
+{
+  "_note": "FICHE BAROMÈTRE — programme électoral. Limite méthodologique importante : les critères institutionnels (C-13 à C-17) ne sont pleinement applicables que sur des textes ayant force de loi. Ce document est programmatique — score relativisé en conséquence.",
+  "_note_symetrie": "Cette fiche complète FR-2024-LOI-042 (loi immigration, 44%) et FR-2024-PPL-575 (PPL Yadan, 8%). Elle démontre la symétrie partisane de la méthode : trois bords politiques différents, scores cohérents avec la grille.",
+
+  "fiche_id": "FR-2024-PROG-NFP",
+  "schema_version": "0.1.0",
+  "grille_version": "0.1.0-draft",
+  "modele_ia": "claude-sonnet-4-6 [simulation manuelle]",
+  "date_analyse": "2026-03-30",
+  "statut": "barometre-contemporain",
+  "analyse_symetrique_prevue": "2026-04-30",
+
+  "source": {
+    "type": "programme_electoral",
+    "reference": "Contrat de législature — Nouveau Front Populaire, juin 2024",
+    "url_source": "https://lafranceinsoumise.fr/wp-content/uploads/2024/06/Programme-nouveaufrontpopulaire.pdf",
+    "url_archive": "fiches/sources/FR-2024-PROG-NFP.pdf",
+    "date_publication": "2024-06",
+    "institution": "Coalition NFP : LFI, PS, PCF, EELV, Place Publique"
+  },
+
+  "auteurs": [
+    {
+      "nom": "Nouveau Front Populaire",
+      "fonction": "Coalition électorale",
+      "parti": "LFI + PS + PCF + EELV + Place Publique",
+      "note": "193 sièges aux législatives 2024 — premier groupe AN mais pas de majorité absolue. Programme non appliqué."
+    }
+  ],
+
+  "vote": {
+    "note": "Document programmatique non législatif. Score électoral : ~28-29% des suffrages aux législatives juin-juillet 2024. Le NFP n'a pas gouverné."
+  },
+
+  "texte_extrait": {
+    "extrait_pertinent": "Préambule : 'Nous combattons le projet raciste et de casse sociale de l'extrême droite et voulons l'empêcher d'arriver au pouvoir.' 15 premiers jours : gouvernement par décrets d'urgence (état d'urgence sociale, blocage des prix, abrogations). 100 premiers jours : 5 grandes lois (pouvoir d'achat, santé, éducation, énergie-climat, finances). Mois suivants : 6e République (proportionnelle, RIC, constituante), renforcement syndicats et CHSCT, défense indépendance des rédactions, limitation concentration médiatique, abrogation lois immigration Macron, régularisation des travailleurs.",
+    "url_texte_integral": "https://lafranceinsoumise.fr/wp-content/uploads/2024/06/Programme-nouveaufrontpopulaire.pdf"
+  },
+
+  "contexte_procedural": {
+    "note": "Document électoral publié avant les législatives de juin-juillet 2024. Programme non appliqué — le NFP n'a pas gouverné. Limite méthodologique documentée : les critères institutionnels ne s'appliquent pas à des intentions programmatiques non encore normatives."
+  },
+
+  "arguments_favorables": {
+    "agent_run_id": "sim-A2-PROG-NFP",
+    "arguments": [
+      {
+        "id": "ARG-FAV-001",
+        "titre": "Programme de protection et de renforcement des contre-pouvoirs",
+        "corps": "Abrogation du 49-3, proportionnelle, RIC, constituante citoyenne — mesures structurellement inverses aux mécanismes fascisants de concentration du pouvoir.",
+        "sources_citees": ["Programme NFP, partie 3, section 'Vers une 6e République'"]
+      },
+      {
+        "id": "ARG-FAV-002",
+        "titre": "Défense explicite de l'indépendance de la presse",
+        "corps": "Limitation stricte de la concentration médiatique, défense de l'indépendance des rédactions face à leurs propriétaires, garantie d'un service public audiovisuel indépendant.",
+        "sources_citees": ["Programme NFP, partie 3, section médias"]
+      },
+      {
+        "id": "ARG-FAV-003",
+        "titre": "Renforcement des syndicats et des corps intermédiaires",
+        "corps": "Rétablissement des CHSCT, défense et renforcement des libertés syndicales et associatives — mouvement inverse aux mécanismes C-14 et C-17.",
+        "sources_citees": ["Programme NFP, parties 2 et 3"]
+      },
+      {
+        "id": "ARG-FAV-004",
+        "titre": "Lutte explicite contre toutes les formes de racisme",
+        "corps": "Plans interministériels contre l'antisémitisme ET l'islamophobie, protection des lieux cultuels de toutes religions, Commissariat à l'égalité.",
+        "sources_citees": ["Programme NFP, partie 2, section racismes"]
+      }
+    ]
+  },
+
+  "arguments_defavorables": {
+    "agent_run_id": "sim-A3-PROG-NFP",
+    "arguments": [
+      {
+        "id": "ARG-DEF-001",
+        "titre": "Discours de rupture et désignation d'ennemis économiques intérieurs",
+        "corps": "Rhétorique structurée autour d'adversaires identifiables ('milliardaires', 'grand capital', 'macronisme'). Discours de déclin ('brutalisation', 'maltraitance'). Condition (b) du C-01 partiellement activée — désignation économique, non ethnique.",
+        "sources_citees": ["Programme NFP, préambule et partie 2"]
+      },
+      {
+        "id": "ARG-DEF-002",
+        "titre": "Gouvernance initiale par décrets contournant le débat parlementaire",
+        "corps": "Les 15 premiers jours planifient explicitement de gouverner par décrets d'urgence avant session parlementaire : blocage des prix, abrogations, état d'urgence sociale.",
+        "sources_citees": ["Programme NFP, partie 1"]
+      },
+      {
+        "id": "ARG-DEF-003",
+        "titre": "Formulations sur Gaza critiquées par des organisations juives",
+        "corps": "'Gouvernement suprémaciste d'extrême droite de Netanyahu', embargo sur Israël — formulations ayant suscité des inquiétudes du CRIF sur un risque de stigmatisation.",
+        "sources_citees": ["Programme NFP, section Gaza", "CRIF, réactions juin 2024"]
+      },
+      {
+        "id": "ARG-DEF-004",
+        "titre": "Instabilité institutionnelle par abrogations en bloc",
+        "corps": "Abrogation de plusieurs lois en bloc (immigration, choc des savoirs, SNU, 49-3) dans les premiers jours crée une instabilité institutionnelle — même si l'objectif est de renforcer les libertés.",
+        "sources_citees": ["Programme NFP, parties 1 et 3"]
+      }
+    ]
+  },
+
+  "scoring": {
+    "agent_run_id": "sim-A4-PROG-NFP",
+    "criteres": [
+      {
+        "id": "C-01", "applicable": true, "reponse": "partiel", "score": 0.5,
+        "justification": "Discours de déclin ('brutalisation', 'maltraitance') + désignation de groupes économiques adversaires. Condition (b) partiellement satisfaite — désignation économique non ethnique. Condition (c) satisfaite. Mais la rhétorique est celle d'un populisme de gauche, pas d'un discours fascisant de déclin civilisationnel.",
+        "source_historique_citee": "PAX04"
+      },
+      {
+        "id": "C-02", "applicable": true, "reponse": "non", "score": 0,
+        "justification": "Pas de culte de l'unité nationale ni désignation d'un groupe interne comme ennemi de la nation. Désignation d'intérêts économiques, non de catégories ethniques. Le préambule condamne explicitement le 'projet raciste de l'extrême droite'. Mouvement inverse.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-03", "applicable": false, "reponse": null, "score": null,
+        "justification": "Critère non applicable — programme d'une coalition parlementaire.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-09", "applicable": true, "reponse": "non", "score": 0,
+        "justification": "Le programme est explicitement anti-RN. Mouvement inverse.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-13", "applicable": true, "reponse": "partiel", "score": 0.5,
+        "justification": "Les 15 premiers jours prévoient de gouverner par décrets d'urgence avant tout débat parlementaire normal. Condition (a) partiellement satisfaite. Mais le programme prévoit simultanément de renforcer massivement le Parlement (abrogation 49-3, proportionnelle, RIC). Tension interne réelle. Réponse Partiel.",
+        "source_historique_citee": "EVA03"
+      },
+      {
+        "id": "C-14", "applicable": true, "reponse": "non", "score": 0,
+        "justification": "Programme prévoit de renforcer les syndicats (rétablissement CHSCT, protection libertés syndicales). Mouvement directement inverse.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-15", "applicable": true, "reponse": "non", "score": 0,
+        "justification": "Programme prévoit de défendre l'indépendance des rédactions et de limiter la concentration médiatique. Mouvement inverse.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-16", "applicable": true, "reponse": "non", "score": 0,
+        "justification": "Programme prévoit de déconcentrer le pouvoir (proportionnelle, RIC, constituante). Mouvement inverse.",
+        "source_historique_citee": null
+      },
+      {
+        "id": "C-17", "applicable": true, "reponse": "non", "score": 0,
+        "justification": "Programme prévoit de renforcer les associations et d'abroger le contrat d'engagement républicain. Mouvement inverse.",
+        "source_historique_citee": null
+      }
+    ],
+    "score_total": 0.125,
+    "criteres_applicables": 8,
+    "points_obtenus": 1.0,
+    "calcul": "1.0/8 = 12.5%",
+    "phase_principale": "Aucune",
+    "position_frise": {
+      "phase": 0,
+      "label": "Signal faible — rhétorique populiste de gauche",
+      "signal": "faible",
+      "couleur": "jaune"
+    },
+    "note_agent": "Score bas sur un programme de gauche radicale. Seuls signaux : C-01 partiel (rhétorique de rupture) et C-13 partiel (décrets d'urgence initiaux). Quasi-totalité des mesures va structurellement dans le sens inverse des mécanismes fascisants. Ce programme ne présente pas de similitude avec les mécanismes historiques de bascule."
+  },
+
+  "validation": {
+    "validateur": "Luc Schmitt",
+    "date_validation": "2026-03-30",
+    "decision": "approved",
+    "note": "Test de symétrie réussi. Score 12.5% cohérent avec la logique de la grille. Démontre que la méthode est non-partisane : le texte le plus radical à gauche score plus bas que la loi immigration centre-droit adoptée avec les voix RN."
+  },
+
+  "symetrie": {
+    "statut": "complete",
+    "note": "Cette fiche EST l'analyse symétrique de FR-2024-LOI-042 (loi immigration) et complète FR-2024-PPL-575 (PPL Yadan). Les trois fiches couvrent trois bords politiques différents — démonstration de symétrie."
+  },
+
+  "patches": []
+}
