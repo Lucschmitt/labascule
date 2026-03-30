@@ -1,0 +1,134 @@
+{
+  "_commentaire": "FICHE DE CALIBRATION — score attendu : ÉLEVÉ (>80%). Étalon haut n°2.",
+  "_score_attendu": "100% sur critères applicables",
+  "_criteres_attendus_oui": ["C-01", "C-02", "C-12", "C-13", "C-14", "C-15", "C-16", "C-17"],
+  "_criteres_non_applicables": ["C-03", "C-04", "C-05", "C-06", "C-07", "C-08", "C-09", "C-10", "C-11"],
+
+  "fiche_id": "CAL-IT-1926-001",
+  "schema_version": "0.1.0",
+  "grille_version": "0.1.0-draft",
+  "modele_ia": "claude-sonnet-4-6 [simulation manuelle]",
+  "date_analyse": "2026-03-30",
+  "statut": "calibration-historique",
+  "analyse_symetrique_prevue": null,
+
+  "source": {
+    "type": "loi",
+    "reference": "Leggi fascistissime — Legge n.2263/1925 + Legge n.2247/1926 + Legge n.1848/1926",
+    "url_source": "https://www.normattiva.it/",
+    "url_archive": "calibration/sources/CAL-IT-1926-001.html",
+    "date_publication": "1925-12-24 / 1926-01-31 / 1926-11-25",
+    "institution": "Parlement du Royaume d'Italie (épuré de l'opposition)"
+  },
+
+  "auteurs": [
+    {
+      "nom": "Benito Mussolini",
+      "fonction": "Président du Conseil et ministre de l'Intérieur",
+      "parti": "Partito Nazionale Fascista",
+      "mandat": "Chef du gouvernement depuis octobre 1922"
+    },
+    {
+      "nom": "Alfredo Rocco",
+      "fonction": "Ministre de la Justice — concepteur du paquet législatif",
+      "parti": "Partito Nazionale Fascista",
+      "mandat": "Ministre de la Justice 1925-1932"
+    }
+  ],
+
+  "texte_extrait": {
+    "extrait_pertinent": "Loi du 24 décembre 1925 — pouvoirs du chef du gouvernement. Loi du 31 janvier 1926 — facultés du pouvoir exécutif (décrets-lois). Loi du 25 novembre 1926 — défense de l'État : dissolution de tous les partis, création du Tribunal spécial, rétablissement de la peine de mort pour délits politiques, pénalisation de la reconstitution de partis dissous.",
+    "url_texte_integral": "https://www.normattiva.it/",
+    "archive_locale": "calibration/sources/CAL-IT-1926-001-textes.txt"
+  },
+
+  "contexte_procedural": {
+    "note": "Paquet adopté en 12 mois. Contexte : attentats contre Mussolini (prétexte). Opposition parlementaire absente (Sécession de l'Aventin depuis 1924). Gramsci arrêté le 8 novembre 1926. Sources : Matard-Bonucci p.89-135 ; Milza p.398-421."
+  },
+
+  "arguments_favorables": {
+    "agent_run_id": "sim-agent2-002-manuel",
+    "arguments": [
+      {
+        "id": "ARG-FAV-001",
+        "titre": "Réponse à l'instabilité gouvernementale chronique",
+        "corps": "37 gouvernements en 22 ans sous l'Italie libérale. La concentration des pouvoirs visait à mettre fin à cette paralysie institutionnelle.",
+        "sources_citees": ["Mussolini, Discours à la Chambre, novembre 1925", "De Felice, Mussolini il fascista, vol.II, 1966"]
+      },
+      {
+        "id": "ARG-FAV-002",
+        "titre": "Réponse à des attentats terroristes documentés",
+        "corps": "Quatre tentatives d'assassinat contre Mussolini en 1925-1926. Menace sécuritaire réelle invoquée pour les lois de défense de l'État.",
+        "sources_citees": ["Milza, Mussolini, p.390-398"]
+      },
+      {
+        "id": "ARG-FAV-003",
+        "titre": "Adoption formelle par les institutions légales",
+        "corps": "Votées par la Chambre et le Sénat, promulguées par le Roi. Continuité formelle avec la monarchie constitutionnelle maintenue.",
+        "sources_citees": ["Journal officiel du Royaume d'Italie, 1925-1926"]
+      }
+    ]
+  },
+
+  "arguments_defavorables": {
+    "agent_run_id": "sim-agent3-002-manuel",
+    "arguments": [
+      {
+        "id": "ARG-DEF-001",
+        "titre": "Destruction systématique de tous les contre-pouvoirs",
+        "corps": "Dissolution simultanée de tous les partis non fascistes, syndicats indépendants, presse d'opposition, administrations locales élues. Destruction complète de la démocratie libérale en 12 mois.",
+        "sources_citees": ["Matard-Bonucci, p.89-135", "Milza, p.398-421"]
+      },
+      {
+        "id": "ARG-DEF-002",
+        "titre": "Tribunal politique d'exception sans magistrats indépendants",
+        "corps": "Tribunal spécial composé d'officiers militaires et miliciens fascistes. 4 596 condamnations politiques 1926-1943. Gramsci : 20 ans — 'Nous devons faire taire ce cerveau pendant vingt ans.'",
+        "sources_citees": ["Franzinelli, Il tribunale del duce, 2017", "Gramsci, Lettres de prison"]
+      },
+      {
+        "id": "ARG-DEF-003",
+        "titre": "Peine de mort pour délit d'opinion",
+        "corps": "Rétablissement de la peine capitale — abolie depuis 1889 — pour la simple reconstitution d'un parti dissous. Criminalisation de l'opposition en elle-même.",
+        "sources_citees": ["Milza, p.410", "Matard-Bonucci, p.104"]
+      },
+      {
+        "id": "ARG-DEF-004",
+        "titre": "Destruction des syndicats et corporatisation forcée",
+        "corps": "Loi Rocco (3 avril 1926) dissout les syndicats libres. Seuls syndicats fascistes autorisés à négocier. Grève pénalement interdite.",
+        "sources_citees": ["Tasca, Naissance du fascisme, p.312", "Gramsci, Quaderni Q6 §87"]
+      }
+    ]
+  },
+
+  "scoring": {
+    "agent_run_id": "sim-agent4-002-manuel",
+    "criteres": [
+      {"id": "C-01", "applicable": true, "reponse": "oui", "score": 1.0, "justification": "Discours de régénération nationale permanente, désignation des antifascistes comme ennemis de l'Italie, urgence existentielle via les attentats. Conditions (a)(b)(c) satisfaites.", "source_historique_citee": "PAX04, GRI91"},
+      {"id": "C-02", "applicable": true, "reponse": "oui", "score": 1.0, "justification": "Unité nationale fasciste comme valeur suprême, tous les partis dissous en son nom, ennemis intérieurs désignés. Conditions (a)(b) réunies.", "source_historique_citee": "GEN04"},
+      {"id": "C-03", "applicable": false, "reponse": null, "score": null, "justification": "Les milices (MVSN) existaient déjà — ce texte ne les crée pas.", "source_historique_citee": null},
+      {"id": "C-12", "applicable": true, "reponse": "oui", "score": 1.0, "justification": "Sénat et Chambre épurée votent les lois. Partis modérés restants s'abstiennent ou votent pour.", "source_historique_citee": "GRA47, MIL99"},
+      {"id": "C-13", "applicable": true, "reponse": "oui", "score": 1.0, "justification": "Ensemble de lois d'exception adoptées par parlement épuré. Usage systématique et structurel.", "source_historique_citee": "EVA03, MAT23"},
+      {"id": "C-14", "applicable": true, "reponse": "oui", "score": 1.0, "justification": "Loi Rocco dissout les syndicats libres. Conditions (a)(b)(c) intégralement satisfaites.", "source_historique_citee": "PAX04, EVA03, MAT23"},
+      {"id": "C-15", "applicable": true, "reponse": "oui", "score": 1.0, "justification": "Tous les journaux d'opposition fermés. Presse soumise à autorisation préfectorale.", "source_historique_citee": "EVA03"},
+      {"id": "C-16", "applicable": true, "reponse": "oui", "score": 1.0, "justification": "Concentration exécutif + législatif épuré + justice politique + médias sous même contrôle. Les 4 conditions satisfaites.", "source_historique_citee": "PAX04, GEN04"},
+      {"id": "C-17", "applicable": true, "reponse": "oui", "score": 1.0, "justification": "Dissolution de tous les partis et corps intermédiaires non fascistes. Conditions (a)(b) satisfaites totalement.", "source_historique_citee": "PAX04, GEN04, MAT23"}
+    ],
+    "score_total": 1.0,
+    "criteres_applicables": 8,
+    "points_obtenus": 8.0,
+    "calcul": "8/8 = 100%",
+    "phase_principale": "Phase 5",
+    "position_frise": {"phase": 5, "label": "Destruction des contre-pouvoirs", "signal": "critique", "couleur": "rouge foncé"},
+    "note_agent": "Étalon haut n°2 — 8 critères applicables vs 6 pour DE-1933. Couverture plus large."
+  },
+
+  "validation": {
+    "validateur": "Luc Schmitt",
+    "date_validation": "2026-03-30",
+    "decision": "approved",
+    "note": "Calibration historique — simulation manuelle. Score attendu 100% confirmé."
+  },
+
+  "symetrie": {"statut": "non_applicable"},
+  "patches": []
+}

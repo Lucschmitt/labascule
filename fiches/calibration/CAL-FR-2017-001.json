@@ -1,0 +1,135 @@
+{
+  "_commentaire": "FICHE DE CALIBRATION — score attendu : FAIBLE (<20%). Étalon bas n°1.",
+  "_score_attendu": "< 15% sur critères applicables",
+  "_criteres_attendus_oui": [],
+  "_criteres_attendus_partiel": ["C-13"],
+  "_criteres_attendus_non": ["C-01", "C-02", "C-14", "C-15", "C-16", "C-17"],
+  "_note_calibration": "Ce texte est controversé socialement mais ne satisfait aucun critère de la grille au seuil défini. Si le pipeline re-score ce texte au-dessus de 20%, revoir les définitions de C-13 et C-14.",
+
+  "fiche_id": "CAL-FR-2017-001",
+  "schema_version": "0.1.0",
+  "grille_version": "0.1.0-draft",
+  "modele_ia": "claude-sonnet-4-6 [simulation manuelle]",
+  "date_analyse": "2026-03-30",
+  "statut": "calibration-historique",
+
+  "source": {
+    "type": "ordonnance",
+    "reference": "Ordonnance n° 2017-1386 du 22 septembre 2017 relative à la nouvelle organisation du dialogue social et économique dans l'entreprise",
+    "url_source": "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000035607890",
+    "url_archive": "calibration/sources/CAL-FR-2017-001.html",
+    "date_publication": "2017-09-23",
+    "institution": "Gouvernement Philippe — habilitation loi n°2017-1340 du 15 septembre 2017"
+  },
+
+  "auteurs": [
+    {
+      "nom": "Édouard Philippe",
+      "fonction": "Premier ministre",
+      "parti": "Les Républicains (apparenté Renaissance)",
+      "mandat": "Premier ministre mai 2017 — juillet 2020"
+    },
+    {
+      "nom": "Muriel Pénicaud",
+      "fonction": "Ministre du Travail",
+      "parti": "La République En Marche",
+      "mandat": "Ministre du Travail mai 2017 — juillet 2020"
+    }
+  ],
+
+  "vote": {
+    "pour": 421,
+    "contre": 107,
+    "abstentions": 76,
+    "groupes_contre": ["LFI", "PCF", "PS (partiellement)"],
+    "note": "Loi d'habilitation votée le 14 septembre 2017. Ordonnance ratifiée par loi n°2018-217 du 29 mars 2018."
+  },
+
+  "texte_extrait": {
+    "extrait_pertinent": "Crée le Comité Social et Économique (CSE) fusionnant CE, DP et CHSCT. Dans les entreprises d'au moins 11 salariés. Mission : expression collective des salariés sur la gestion, l'organisation du travail, la formation, les techniques de production.",
+    "url_texte_integral": "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000035607890"
+  },
+
+  "contexte_procedural": {
+    "note": "Première des 5 ordonnances travail du 22 septembre 2017. Conférence sociale préalable juillet 2017. CFDT favorable. Ratifiée par loi du 29 mars 2018. Aucune saisine du Conseil constitutionnel."
+  },
+
+  "arguments_favorables": {
+    "agent_run_id": "sim-agent2-003-manuel",
+    "arguments": [
+      {
+        "id": "ARG-FAV-001",
+        "titre": "Simplification d'un paysage représentatif fragmenté",
+        "corps": "Fusion de trois instances aux compétences chevauchantes. Rationalisation du dialogue social, réduction du nombre de réunions obligatoires. Guichet unique pour les représentants.",
+        "sources_citees": ["Exposé des motifs de l'ordonnance", "Rapports OCDE sur le dialogue social en France 2016"]
+      },
+      {
+        "id": "ARG-FAV-002",
+        "titre": "Procédure de concertation préalable respectée",
+        "corps": "Conférence sociale juillet 2017 avec toutes les organisations syndicales représentatives. CFDT — première organisation syndicale — a jugé la réforme acceptable. Loi d'habilitation votée avec large majorité.",
+        "sources_citees": ["Compte-rendu conférence sociale juillet 2017", "Déclaration CFDT septembre 2017"]
+      },
+      {
+        "id": "ARG-FAV-003",
+        "titre": "Maintien intégral du droit syndical",
+        "corps": "Aucun syndicat supprimé, aucun financement réduit, droit de grève intact. Droits des délégués maintenus : crédit d'heures, protection contre licenciement, accès aux informations économiques.",
+        "sources_citees": ["Articles L2311-1 et suivants du Code du travail", "Dalloz, Droit du travail 2018"]
+      }
+    ]
+  },
+
+  "arguments_defavorables": {
+    "agent_run_id": "sim-agent3-003-manuel",
+    "arguments": [
+      {
+        "id": "ARG-DEF-001",
+        "titre": "Affaiblissement structurel de la représentation dans les PME",
+        "corps": "Suppression du CHSCT dans les entreprises de moins de 300 salariés. CSE sans personnalité morale ni budget dans les entreprises de 11 à 49 salariés. DARES 2021 : réduction moyenne de 30% du nombre de mandats de représentation.",
+        "sources_citees": ["CGT, Analyse critique des ordonnances, octobre 2017", "DARES, Bilan des CSE, mars 2021"]
+      },
+      {
+        "id": "ARG-DEF-002",
+        "titre": "Procédure ordonnance réduisant le débat parlementaire",
+        "corps": "Cinq ordonnances simultanées réformant le Code du travail sans examen article par article. Des constitutionnalistes ont relevé un affaiblissement du contrôle démocratique.",
+        "sources_citees": ["Maus, RFDC n°113, 2018", "Débats AN septembre 2017"]
+      },
+      {
+        "id": "ARG-DEF-003",
+        "titre": "Réduction du nombre total de mandats de représentation",
+        "corps": "La fusion mécanique réduit le nombre de représentants. Dans les entreprises de 50 à 300 salariés : réduction moyenne documentée de 30% des mandats.",
+        "sources_citees": ["DARES, Bilan des CSE, mars 2021", "Rapport Combrexelle, 2018"]
+      }
+    ]
+  },
+
+  "scoring": {
+    "agent_run_id": "sim-agent4-003-manuel",
+    "criteres": [
+      {"id": "C-01", "applicable": true, "reponse": "non", "score": 0, "justification": "Aucun discours de déclin national, victimisation collective ou ennemi intérieur. Texte technique de réforme institutionnelle.", "source_historique_citee": null},
+      {"id": "C-02", "applicable": true, "reponse": "non", "score": 0, "justification": "Aucun culte de l'unité nationale ni désignation de groupe menaçant. Texte de droit social sans dimension identitaire.", "source_historique_citee": null},
+      {"id": "C-03", "applicable": false, "reponse": null, "score": null, "justification": "Critère non applicable — texte de droit social.", "source_historique_citee": null},
+      {"id": "C-13", "applicable": true, "reponse": "partiel", "score": 0.5, "justification": "Prise par ordonnance — condition (a) satisfaite. Mais condition (b) non satisfaite : l'usage d'ordonnances sur habilitation est constitutionnellement régulier (art. 38). Seuil de récurrence non atteint pour ce critère seul.", "source_historique_citee": null},
+      {"id": "C-14", "applicable": true, "reponse": "non", "score": 0, "justification": "Aucune des 3 conditions satisfaites : (a) aucune réduction de financement >20% ; (b) aucun syndicat-maison créé ; (c) aucune restriction du droit de grève. Réforme organisationnelle, non attaque contre syndicats indépendants.", "source_historique_citee": null},
+      {"id": "C-15", "applicable": true, "reponse": "non", "score": 0, "justification": "Aucun élément relatif à la liberté de la presse.", "source_historique_citee": null},
+      {"id": "C-16", "applicable": true, "reponse": "non", "score": 0, "justification": "Réforme du dialogue social sans concentration institutionnelle. Séparation des pouvoirs intacte.", "source_historique_citee": null},
+      {"id": "C-17", "applicable": true, "reponse": "non", "score": 0, "justification": "Aucune dissolution d'organisation syndicale. Réorganisation interne des instances de représentation.", "source_historique_citee": null}
+    ],
+    "score_total": 0.07,
+    "criteres_applicables": 7,
+    "points_obtenus": 0.5,
+    "calcul": "0.5/7 = 7%",
+    "phase_principale": "Aucune",
+    "position_frise": {"phase": 0, "label": "Aucune similitude significative", "signal": "aucun", "couleur": "vert"},
+    "note_agent": "Score très bas confirmé. Seul signal partiel : C-13 (procédure ordonnance) à 0.5. En dessous du seuil de signal. Étalon bas n°1 validé."
+  },
+
+  "validation": {
+    "validateur": "Luc Schmitt",
+    "date_validation": "2026-03-30",
+    "decision": "approved",
+    "note": "Calibration basse — simulation manuelle. Score 7% attendu et obtenu. Démontre que la grille ne sur-score pas une réforme sociale controversée mais non fascisante."
+  },
+
+  "symetrie": {"statut": "non_applicable"},
+  "patches": []
+}
