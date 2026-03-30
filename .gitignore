@@ -1,0 +1,23 @@
+# Variables d'environnement — ne jamais commiter
+.env
+.env.local
+.env.*.local
+
+# Dépendances
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.DS_Store
+
+# Builds
+dist/
+build/
+.next/
+
+# Logs
+*.log
