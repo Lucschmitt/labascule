@@ -242,7 +242,7 @@ const path = Astro.url.pathname;
     <a href={u('/')} class="site-logo">La <span>Bascule</span></a>
     <nav>
       <ul class="site-nav">
-        <li><a href={u('/')} class={path === u('/') || path === u('') || path === BASE + '/' ? 'active' : ''}>Frise</a></li>
+        <li><a href={u('/')} class={path === u('/') || path === u('') ? 'active' : ''}>Frise</a></li>
         <li><a href={u('/barometre/')} class={path.includes('/barometre') ? 'active' : ''}>Baromètre</a></li>
         <li><a href={u('/methode/')} class={path.includes('/methode') ? 'active' : ''}>Méthode</a></li>
         <li><a href="https://github.com/lucschmitt/labascule" target="_blank" rel="noopener">GitHub ↗</a></li>
