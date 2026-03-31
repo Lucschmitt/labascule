@@ -16,12 +16,10 @@ const signalMap = {
 
 const s = signalMap[signal] || signalMap['aucun'];
 
-// Critères activés (score > 0)
 const criteresActifs = (fiche.scoring?.criteres || [])
   .filter(c => c.applicable && c.score > 0)
   .map(c => c.id);
 
-// Date lisible
 const dateAnalyse = fiche.date_analyse
   ? new Date(fiche.date_analyse).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
   : '—';
@@ -35,7 +33,13 @@ const typeLabel = {
 }[fiche.source?.type] || fiche.source?.type || '—';
 ---
 
-<article class={`fiche-card signal-border-${signal}`}>
+<article
+  class={`fiche-card signal-border-${signal}`}
+  data-fiche={JSON.stringify(fiche)}
+  role="button"
+  tabindex="0"
+  aria-label={`Ouvrir la fiche : ${fiche.source?.reference}`}
+>
   <header class="card-header">
     <div class="card-meta">
       <span class="label type-label">{typeLabel}</span>
@@ -78,14 +82,7 @@ const typeLabel = {
         ? '✓ Symétrie complète'
         : ''}
     </span>
-    <a
-      href={fiche.source?.url_source}
-      target="_blank"
-      rel="noopener"
-      class="card-link"
-    >
-      Source officielle ↗
-    </a>
+    <span class="card-link-hint">Détail →</span>
   </footer>
 </article>
 
@@ -98,12 +95,21 @@ const typeLabel = {
     display: flex;
     flex-direction: column;
     gap: 0.85rem;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    cursor: pointer;
   }
 
-  .fiche-card:hover { border-color: var(--ink-faint); }
+  .fiche-card:hover {
+    border-color: var(--ink-faint);
+    box-shadow: 0 2px 12px rgba(26,24,20,0.08);
+    transform: translateY(-1px);
+  }
 
-  /* Accent de couleur en haut selon le signal */
+  .fiche-card:focus-visible {
+    outline: 2px solid var(--ink-light);
+    outline-offset: 2px;
+  }
+
   .signal-border-critique { border-top: 3px solid var(--signal-crit); }
   .signal-border-fort      { border-top: 3px solid var(--signal-high); }
   .signal-border-modéré    { border-top: 3px solid var(--signal-mid); }
@@ -143,7 +149,6 @@ const typeLabel = {
     letter-spacing: 0.03em;
   }
 
-  /* ── Critères actifs ── */
   .criteres-actifs {
     display: flex;
     flex-wrap: wrap;
@@ -161,7 +166,6 @@ const typeLabel = {
     border-radius: 2px;
   }
 
-  /* ── Footer ── */
   .card-footer {
     display: flex;
     align-items: center;
@@ -177,13 +181,15 @@ const typeLabel = {
     font-size: 0.65rem;
   }
 
-  .card-link {
+  .card-link-hint {
     font-family: var(--mono);
     font-size: 0.65rem;
     letter-spacing: 0.04em;
-    color: var(--ink-light);
-    text-decoration: none;
+    color: var(--ink-faint);
+    transition: color 0.15s;
   }
 
-  .card-link:hover { color: var(--ink); }
+  .fiche-card:hover .card-link-hint {
+    color: var(--ink-light);
+  }
 </style>

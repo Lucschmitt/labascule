@@ -4,7 +4,6 @@ import FicheCard from '../components/FicheCard.astro';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
-// Charge les fiches JSON depuis public/fiches/ de façon robuste
 let fiches = [];
 let etalons = [];
 
@@ -12,7 +11,7 @@ try {
   const fichesDir = join(process.cwd(), 'public', 'fiches');
   const files = await readdir(fichesDir).catch(() => []);
   const jsonFiles = files.filter(f => f.endsWith('.json'));
-  
+
   const allFiches = await Promise.all(
     jsonFiles.map(async f => {
       const raw = await readFile(join(fichesDir, f), 'utf-8');
@@ -27,9 +26,7 @@ try {
   etalons = allFiches
     .filter(f => f.statut === 'calibration-historique')
     .sort((a, b) => (b.scoring?.score_total || 0) - (a.scoring?.score_total || 0));
-} catch (e) {
-  // Pas de fiches — le site build quand même
-}
+} catch (e) {}
 
 function signalClass(signal) {
   const map = {
@@ -60,7 +57,6 @@ function signalClass(signal) {
 
   <hr class="divider" />
 
-  <!-- Tableau de bord -->
   <div class="dashboard">
     <div class="dash-item">
       <span class="dash-value">{fiches.length}</span>
@@ -78,7 +74,6 @@ function signalClass(signal) {
 
   <hr class="divider" />
 
-  <!-- Fiches baromètre -->
   <h2>Textes contemporains</h2>
 
   <div class="fiches-grid">
@@ -93,7 +88,6 @@ function signalClass(signal) {
 
   <hr class="divider" />
 
-  <!-- Étalons de calibration -->
   <h2>Étalons de calibration</h2>
   <p class="lead" style="font-size: 0.9rem; margin-bottom: 1.5rem;">
     Ces textes historiques servent à valider la grille.
@@ -136,10 +130,35 @@ function signalClass(signal) {
   </div>
 </Base>
 
+<!-- ═══════════════════════════════════════════════
+     SLIDE-OVER PANEL (rendered client-side by JS)
+     ═══════════════════════════════════════════════ -->
+
+<!-- Backdrop -->
+<div id="fiche-backdrop" class="fiche-backdrop" aria-hidden="true"></div>
+
+<!-- Panel -->
+<aside id="fiche-panel" class="fiche-panel" role="dialog" aria-modal="true" aria-label="Détail de la fiche" hidden>
+  <div class="panel-inner">
+
+    <!-- Close button -->
+    <button id="fiche-close" class="panel-close" aria-label="Fermer">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="2" y1="2" x2="14" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="14" y1="2" x2="2" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Scrollable content -->
+    <div id="fiche-content" class="panel-content"></div>
+
+  </div>
+</aside>
+
 <style>
+  /* ── Main page layout ── */
   .page-header { margin-bottom: 1rem; }
 
-  /* ── Dashboard ── */
   .dashboard {
     display: flex;
     gap: 2rem;
@@ -161,7 +180,6 @@ function signalClass(signal) {
     line-height: 1;
   }
 
-  /* ── Fiches grid ── */
   .fiches-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -178,7 +196,6 @@ function signalClass(signal) {
     border-radius: 4px;
   }
 
-  /* ── Étalons ── */
   .etalons-list {
     display: flex;
     flex-direction: column;
@@ -212,7 +229,6 @@ function signalClass(signal) {
     max-width: 400px;
   }
 
-  /* ── Note méthode ── */
   .method-note {
     font-size: 0.85rem;
     color: var(--ink-faint);
@@ -224,8 +240,627 @@ function signalClass(signal) {
   .method-note .label { margin-bottom: 0.4rem; }
   .method-note a { color: var(--ink-light); }
 
+  /* ── Backdrop ── */
+  .fiche-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 24, 20, 0.35);
+    backdrop-filter: blur(2px);
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .fiche-backdrop.is-open {
+    display: block;
+  }
+
+  .fiche-backdrop.is-visible {
+    opacity: 1;
+  }
+
+  /* ── Panel ── */
+  .fiche-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(560px, 100vw);
+    background: var(--paper);
+    border-left: 2px solid var(--ink);
+    z-index: 201;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .fiche-panel:not([hidden]) {
+    display: flex;
+  }
+
+  .fiche-panel.is-open {
+    transform: translateX(0);
+  }
+
+  .panel-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+  }
+
+  .panel-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    z-index: 10;
+  }
+
+  .panel-close:hover {
+    color: var(--ink);
+    border-color: var(--ink-faint);
+  }
+
+  .panel-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 2rem 3rem;
+    scroll-behavior: smooth;
+  }
+
+  /* ── Panel interior styles ── */
+  :global(.panel-content) {
+    /* Typography reset inside panel */
+  }
+
+  :global(.panel-signal-bar) {
+    height: 4px;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    margin-left: -2rem;
+    margin-right: -2rem;
+    margin-top: -2rem;
+  }
+
+  :global(.panel-meta-row) {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  :global(.panel-title) {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  :global(.panel-sub) {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    margin-bottom: 1.5rem;
+  }
+
+  :global(.panel-score-block) {
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  :global(.panel-score-big) {
+    font-family: var(--mono);
+    font-size: 2.4rem;
+    font-weight: 500;
+    line-height: 1;
+    min-width: 4.5rem;
+  }
+
+  :global(.panel-score-detail) {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+  }
+
+  :global(.panel-section) {
+    margin-bottom: 1.75rem;
+  }
+
+  :global(.panel-section-title) {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  :global(.panel-parties) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  :global(.panel-party) {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--paper-dark);
+    border-radius: 2px;
+    font-size: 0.85rem;
+  }
+
+  :global(.panel-party-nom) {
+    font-weight: 400;
+    color: var(--ink);
+    min-width: 7rem;
+  }
+
+  :global(.panel-party-role) {
+    color: var(--ink-faint);
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  :global(.contexte-text) {
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    line-height: 1.65;
+  }
+
+  :global(.arg-list) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  :global(.arg-item) {
+    border-left: 3px solid transparent;
+    padding: 0.75rem 0.9rem;
+    background: var(--paper-dark);
+    border-radius: 0 2px 2px 0;
+  }
+
+  :global(.arg-item.arg-fav) {
+    border-left-color: var(--signal-none);
+  }
+
+  :global(.arg-item.arg-def) {
+    border-left-color: var(--signal-crit);
+  }
+
+  :global(.arg-titre) {
+    font-family: var(--serif);
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+
+  :global(.arg-corps) {
+    font-family: var(--serif);
+    font-size: 0.8rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  :global(.arg-sources) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  :global(.arg-source-tag) {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--ink-faint);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+    letter-spacing: 0.03em;
+  }
+
+  :global(.critere-detail-list) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  :global(.critere-row) {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    gap: 0.75rem;
+    align-items: start;
+    padding: 0.6rem 0.75rem;
+    background: var(--paper-dark);
+    border-radius: 2px;
+    font-size: 0.8rem;
+  }
+
+  :global(.critere-id) {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--ink-light);
+    letter-spacing: 0.04em;
+  }
+
+  :global(.critere-justif) {
+    font-family: var(--serif);
+    color: var(--ink-light);
+    line-height: 1.55;
+    font-size: 0.8rem;
+  }
+
+  :global(.critere-score-badge) {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  :global(.badge-full) { background: var(--bg-crit); color: var(--signal-crit); }
+  :global(.badge-half) { background: var(--bg-mid);  color: var(--signal-mid); }
+  :global(.badge-none) { background: var(--paper);   color: var(--ink-faint); border: 1px solid var(--rule); }
+  :global(.badge-na)   { background: var(--paper);   color: var(--ink-faint); border: 1px solid var(--rule); font-style: italic; }
+
+  :global(.panel-source-link) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-light);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  :global(.panel-source-link:hover) {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  :global(.symetrie-notice) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--ink-faint);
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    padding: 0.35rem 0.65rem;
+    border-radius: 2px;
+  }
+
   @media (max-width: 640px) {
     .fiches-grid { grid-template-columns: 1fr; }
     .dashboard { gap: 1.5rem; }
+    .fiche-panel { width: 100vw; }
+    .panel-content { padding: 1.5rem 1.25rem 3rem; }
+    :global(.panel-signal-bar) { margin-left: -1.25rem; margin-right: -1.25rem; }
   }
 </style>
+
+<script>
+  // ─── Signal colours ───────────────────────────────────────────────────────
+  const SIGNAL_MAP = {
+    critique: { barColor: '#5a0000', textColor: 'var(--signal-crit)', cls: 'signal-crit', label: 'Critique' },
+    fort:     { barColor: '#7a1500', textColor: 'var(--signal-high)', cls: 'signal-fort', label: 'Fort' },
+    'modéré': { barColor: '#8a3a00', textColor: 'var(--signal-mid)',  cls: 'signal-modere', label: 'Modéré' },
+    faible:   { barColor: '#7a6200', textColor: 'var(--signal-low)',  cls: 'signal-faible', label: 'Faible' },
+    aucun:    { barColor: '#2d5a27', textColor: 'var(--signal-none)', cls: 'signal-none', label: 'Aucun' },
+  };
+
+  function getSignal(s) {
+    return SIGNAL_MAP[s] || SIGNAL_MAP['aucun'];
+  }
+
+  // ─── Helpers ──────────────────────────────────────────────────────────────
+  function esc(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function typeLabel(t) {
+    const map = {
+      loi: 'Loi', ordonnance: 'Ordonnance', decret: 'Décret',
+      proposition_de_loi: 'Proposition de loi', programme_electoral: 'Programme électoral',
+    };
+    return map[t] || t || '—';
+  }
+
+  function dateStr(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function scoreBar(pct, color) {
+    return `<div style="display:flex;align-items:center;gap:0.75rem;flex:1;">
+      <div style="flex:1;height:4px;background:var(--rule);border-radius:2px;overflow:hidden;">
+        <div style="width:${pct}%;height:100%;background:${color};border-radius:2px;transition:width 0.6s;"></div>
+      </div>
+    </div>`;
+  }
+
+  // ─── Build panel HTML ─────────────────────────────────────────────────────
+  function buildPanel(f) {
+    const sig = f.scoring?.position_frise?.signal || 'aucun';
+    const s = getSignal(sig);
+    const scorePct = Math.round((f.scoring?.score_total || 0) * 100);
+    const scoreColor = s.textColor;
+
+    // ── Header ──
+    let html = `
+      <div class="panel-signal-bar" style="background:${s.barColor};margin-top:-2rem;margin-left:-2rem;margin-right:-2rem;margin-bottom:1.75rem;"></div>
+
+      <div class="panel-meta-row">
+        <span class="label" style="color:var(--ink-faint);">${esc(typeLabel(f.source?.type))}</span>
+        <span class="label" style="color:var(--ink-faint);">${esc(dateStr(f.date_analyse))}</span>
+        <span class="signal ${s.cls}">${s.label}</span>
+      </div>
+
+      <h2 class="panel-title">${esc(f.source?.reference || '—')}</h2>
+      <p class="panel-sub">
+        ${f.source?.institution ? esc(f.source.institution) + ' — ' : ''}
+        ${f.source?.date_publication ? esc(f.source.date_publication) : ''}
+      </p>
+    `;
+
+    // ── Score block ──
+    html += `
+      <div class="panel-score-block">
+        <div class="panel-score-big" style="color:${scoreColor};">${scorePct}%</div>
+        <div class="panel-score-detail">
+          Phase ${f.scoring?.phase_principale || f.scoring?.position_frise?.phase || '—'}<br>
+          ${f.scoring?.points_obtenus || 0} pts / ${f.scoring?.criteres_applicables || 0} critères applicables<br>
+          ${f.scoring?.calcul ? esc(f.scoring.calcul) : ''}
+        </div>
+        ${scoreBar(scorePct, s.barColor)}
+      </div>
+    `;
+
+    // ── Contexte & parties prenantes ──
+    html += `<div class="panel-section">
+      <p class="panel-section-title">Contexte &amp; parties prenantes</p>`;
+
+    if (f.source?.url_source) {
+      html += `<p style="margin-bottom:0.75rem;">
+        <a class="panel-source-link" href="${esc(f.source.url_source)}" target="_blank" rel="noopener">
+          Texte officiel ↗
+        </a>
+      </p>`;
+    }
+
+    if (f.contexte_procedural?.note) {
+      html += `<p class="contexte-text" style="margin-bottom:1rem;">${esc(f.contexte_procedural.note)}</p>`;
+    }
+
+    if (f.auteurs?.length) {
+      html += `<div class="panel-parties">`;
+      for (const a of f.auteurs) {
+        html += `<div class="panel-party">
+          <span class="panel-party-nom">${esc(a.nom)}</span>
+          <span class="panel-party-role">${esc(a.fonction)}${a.role ? ' — ' + esc(a.role) : ''}</span>
+        </div>`;
+      }
+      html += `</div>`;
+    }
+
+    if (f.vote) {
+      html += `<div style="margin-top:0.75rem;padding:0.6rem 0.75rem;background:var(--paper-dark);border-radius:2px;font-family:var(--mono);font-size:0.7rem;color:var(--ink-faint);">
+        Vote : <strong style="color:var(--ink);">${f.vote.pour || 0}</strong> pour · 
+        <strong style="color:var(--ink);">${f.vote.contre || 0}</strong> contre · 
+        ${f.vote.abstentions || 0} abstentions
+        ${f.vote.note ? '<br><span style="margin-top:0.3rem;display:block;">' + esc(f.vote.note) + '</span>' : ''}
+      </div>`;
+    }
+
+    if (f.declarations_publiques?.length) {
+      html += `<div style="margin-top:0.75rem;display:flex;flex-direction:column;gap:0.4rem;">`;
+      for (const d of f.declarations_publiques.slice(0, 4)) {
+        html += `<div style="font-size:0.78rem;color:var(--ink-light);padding:0.5rem 0.75rem;background:var(--paper-dark);border-radius:2px;border-left:2px solid var(--rule);">
+          <span style="font-family:var(--mono);font-size:0.65rem;color:var(--ink-faint);display:block;margin-bottom:0.2rem;">${esc(d.auteur)}${d.date ? ' · ' + esc(d.date) : ''}</span>
+          ${esc(d.declaration)}
+        </div>`;
+      }
+      html += `</div>`;
+    }
+
+    html += `</div>`;
+
+    // ── Arguments favorables ──
+    const argsFav = f.arguments_favorables?.arguments || [];
+    if (argsFav.length) {
+      html += `<div class="panel-section">
+        <p class="panel-section-title">Arguments favorables <span style="font-style:italic;font-weight:400;">(agent 2)</span></p>
+        <div class="arg-list">`;
+      for (const a of argsFav) {
+        html += `<div class="arg-item arg-fav">
+          <p class="arg-titre">${esc(a.titre)}</p>
+          <p class="arg-corps">${esc(a.corps)}</p>
+          ${a.sources_citees?.length ? `<div class="arg-sources">${a.sources_citees.map(s => `<span class="arg-source-tag">${esc(s)}</span>`).join('')}</div>` : ''}
+        </div>`;
+      }
+      html += `</div></div>`;
+    }
+
+    // ── Arguments défavorables ──
+    const argsDef = f.arguments_defavorables?.arguments || [];
+    if (argsDef.length) {
+      html += `<div class="panel-section">
+        <p class="panel-section-title">Arguments défavorables <span style="font-style:italic;font-weight:400;">(agent 3)</span></p>
+        <div class="arg-list">`;
+      for (const a of argsDef) {
+        html += `<div class="arg-item arg-def">
+          <p class="arg-titre">${esc(a.titre)}</p>
+          <p class="arg-corps">${esc(a.corps)}</p>
+          ${a.sources_citees?.length ? `<div class="arg-sources">${a.sources_citees.map(s => `<span class="arg-source-tag">${esc(s)}</span>`).join('')}</div>` : ''}
+        </div>`;
+      }
+      html += `</div></div>`;
+    }
+
+    // ── Pondération / critères ──
+    const criteres = (f.scoring?.criteres || []);
+    const criteresApplicables = criteres.filter(c => c.applicable);
+    if (criteres.length) {
+      html += `<div class="panel-section">
+        <p class="panel-section-title">Pondération — critères applicables <span style="font-style:italic;font-weight:400;">(agent 4)</span></p>`;
+
+      if (f.scoring?.note_agent) {
+        html += `<p style="font-family:var(--serif);font-size:0.82rem;color:var(--ink-light);line-height:1.6;margin-bottom:1rem;padding:0.6rem 0.75rem;background:var(--paper-dark);border-radius:2px;border-left:2px solid var(--rule);">
+          ${esc(f.scoring.note_agent)}
+        </p>`;
+      }
+
+      html += `<div class="critere-detail-list">`;
+
+      // Show applicable first, then N/A
+      const ordered = [
+        ...criteresApplicables,
+        ...criteres.filter(c => !c.applicable),
+      ];
+
+      for (const c of ordered) {
+        let badge, badgeCls;
+        if (!c.applicable) {
+          badge = 'N/A'; badgeCls = 'badge-na';
+        } else if (c.score >= 1) {
+          badge = '1.0'; badgeCls = 'badge-full';
+        } else if (c.score > 0) {
+          badge = '0.5'; badgeCls = 'badge-half';
+        } else {
+          badge = '0'; badgeCls = 'badge-none';
+        }
+
+        html += `<div class="critere-row" style="${!c.applicable ? 'opacity:0.45;' : ''}">
+          <span class="critere-id">${esc(c.id)}</span>
+          <span class="critere-justif">${esc(c.justification || '—')}</span>
+          <span class="critere-score-badge ${badgeCls}">${badge}</span>
+        </div>`;
+      }
+
+      html += `</div></div>`;
+    }
+
+    // ── Footer: symetrie + source ──
+    html += `<div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem;">`;
+    if (f.symetrie?.statut === 'planifiee') {
+      html += `<span class="symetrie-notice">⟳ Analyse symétrique planifiée avant ${esc(f.symetrie?.date_limite || '')}</span>`;
+    } else if (f.symetrie?.statut === 'complete') {
+      html += `<span class="symetrie-notice">✓ Analyse symétrique complète</span>`;
+    }
+    if (f.source?.url_source) {
+      html += `<a class="panel-source-link" href="${esc(f.source.url_source)}" target="_blank" rel="noopener">Consulter le texte officiel ↗</a>`;
+    }
+    html += `</div>`;
+
+    return html;
+  }
+
+  // ─── Panel open / close ───────────────────────────────────────────────────
+  const panel    = document.getElementById('fiche-panel');
+  const backdrop = document.getElementById('fiche-backdrop');
+  const closeBtn = document.getElementById('fiche-close');
+  const content  = document.getElementById('fiche-content');
+
+  let previousFocus = null;
+
+  function openPanel(fiche) {
+    previousFocus = document.activeElement;
+    content.innerHTML = buildPanel(fiche);
+    panel.removeAttribute('hidden');
+    backdrop.classList.add('is-open');
+
+    // Trigger transitions on next frame
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        panel.classList.add('is-open');
+        backdrop.classList.add('is-visible');
+      });
+    });
+
+    content.scrollTop = 0;
+    closeBtn.focus();
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePanel() {
+    panel.classList.remove('is-open');
+    backdrop.classList.remove('is-visible');
+    document.body.style.overflow = '';
+
+    panel.addEventListener('transitionend', () => {
+      panel.setAttribute('hidden', '');
+      backdrop.classList.remove('is-open');
+      content.innerHTML = '';
+      if (previousFocus) previousFocus.focus();
+    }, { once: true });
+  }
+
+  closeBtn.addEventListener('click', closePanel);
+  backdrop.addEventListener('click', closePanel);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && panel.classList.contains('is-open')) closePanel();
+  });
+
+  // ─── Wire up cards ────────────────────────────────────────────────────────
+  document.querySelectorAll('[data-fiche]').forEach(card => {
+    const open = () => {
+      try {
+        const fiche = JSON.parse(card.getAttribute('data-fiche'));
+        openPanel(fiche);
+      } catch(e) {
+        console.error('Fiche parse error', e);
+      }
+    };
+
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
+  });
+</script>
