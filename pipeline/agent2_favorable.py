@@ -3,13 +3,13 @@ Agent 2 — Arguments favorables
 Contexte ISOLÉ — ne reçoit pas la sortie de l'Agent 3.
 Produit le meilleur argumentaire possible EN FAVEUR du texte.
 Le bord politique de l'auteur n'est pas dans l'input.
+
+Modèle : injecté par l'orchestrateur via model_id + client.
+Ne crée jamais son propre client — garantit la séparation de configuration.
 """
 
 import json
-from anthropic import Anthropic
 from pipeline.utils import parse_json_robust
-
-client = Anthropic()
 
 SYSTEM_PROMPT = """Tu es un agent d'analyse argumentative pour l'Observatoire La Bascule.
 
@@ -40,35 +40,40 @@ Tu réponds UNIQUEMENT avec du JSON valide dans ce format :
 }"""
 
 
-def run(fiche_partielle: dict) -> dict:
+def run(fiche_partielle: dict, client, model_id: str) -> dict:
     """
     Lance l'Agent 2 sur la fiche produite par l'Agent 1.
-    
+
     IMPORTANT : reçoit uniquement les sections factuelles.
     Ne reçoit PAS les arguments défavorables.
     Le parti de l'auteur est masqué.
-    
+
+    Le modèle et le client sont injectés par l'orchestrateur (randomisation).
+    L'agent ne choisit pas son propre modèle.
+
     Args:
-        fiche_partielle: dict contenant source, texte_extrait, contexte_procedural
-    
+        fiche_partielle : dict contenant source, texte_extrait, contexte_procedural
+        client          : instance API (Anthropic ou OpenRouter)
+        model_id        : identifiant du modèle attribué par assign_models()
+
     Returns:
         dict contenant la section arguments_favorables
     """
     input_masque = {
         "source": {
-            "type": fiche_partielle.get("source", {}).get("type"),
-            "reference": fiche_partielle.get("source", {}).get("reference"),
+            "type":             fiche_partielle.get("source", {}).get("type"),
+            "reference":        fiche_partielle.get("source", {}).get("reference"),
             "date_publication": fiche_partielle.get("source", {}).get("date_publication"),
-            "institution": fiche_partielle.get("source", {}).get("institution"),
+            "institution":      fiche_partielle.get("source", {}).get("institution"),
         },
-        "texte_extrait": fiche_partielle.get("texte_extrait", {}),
+        "texte_extrait":       fiche_partielle.get("texte_extrait", {}),
         "contexte_procedural": fiche_partielle.get("contexte_procedural", {}),
         "vote": {
-            "pour": fiche_partielle.get("vote", {}).get("pour"),
-            "contre": fiche_partielle.get("vote", {}).get("contre"),
+            "pour":        fiche_partielle.get("vote", {}).get("pour"),
+            "contre":      fiche_partielle.get("vote", {}).get("contre"),
             "abstentions": fiche_partielle.get("vote", {}).get("abstentions"),
-            "note": fiche_partielle.get("vote", {}).get("note"),
-        }
+            "note":        fiche_partielle.get("vote", {}).get("note"),
+        },
     }
 
     prompt = f"""Voici un texte politique à analyser.
@@ -80,10 +85,10 @@ Produis le meilleur argumentaire possible EN FAVEUR de ce texte.
 Réponds uniquement avec le JSON demandé."""
 
     response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
+        model=model_id,
         max_tokens=3000,
         system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": prompt}]
+        messages=[{"role": "user", "content": prompt}],
     )
 
     parsed = parse_json_robust(response.content[0].text)
@@ -91,6 +96,7 @@ Réponds uniquement avec le JSON demandé."""
     return {
         "arguments_favorables": {
             "agent_run_id": response.id,
-            "arguments": parsed.get("arguments", [])
+            "agent_model":  model_id,
+            "arguments":    parsed.get("arguments", []),
         }
     }
