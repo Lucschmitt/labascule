@@ -1,0 +1,10 @@
+services:
+  pipeline:
+    build: .
+    image: labascule-pipeline:latest
+    env_file:
+      - .env
+    volumes:
+      # Les fiches produites persistent sur ta machine
+      - ./fiches:/app/fiches
+    # Pas de ports exposés — pipeline CLI uniquement
