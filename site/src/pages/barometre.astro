@@ -1,11 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import FicheCard from '../components/FicheCard.astro';
+import { u } from '../config';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
-
-const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
-const u = (path: string) => `${BASE}${path}`;
 
 // Charge les fiches JSON depuis public/fiches/ de façon robuste
 let fiches = [];

@@ -1,9 +1,12 @@
 import { defineConfig } from 'astro/config';
 
-const base = process.env.SITE_BASE || '';
+const SITE_BASE = process.env.SITE_BASE || '';
 
 export default defineConfig({
   output: 'static',
-  site: base ? 'https://lucschmitt.github.io' : 'http://localhost:4321',
-  base: base,
+  vite: {
+    define: {
+      'import.meta.env.SITE_BASE': JSON.stringify(SITE_BASE),
+    },
+  },
 });
