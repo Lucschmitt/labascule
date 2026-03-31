@@ -9,3 +9,5 @@ node_modules
 site/
 *.md
 *.json
+**/__pycache__
+**/*.pyc

@@ -34,7 +34,7 @@ MODELS = {
         "cost_per_1k_output": 0.00125,
     },
     "gemini_flash": {
-        "id":       "google/gemini-flash-1.5",
+        "id":       "google/gemini-2.5-flash-lite",
         "provider": "openrouter",
         "role":     "pool",           # Agents 2 ou 3
         "cost_per_1k_input":  0.000075,
@@ -126,10 +126,10 @@ def get_client_for_model(model_id: str):
         import os
         return Anthropic(
             api_key=os.environ["OPENROUTER_API_KEY"],
-            base_url="https://openrouter.ai/api/v1",
+            base_url="https://openrouter.ai/api",
             default_headers={
                 "HTTP-Referer": "https://labascule.eu",
-                "X-Title":      "La Bascule — Observatoire démocratique",
+                "X-Title":      "La Bascule - Observatoire democratique",
             },
         )
 

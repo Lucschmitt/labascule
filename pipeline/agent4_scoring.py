@@ -16,7 +16,15 @@ import json
 from anthropic import Anthropic
 from pipeline.utils import parse_json_robust
 
-client = Anthropic()
+# Client instancié à la demande (lazy) pour éviter un plantage à l'import
+# si ANTHROPIC_API_KEY n'est pas encore dans l'environnement (tests unitaires)
+_client: Anthropic | None = None
+
+def _get_client() -> Anthropic:
+    global _client
+    if _client is None:
+        _client = Anthropic()
+    return _client
 
 # ── Grille complète C-01 à C-19 (v0.2.2) ────────────────────────────────────
 #
@@ -419,7 +427,7 @@ GRILLE DE CRITÈRES C-01 à C-19 (applique chacun selon sa définition exacte) :
 
 Applique la grille et produis le scoring JSON demandé."""
 
-    response = client.messages.create(
+    response = _get_client().messages.create(
         model="claude-sonnet-4-6",
         max_tokens=8000,
         system=SYSTEM_PROMPT,

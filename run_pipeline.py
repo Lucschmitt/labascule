@@ -62,6 +62,8 @@ def main():
     parser.add_argument("--id", help="Identifiant de la fiche (auto-généré si absent)")
     parser.add_argument("--output", default="fiches", help="Dossier de sortie (défaut: fiches)")
     parser.add_argument("--patch", action="store_true", help="Mode patch sur une fiche existante")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Graine pour la randomisation des modèles (tests reproductibles)")
 
     args = parser.parse_args()
 
@@ -95,22 +97,32 @@ def main():
         texte_source=texte,
         url_source=url_source,
         fiche_id=args.id,
-        output_dir=args.output
+        output_dir=args.output,
+        seed=args.seed,
     )
 
     scoring = fiche.get("scoring", {})
-    pct = round(scoring.get("score_total", 0) * 100, 1)
-    signal = scoring.get("position_frise", {}).get("signal", "?")
-    couleur = scoring.get("position_frise", {}).get("couleur", "?")
+    score_L = scoring.get("score_L", {})
+    score_C = scoring.get("score_C", {})
+    ma      = fiche.get("model_assignment", {})
+
+    pct     = round(score_L.get("score", scoring.get("score_total", 0)) * 100, 1)
+    signal  = score_L.get("signal") or scoring.get("position_frise", {}).get("signal", "?")
+    couleur = score_L.get("couleur") or scoring.get("position_frise", {}).get("couleur", "?")
 
     print("\n" + "="*40)
     print("RÉSULTAT")
     print("="*40)
     print(f"Fiche ID    : {fiche.get('fiche_id')}")
-    print(f"Score       : {pct}%")
+    print(f"Score L     : {pct}%  ({score_L.get('calcul', '?')})")
+    if score_C.get("score") is not None:
+        print(f"Score C     : {round(score_C['score'] * 100, 1)}%  ({score_C.get('calcul', '?')})")
+    else:
+        print(f"Score C     : —  (module contextuel non alimenté)")
     print(f"Signal      : {signal} ({couleur})")
     print(f"Phase       : {scoring.get('phase_principale', '?')}")
-    print(f"Critères    : {scoring.get('points_obtenus', 0)}/{scoring.get('criteres_applicables', 0)}")
+    print(f"Agent 2     : {ma.get('agent2_model', '?')}")
+    print(f"Agent 3     : {ma.get('agent3_model', '?')}")
     print("="*40)
     print("\n⚠️  Rappel : cette fiche est en statut 'draft' — validation humaine requise avant publication.")
 

@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Code source
 COPY pipeline/ ./pipeline/
 COPY run_pipeline.py .
+COPY test_pipeline.py .
 
 # Dossier de sortie des fiches (monté en volume)
 RUN mkdir -p /app/fiches
