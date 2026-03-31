@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import { u } from '../config';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
@@ -48,7 +47,7 @@ const phases = [
     desc: "Le mouvement conquiert une légitimité électorale croissante. La concentration médiatique amplifie ses thèmes dans le débat public.",
     it: { year:"1921–1922", title:"35 sièges, puis la marche", details:["Mai 1921 : 35 sièges dans la liste Giolitti — légitimité institutionnelle","Juillet 1922 : grève générale écrasée par les Chemises noires","Octobre 1922 : 300 000 fascistes convergent vers Rome","28 octobre : le Roi nomme Mussolini — refus de l'état de siège"], sources:["Milza (1999)","De Felice, Mussolini il fascista (1966)"] },
     de: { year:"1930–1932", title:"De 2,6% à 37,4%", details:["1928 : 2,6% — parti marginal","Septembre 1930 : 18,3% — 2e parti d'Allemagne après la crise de 1929","Juillet 1932 : 37,4% — 1er parti, 230 sièges","Presse Hugenberg légitime Hitler auprès des classes moyennes conservatives"], sources:["Evans (2003)","Falter, Hitlers Wähler (1991)"] },
-    fr: { year:"2017–2024", title:"RN : de 8 à 143 sièges", details:["2017 : 8 sièges (2,4 millions de voix au 1er tour)","2022 : 89 sièges (6,1 millions), premier groupe d'opposition","Juin 2024 : 143 sièges (10,6 millions), 33% au 1er tour","Marine Le Pen : 41,5% au second tour présidentielle 2022"], sources:["Intérieur.gouv.fr","Chapoutot (2025)"] }
+    fr: { year:"2017–2024", title:"RN : de 8 à 122 sièges", details:["2017 : 8 sièges (2,4 millions de voix au 1er tour)","2022 : 89 sièges (6,1 millions), premier groupe d'opposition","Juin 2024 : 143 sièges (10,6 millions), 33% au 1er tour","Marine Le Pen : 41,5% au second tour présidentielle 2022"], sources:["Intérieur.gouv.fr","Chapoutot (2025)"] }
   },
   {
     id: 3, label: "Porosité", sublabel: "Ralliement du centre-droit",
@@ -103,7 +102,7 @@ const phases = [
           </span>
         </>
       )}
-      <a href={u('/barometre/')} class="bandeau-link">Baromètre →</a>
+      <a href={`${import.meta.env.BASE_URL}/barometre`} class="bandeau-link">Baromètre →</a>
     </div>
   </div>
 
@@ -206,9 +205,9 @@ const phases = [
     <p>
       Grille de 17 critères — Paxton (2004), Gramsci (1929-1935),
       Chapoutot (2025), Evans (2003), Milza (1999).
-      <a href={u('/methode/')}>Méthode complète →</a>
+      <a href={`${import.meta.env.BASE_URL}/methode`}>Méthode complète →</a>
       &nbsp;·&nbsp;
-      <a href={u('/barometre/')}>Baromètre →</a>
+      <a href={`${import.meta.env.BASE_URL}/barometre`}>Baromètre →</a>
     </p>
   </div>
 

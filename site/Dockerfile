@@ -7,11 +7,8 @@ COPY package.json package-lock.json* ./
 RUN npm install
 
 COPY . .
+# Crée le dossier fiches s'il n'existe pas (build sans fiches possible)
 RUN mkdir -p public/fiches
-
-ARG PUBLIC_SITE_BASE=""
-ENV PUBLIC_SITE_BASE=$PUBLIC_SITE_BASE
-
 RUN npm run build
 
 # ── Production stage ─────────────────────────────────────────

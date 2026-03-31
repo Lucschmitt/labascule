@@ -1,7 +1,5 @@
 ---
-import { u } from '../config';
 const { title, description } = Astro.props;
-const path = Astro.url.pathname;
 ---
 <!DOCTYPE html>
 <html lang="fr">
@@ -239,12 +237,12 @@ const path = Astro.url.pathname;
 </head>
 <body>
   <header class="site-header">
-    <a href={u('/')} class="site-logo">La <span>Bascule</span></a>
+    <a href={`${import.meta.env.BASE_URL}`} class="site-logo">La <span>Bascule</span></a>
     <nav>
       <ul class="site-nav">
-        <li><a href={u('/')} class={path === u('/') || path === u('') ? 'active' : ''}>Frise</a></li>
-        <li><a href={u('/barometre/')} class={path.includes('/barometre') ? 'active' : ''}>Baromètre</a></li>
-        <li><a href={u('/methode/')} class={path.includes('/methode') ? 'active' : ''}>Méthode</a></li>
+        <li><a href={`${import.meta.env.BASE_URL}`} class={Astro.url.pathname === import.meta.env.BASE_URL || Astro.url.pathname === import.meta.env.BASE_URL + '/' ? 'active' : ''}>Frise</a></li>
+        <li><a href={`${import.meta.env.BASE_URL}/barometre`} class={Astro.url.pathname.includes('/barometre') ? 'active' : ''}>Baromètre</a></li>
+        <li><a href={`${import.meta.env.BASE_URL}/methode`} class={Astro.url.pathname.includes('/methode') ? 'active' : ''}>Méthode</a></li>
         <li><a href="https://github.com/lucschmitt/labascule" target="_blank" rel="noopener">GitHub ↗</a></li>
       </ul>
     </nav>
