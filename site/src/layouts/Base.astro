@@ -1,9 +1,5 @@
 ---
 const { title, description } = Astro.props;
-
-// Helper : construit un lien propre quelle que soit la base
-const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // supprime le slash final
-const url = (path) => `${base}${path}`;
 ---
 <!DOCTYPE html>
 <html lang="fr">
@@ -241,12 +237,12 @@ const url = (path) => `${base}${path}`;
 </head>
 <body>
   <header class="site-header">
-    <a href={url('/')} class="site-logo">La <span>Bascule</span></a>
+    <a href="/" class="site-logo">La <span>Bascule</span></a>
     <nav>
       <ul class="site-nav">
-        <li><a href={url('/')} class={Astro.url.pathname === url('/') || Astro.url.pathname === url('') ? 'active' : ''}>Frise</a></li>
-        <li><a href={url('/barometre')} class={Astro.url.pathname.includes('/barometre') ? 'active' : ''}>Baromètre</a></li>
-        <li><a href={url('/methode')} class={Astro.url.pathname.includes('/methode') ? 'active' : ''}>Méthode</a></li>
+        <li><a href="/" class={Astro.url.pathname === '/' || Astro.url.pathname === import.meta.env.BASE_URL || Astro.url.pathname === import.meta.env.BASE_URL + '/' ? 'active' : ''}>Frise</a></li>
+        <li><a href="/barometre/" class={Astro.url.pathname.includes('barometre') ? 'active' : ''}>Baromètre</a></li>
+        <li><a href="/methode/" class={Astro.url.pathname.includes('methode') ? 'active' : ''}>Méthode</a></li>
         <li><a href="https://github.com/lucschmitt/labascule" target="_blank" rel="noopener">GitHub ↗</a></li>
       </ul>
     </nav>

@@ -1,10 +1,10 @@
 services:
   site:
-    build: .
+    build:
+      context: .
+      args:
+        SITE_BASE: ""
     image: labascule-site:latest
     ports:
       - "4321:4321"
-    # En développement, monte le dossier pour hot-reload
-    # volumes:
-    #   - ./src:/app/src
     restart: unless-stopped
