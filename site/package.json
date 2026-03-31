@@ -1,0 +1,14 @@
+{
+  "name": "labascule-site",
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "dev":       "node sync-fiches.js && astro dev",
+    "build":     "node sync-fiches.js && astro build",
+    "preview":   "astro preview",
+    "sync":      "node sync-fiches.js"
+  },
+  "dependencies": {
+    "astro": "^4.0.0"
+  }
+}

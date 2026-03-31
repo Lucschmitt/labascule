@@ -1,0 +1,290 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Méthode"
+  description="Méthode de l'Observatoire La Bascule — grille de 17 critères, protocole d'analyse, architecture pipeline."
+>
+  <div class="page-header">
+    <p class="label">Documentation</p>
+    <h1>La méthode</h1>
+    <p class="lead">
+      La grille de 17 critères opérationnels, le protocole des 4 agents IA,
+      et les principes éthiques qui régissent les analyses.
+    </p>
+  </div>
+
+  <hr class="divider" />
+
+  <section class="method-section">
+    <h2>Fondements académiques</h2>
+    <p>
+      La méthode s'appuie sur quatre corpus théoriques principaux :
+      Robert Paxton (<em>Anatomie du fascisme</em>, 2004) pour la phénoménologie
+      des phases de bascule ; Antonio Gramsci pour l'analyse des hégémonies
+      et la notion de "révolution passive" ; Johann Chapoutot
+      (<em>Les Irresponsables</em>, 2025) pour les mécanismes de légitimation
+      du centre-droit face à l'extrême droite ; Richard Evans pour les données
+      empiriques du cas allemand.
+    </p>
+    <p>
+      Ces travaux permettent d'identifier des <strong>séquences structurelles</strong>
+      communes aux différentes bascules historiques — indépendamment des idéologies
+      spécifiques des acteurs ou des contextes nationaux.
+    </p>
+  </section>
+
+  <section class="method-section">
+    <h2>Principes éthiques</h2>
+    <div class="principles">
+      <div class="principle">
+        <span class="principle-num">01</span>
+        <div>
+          <strong>Symétrie partisane</strong>
+          <p>Tout texte analysé donne lieu à une analyse d'un texte comparable
+          de l'autre bord politique dans les 30 jours.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <span class="principle-num">02</span>
+        <div>
+          <strong>Bénéfice du doute</strong>
+          <p>En cas d'incertitude sur l'application d'un critère,
+          la réponse est Non. La non-similitude est la réponse par défaut.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <span class="principle-num">03</span>
+        <div>
+          <strong>Similitude de mécanisme</strong>
+          <p>Le projet documente des ressemblances structurelles.
+          Il ne qualifie jamais un acteur de fasciste.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <span class="principle-num">04</span>
+        <div>
+          <strong>Scoring aveugle au parti</strong>
+          <p>L'agent de scoring ne connaît pas le bord politique de l'auteur
+          du texte au moment de l'évaluation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="method-section">
+    <h2>Les 17 critères</h2>
+    <div class="criteres-table">
+      {[
+        { id: "C-01", label: "Discours de déclin et victimisation nationale" },
+        { id: "C-02", label: "Culte de l'unité / ennemi intérieur" },
+        { id: "C-03", label: "Milices para-étatiques violentes", ctx: true },
+        { id: "C-04", label: "Crise économique et déclassement", ctx: true },
+        { id: "C-05", label: "Financement patronal de l'extrême droite" },
+        { id: "C-06", label: "Laissé-faire judiciaire asymétrique" },
+        { id: "C-07", label: "Concentration médiatique au profit de l'ED" },
+        { id: "C-08", label: "Légitimation électorale croissante" },
+        { id: "C-09", label: "Ralliement du centre-droit à l'ED" },
+        { id: "C-10", label: "Ostracisation asymétrique de l'extrême gauche" },
+        { id: "C-11", label: "Division interne de la gauche" },
+        { id: "C-12", label: "Ralliement des partis modérés post-prise du pouvoir" },
+        { id: "C-13", label: "Mesures d'exception répétées" },
+        { id: "C-14", label: "Restriction des syndicats indépendants" },
+        { id: "C-15", label: "Restriction de la liberté de la presse" },
+        { id: "C-16", label: "Hégémonie institutionnelle" },
+        { id: "C-17", label: "Dissolution des corps intermédiaires" },
+      ].map(c => (
+        <div class="critere-row">
+          <span class="critere-id">{c.id}</span>
+          <span class="critere-label">{c.label}</span>
+          {c.ctx && <span class="ctx-badge">Contextuel</span>}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="method-section">
+    <h2>Architecture technique</h2>
+    <p>
+      Chaque analyse est produite par un pipeline de 4 agents IA indépendants
+      tournant en conteneurs Docker isolés :
+    </p>
+    <div class="pipeline-steps">
+      <div class="step"><span class="step-num">1</span><div><strong>Extraction factuelle</strong><p>Collecte les données et le contexte via recherche web. Aucune interprétation.</p></div></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><span class="step-num">2</span><div><strong>Arguments favorables</strong><p>Meilleur argumentaire pro-texte. Contexte isolé.</p></div></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><span class="step-num">3</span><div><strong>Arguments défavorables</strong><p>Meilleur argumentaire anti-texte. Contexte isolé.</p></div></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><span class="step-num">4</span><div><strong>Scoring aveugle</strong><p>Applique la grille sans connaître le bord politique de l'auteur.</p></div></div>
+    </div>
+    <p>
+      <a href="https://github.com/lucschmitt/labascule" target="_blank" rel="noopener">
+        Code source sur GitHub ↗
+      </a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .method-section {
+    margin-bottom: 3rem;
+  }
+
+  .method-section p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--ink-light);
+    margin-bottom: 1rem;
+  }
+
+  /* ── Principes ── */
+  .principles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .principle {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: var(--paper-dark);
+    padding: 1rem;
+    border-radius: 2px;
+  }
+
+  .principle-num {
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--rule);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .principle strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+  }
+
+  .principle p {
+    font-size: 0.85rem;
+    margin: 0;
+    color: var(--ink-light);
+  }
+
+  /* ── Critères ── */
+  .criteres-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 1rem;
+  }
+
+  .critere-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-dark);
+    transition: background 0.12s;
+  }
+
+  .critere-row:last-child { border-bottom: none; }
+  .critere-row:hover { background: var(--paper); }
+
+  .critere-id {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--ink-light);
+    min-width: 3rem;
+  }
+
+  .critere-label {
+    font-size: 0.88rem;
+    color: var(--ink);
+    flex: 1;
+  }
+
+  .ctx-badge {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+  }
+
+  /* ── Pipeline ── */
+  .pipeline-steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 1.25rem 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    padding: 0.85rem 1rem;
+    border-radius: 2px;
+    flex: 1;
+    min-width: 160px;
+  }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--rule);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .step strong {
+    display: block;
+    font-size: 0.85rem;
+    font-family: var(--serif);
+    margin-bottom: 0.2rem;
+    color: var(--ink);
+  }
+
+  .step p {
+    font-size: 0.78rem;
+    margin: 0;
+    color: var(--ink-faint);
+    line-height: 1.4;
+  }
+
+  .step-arrow {
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    color: var(--rule);
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .principles { grid-template-columns: 1fr; }
+    .pipeline-steps { flex-direction: column; }
+    .step-arrow { transform: rotate(90deg); align-self: center; }
+  }
+</style>

@@ -1,0 +1,231 @@
+---
+import Base from '../layouts/Base.astro';
+import FicheCard from '../components/FicheCard.astro';
+import { readdir, readFile } from 'fs/promises';
+import { join } from 'path';
+
+// Charge les fiches JSON depuis public/fiches/ de façon robuste
+let fiches = [];
+let etalons = [];
+
+try {
+  const fichesDir = join(process.cwd(), 'public', 'fiches');
+  const files = await readdir(fichesDir).catch(() => []);
+  const jsonFiles = files.filter(f => f.endsWith('.json'));
+  
+  const allFiches = await Promise.all(
+    jsonFiles.map(async f => {
+      const raw = await readFile(join(fichesDir, f), 'utf-8');
+      return JSON.parse(raw);
+    })
+  );
+
+  fiches = allFiches
+    .filter(f => f.statut !== 'calibration-historique')
+    .sort((a, b) => new Date(b.date_analyse) - new Date(a.date_analyse));
+
+  etalons = allFiches
+    .filter(f => f.statut === 'calibration-historique')
+    .sort((a, b) => (b.scoring?.score_total || 0) - (a.scoring?.score_total || 0));
+} catch (e) {
+  // Pas de fiches — le site build quand même
+}
+
+function signalClass(signal) {
+  const map = {
+    'critique': 'signal-crit',
+    'fort':     'signal-fort',
+    'modéré':   'signal-modere',
+    'faible':   'signal-faible',
+    'aucun':    'signal-none',
+  };
+  return map[signal] || 'signal-none';
+}
+---
+
+<Base
+  title="Baromètre législatif"
+  description="Baromètre des textes législatifs français analysés selon la grille de similitude structurelle avec les séquences historiques de bascule autoritaire."
+>
+  <div class="page-header">
+    <p class="label">Baromètre législatif</p>
+    <h1>Analyses en cours</h1>
+    <p class="lead">
+      Chaque texte est analysé par un pipeline de 4 agents IA indépendants
+      selon la grille de 17 critères académiques.
+      Les scores mesurent des <strong>similitudes de mécanisme</strong> avec les
+      séquences historiques de référence — non une qualification politique des auteurs.
+    </p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Tableau de bord -->
+  <div class="dashboard">
+    <div class="dash-item">
+      <span class="dash-value">{fiches.length}</span>
+      <span class="label">Fiches publiées</span>
+    </div>
+    <div class="dash-item">
+      <span class="dash-value">{fiches.filter(f => f.symetrie?.statut === 'planifiee').length}</span>
+      <span class="label">Analyses symétriques en cours</span>
+    </div>
+    <div class="dash-item">
+      <span class="dash-value">v0.1.0</span>
+      <span class="label">Version de la grille</span>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Fiches baromètre -->
+  <h2>Textes contemporains</h2>
+
+  <div class="fiches-grid">
+    {fiches.map(fiche => <FicheCard fiche={fiche} />)}
+  </div>
+
+  {fiches.length === 0 && (
+    <p class="empty-state">
+      Aucune fiche publiée — copiez les fichiers JSON dans <code>public/fiches/</code>
+    </p>
+  )}
+
+  <hr class="divider" />
+
+  <!-- Étalons de calibration -->
+  <h2>Étalons de calibration</h2>
+  <p class="lead" style="font-size: 0.9rem; margin-bottom: 1.5rem;">
+    Ces textes historiques servent à valider la grille.
+    Un score de 100% est attendu sur les textes fondateurs de la dictature.
+  </p>
+
+  <div class="etalons-list">
+    {etalons.map(fiche => (
+      <div class="etalon-row">
+        <div class="etalon-meta">
+          <span class={`signal ${signalClass(fiche.scoring?.position_frise?.signal)}`}>
+            {fiche.scoring?.position_frise?.signal || '—'}
+          </span>
+          <span class="etalon-ref">{fiche.source?.reference?.substring(0, 80)}</span>
+        </div>
+        <div class="score-bar-wrap" style="max-width: 280px;">
+          <div class="score-bar">
+            <div
+              class="score-bar-fill"
+              style={`width: ${(fiche.scoring?.score_total || 0) * 100}%; background: var(--signal-crit)`}
+            ></div>
+          </div>
+          <span class="score-value" style="color: var(--signal-crit)">
+            {Math.round((fiche.scoring?.score_total || 0) * 100)}%
+          </span>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <hr class="divider" />
+
+  <div class="method-note">
+    <p class="label">Note méthodologique</p>
+    <p>
+      Les critères C-03, C-04, C-05, C-06, C-07 sont des critères contextuels
+      non évaluables sur un texte législatif isolé. Les scores reflètent les critères
+      applicables au texte analysé. <a href="/methode">Lire la méthode →</a>
+    </p>
+  </div>
+</Base>
+
+<style>
+  .page-header { margin-bottom: 1rem; }
+
+  /* ── Dashboard ── */
+  .dashboard {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin: 1.5rem 0;
+  }
+
+  .dash-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .dash-value {
+    font-family: var(--mono);
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  /* ── Fiches grid ── */
+  .fiches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .empty-state {
+    color: var(--ink-faint);
+    font-size: 0.9rem;
+    padding: 2rem;
+    text-align: center;
+    border: 1px dashed var(--rule);
+    border-radius: 4px;
+  }
+
+  /* ── Étalons ── */
+  .etalons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .etalon-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--paper-dark);
+    border-radius: 2px;
+    flex-wrap: wrap;
+  }
+
+  .etalon-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .etalon-ref {
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
+  }
+
+  /* ── Note méthode ── */
+  .method-note {
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    background: var(--paper-dark);
+    padding: 1rem 1.25rem;
+    border-radius: 2px;
+  }
+
+  .method-note .label { margin-bottom: 0.4rem; }
+  .method-note a { color: var(--ink-light); }
+
+  @media (max-width: 640px) {
+    .fiches-grid { grid-template-columns: 1fr; }
+    .dashboard { gap: 1.5rem; }
+  }
+</style>

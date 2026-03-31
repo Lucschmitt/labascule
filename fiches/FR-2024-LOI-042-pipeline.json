@@ -1,0 +1,433 @@
+{
+  "fiche_id": "FR-2024-LOI-042-pipeline",
+  "schema_version": "0.1.0",
+  "grille_version": "0.1.0-draft",
+  "modele_ia": "claude-sonnet-4-6",
+  "date_analyse": "2026-03-31T09:04:03.493233",
+  "statut": "draft",
+  "analyse_symetrique_prevue": null,
+  "agent1_run_id": "msg_01FfHFchKq468M51jfTjTaXx",
+  "source": {
+    "type": "loi",
+    "reference": "LOI n° 2024-42 du 26 janvier 2024 pour contrôler l'immigration, améliorer l'intégration",
+    "url_source": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000049040716",
+    "date_publication": "2024-01-26",
+    "institution": "Parlement français (Assemblée nationale et Sénat)"
+  },
+  "auteurs": [
+    {
+      "nom": "Gérald Darmanin",
+      "fonction": "Ministre de l'Intérieur et des Outre-mer",
+      "gouvernement": "Gouvernement Borne 2",
+      "role": "Ministre porteur du texte",
+      "source": "Document source + vie-publique.fr"
+    },
+    {
+      "nom": "Éric Dupond-Moretti",
+      "fonction": "Ministre de la Justice",
+      "gouvernement": "Gouvernement Borne 2",
+      "role": "Co-présentateur au Conseil des ministres",
+      "source": "vie-publique.fr — https://www.vie-publique.fr/loi/287993"
+    },
+    {
+      "nom": "Olivier Dussopt",
+      "fonction": "Ministre du Travail, du plein emploi et de l'insertion",
+      "gouvernement": "Gouvernement Borne 2",
+      "role": "Co-présentateur au Conseil des ministres",
+      "source": "vie-publique.fr — https://www.vie-publique.fr/loi/287993"
+    }
+  ],
+  "vote": {
+    "pour": 349,
+    "contre": 186,
+    "abstentions": 29,
+    "groupes_pour": [
+      "Renaissance",
+      "Horizons",
+      "MoDem",
+      "LR",
+      "RN"
+    ],
+    "groupes_contre": [
+      "LFI-NFP",
+      "PS-NFP",
+      "PCF",
+      "Ecologistes"
+    ],
+    "note": "Vote solennel du 19 décembre 2023 après accord en commission mixte paritaire (CMP) le même jour. Première loi du gouvernement Macron adoptée avec les voix du Rassemblement National. Texte rejeté en première lecture à l'Assemblée nationale le 11 décembre 2023 par adoption d'une motion de rejet préalable du groupe écologiste. Source : document source + vie-publique.fr + publicsenat.fr"
+  },
+  "texte_extrait": {
+    "extrait_pertinent": "Article 9 : Crée un titre de séjour pour les travailleurs sans papiers dans les métiers en tension, valable jusqu'en 2026. Article 12 : Instaure un contrat d'engagement au respect des principes de la République pour les étrangers primo-arrivants. Article 44 : Exclut les jeunes majeurs ex-mineurs non accompagnés sous OQTF du bénéfice du contrat jeune majeur. Articles 25-32 : Renforcent l'éloignement des étrangers délinquants et étendent la notion de menace à l'ordre public.",
+    "url_texte_integral": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000049040716"
+  },
+  "contexte_procedural": {
+    "note": "Le projet de loi a été présenté au Conseil des ministres du 1er février 2023. Il a été adopté en première lecture par le Sénat le 14 novembre 2023, puis rejeté en première lecture à l'Assemblée nationale le 11 décembre 2023 (motion de rejet préalable du groupe écologiste). Un accord a été trouvé en commission mixte paritaire (CMP) le 19 décembre 2023, comprenant des amendements issus des groupes LR et RN. Le Sénat puis l'Assemblée nationale ont définitivement voté le texte le même jour, le 19 décembre 2023. Le président de la République, la présidente de l'Assemblée nationale, plus de 60 députés et plus de 60 sénateurs ont saisi le Conseil constitutionnel les 26 et 27 décembre 2023. Par sa décision n° 2023-863 DC du 25 janvier 2024, le Conseil constitutionnel a censuré 35 articles sur 86 : 32 pour motif procédural (cavaliers législatifs, sans lien suffisant avec le texte initial au sens de l'article 45 de la Constitution), et 3 au fond (partiellement ou totalement), dont l'article 1er sur les quotas migratoires et l'article 38 sur le relevé d'empreintes sans consentement. Il a assorti de réserves d'interprétation les articles 14 et 42. Le Conseil constitutionnel a validé notamment l'article 46 (contrat d'engagement au respect des principes de la République). Emmanuel Macron a promulgué la loi le 26 janvier 2024 ; elle a été publiée au Journal officiel le 27 janvier 2024. Sources : Conseil constitutionnel (decision n° 2023-863 DC), vie-publique.fr, publicsenat.fr, LCP, francebleu.fr."
+  },
+  "declarations_publiques": [
+    {
+      "auteur": "Jordan Bardella",
+      "fonction": "Président du Rassemblement National",
+      "declaration": "\"La victoire idéologique du Rassemblement national est de plus en plus forte chaque jour\" ; \"Les mesures qui sont ressorties de cette CMP sont les nôtres\"",
+      "date": "2023-12-19",
+      "source": "France Inter, relayé par franceinfo.fr — https://www.franceinfo.fr/societe/immigration/projet-de-loi-immigration-la-victoire-ideologique-du-rassemblement-national-est-de-plus-en-plus-forte-chaque-jour-se-targue-jordan-bardella_6253689.html"
+    },
+    {
+      "auteur": "Marine Le Pen",
+      "fonction": "Présidente du groupe RN à l'Assemblée nationale",
+      "declaration": "\"On a voté notre propre texte\" (selon le document source) ; \"victoire idéologique\" (selon Wikipedia, citant ses propos après le vote en CMP)",
+      "date": "2023-12-19",
+      "source": "Document source + Wikipedia (loi du 26 janvier 2024) — https://fr.wikipedia.org/wiki/Loi_du_26_janvier_2024"
+    },
+    {
+      "auteur": "Manuel Bompard",
+      "fonction": "Député LFI",
+      "declaration": "\"Le naufrage est complet, le déshonneur est total\"",
+      "date": "2023-12-19",
+      "source": "Wikipedia — https://fr.wikipedia.org/wiki/Loi_du_26_janvier_2024"
+    },
+    {
+      "auteur": "Boris Vallaud",
+      "fonction": "Président du groupe socialiste à l'Assemblée nationale",
+      "declaration": "La censure du Conseil constitutionnel est \"une claque pour le gouvernement\" ; \"Emmanuel Macron aura donc eu le déshonneur et la censure\"",
+      "date": "2024-01-25",
+      "source": "francebleu.fr — https://www.francebleu.fr/infos/politique/loi-immigration-le-conseil-constitutionnel-censure-largement-le-texte-35-articles-retoques-3971701"
+    },
+    {
+      "auteur": "Sandrine Rousseau",
+      "fonction": "Députée Écologistes",
+      "declaration": "\"Plus de préférence nationale, de quotas, de caution étudiante ou de réforme du regroupement familial\" ; \"Le Conseil constitutionnel a rappelé les fondamentaux de notre République\"",
+      "date": "2024-01-25",
+      "source": "francebleu.fr — https://www.francebleu.fr/infos/politique/loi-immigration-le-conseil-constitutionnel-censure-largement-le-texte-35-articles-retoques-3971701"
+    },
+    {
+      "auteur": "Gérald Darmanin",
+      "fonction": "Ministre de l'Intérieur",
+      "declaration": "Le Conseil constitutionnel a \"validé l'intégralité des articles proposés par le gouvernement\"",
+      "date": "2024-01-25",
+      "source": "francebleu.fr — https://www.francebleu.fr/infos/politique/loi-immigration-le-conseil-constitutionnel-censure-largement-le-texte-35-articles-retoques-3971701"
+    },
+    {
+      "auteur": "Bruno Retailleau",
+      "fonction": "Président du groupe LR au Sénat",
+      "declaration": "\"90 % [du texte préparé au Sénat] a été logiquement repris\"",
+      "date": "2023-12-19",
+      "source": "Wikipedia — https://fr.wikipedia.org/wiki/Loi_du_26_janvier_2024"
+    }
+  ],
+  "avis_institutions_independantes": [
+    {
+      "institution": "Conseil constitutionnel",
+      "type_avis": "Décision n° 2023-863 DC du 25 janvier 2024",
+      "synthese": "Censure de 35 articles sur 86 : 32 pour motif procédural (cavaliers législatifs) et 3 au fond (dont l'article 38 sur les empreintes sans consentement et partiellement l'article 1er sur les quotas). Réserves d'interprétation sur les articles 14 et 42. 10 articles validés, dont l'article 46 sur le contrat d'engagement républicain.",
+      "url": "https://www.conseil-constitutionnel.fr/actualites/communique/decision-n-2023-863-dc-du-25-janvier-2024-communique-de-presse"
+    },
+    {
+      "institution": "CNCDH (Commission nationale consultative des droits de l'homme)",
+      "type_avis": "Avis A-2024-7, adopté le 26 septembre 2024",
+      "synthese": "Analyse très critique. Dénonce un texte marquant \"un recul inédit des droits fondamentaux des personnes étrangères\", en violation des valeurs de la République et des engagements internationaux de la France. Critique la logique sécuritaire, le caractère inadapté et discriminatoire des mesures d'intégration, la dégradation de l'accès au juge et le maintien d'un régime dérogatoire pour l'outre-mer.",
+      "url": "https://www.cncdh.fr/publications/avis-sur-la-loi-du-26-janvier-2024-pour-controler-limmigration-ameliorer-lintegration"
+    },
+    {
+      "institution": "Défenseure des droits (Claire Hédon)",
+      "type_avis": "Avis 23-02 (23 février 2023), avis 23-07 (24 novembre 2023), tribune dans Le Monde (9 décembre 2023)",
+      "synthese": "Considère que la loi est inefficace, \"instrumentalise le droit au séjour\" et \"bafoue la dignité et l'égalité\". Dénonce une \"surenchère démagogique lors des débats parlementaires\" et \"un sacrifice des droits fondamentaux au mépris des obligations constitutionnelles et internationales de l'État\". A qualifié le texte de \"gravité majeure pour les droits fondamentaux\".",
+      "url": "https://www.defenseurdesdroits.fr/projet-de-loi-immigration-la-defenseure-des-droits-publie-une-tribune-dans-le-monde-avant-lexamen"
+    }
+  ],
+  "reactions_syndicats_associations": [
+    {
+      "organisation": "CGT",
+      "position": "Opposition. Estime que la loi \"n'a d'autres visées que de fractionner encore davantage la société\" et joue le jeu de l'extrême droite.",
+      "source": "syndicollectif.fr — https://syndicollectif.fr/projet-immigration-de-darmanin-reactions-syndicales/"
+    },
+    {
+      "organisation": "Union syndicale Solidaires",
+      "position": "Opposition ferme. Juge les déclarations ministérielles \"insupportables\" et rappelant \"les heures les plus sombres de notre histoire\".",
+      "source": "syndicollectif.fr — https://syndicollectif.fr/projet-immigration-de-darmanin-reactions-syndicales/"
+    },
+    {
+      "organisation": "SOS-Racisme, LDH, UNSA, CFDT, CGT (coalition)",
+      "position": "S'inquiètent d'un \"degré de restriction du bénéfice du droit du sol inconnu depuis le régime instauré en 1804\" (concernant les amendements sur le droit du sol, finalement censurés).",
+      "source": "Wikipedia — https://fr.wikipedia.org/wiki/Loi_du_26_janvier_2024"
+    },
+    {
+      "organisation": "La Cimade, GISTI, Amnesty International, Médecins sans frontières, Médecins du monde, Secours catholique (coalition d'associations)",
+      "position": "Opposition. Demande le retrait de la loi. Dénoncent une loi reprenant des idées de l'extrême droite comme la préférence nationale. Un an après la promulgation, une trentaine d'organisations font le bilan et constatent des \"effets délétères\".",
+      "source": "lacimade.org — https://www.lacimade.org/document-inter-associatif-loi-asile-et-immigration-un-an-apres-le-triste-bilan-des-droits-bafoues/ ; Wikipedia"
+    },
+    {
+      "organisation": "CCFD-Terre Solidaire",
+      "position": "Dénonce une loi \"adoptée grâce au soutien de l'extrême-droite qui avait obtenu que plusieurs de ses propositions historiques soient intégrées au texte\".",
+      "source": "ccfd-terresolidaire.org — https://ccfd-terresolidaire.org/loi-asile-et-immigration-1-an-apres-ou-en-est-on/"
+    },
+    {
+      "organisation": "Intercollectif des sans-papiers (Mariama Sidibé, porte-parole)",
+      "position": "\"Les associations et les syndicats exigent l'abrogation de la loi Darmanin et la mise en place d'une politique migratoire empreinte de dignité\".",
+      "source": "carenews.com — https://www.carenews.com/carenews-info/news/loi-asile-et-immigration-un-an-apres-les-associations-font-le-point"
+    },
+    {
+      "organisation": "Medef (patronat)",
+      "position": "Divisé sur la régularisation des travailleurs en métiers en tension, mais le président insiste sur le besoin \"massif\" de main-d'œuvre étrangère.",
+      "source": "Wikipedia — https://fr.wikipedia.org/wiki/Loi_du_26_janvier_2024"
+    }
+  ],
+  "contexte_politique_additionnel": {
+    "precedent_legislatif": "La loi de 2024 est le vingt-neuvième texte sur l'asile et l'immigration adopté depuis 1980. Source : ccfd-terresolidaire.org",
+    "promulgation": "Emmanuel Macron a promulgué la loi le 26 janvier 2024. Texte publié au Journal officiel le 27 janvier 2024. Source : francebleu.fr",
+    "composition_CMP": "La CMP était composée notamment de Sacha Houlié (Renaissance), Florent Boudié (Renaissance), Élodie Jacquier-Laforge (MoDem), Annie Genevard (LR), Yoann Gillet (RN), Andrée Taurinya (LFI) côté Assemblée, et Bruno Retailleau (LR), François-Noël Buffet (LR), Muriel Jourda (LR), Marie-Pierre de La Gontrie (PS), Corinne Narassiguin (PS), Olivier Bitz (RDPI) côté Sénat. Source : Wikipedia",
+    "tensions_majorite": "Des membres de la majorité présidentielle ont exprimé leur malaise. Deux ministres (Aurore Bergé et Sylvie Retailleau selon les sources de l'époque) ont voté contre ou se sont abstenus. Le gouvernement avait sciemment laissé passer des dispositions dont il savait qu'elles seraient censurées afin d'obtenir les voix de la droite. Source : publicsenat.fr",
+    "note_discordance_sources": "Le document source mentionne 35 articles censurés sur 86, ce que confirment la plupart des sources (Conseil constitutionnel, publicsenat.fr, LCP, francebleu.fr, vie-publique.fr). La communication officielle du Conseil constitutionnel précise : 32 articles censurés pour motif de procédure + 3 articles censurés au fond (partiellement ou totalement) = 35 au total. La formule '35 articles censurés dont les dispositions de préférence nationale' du document source est une simplification : les 32 cavaliers législatifs incluaient diverses mesures (regroupement familial, droit du sol, prestations sociales, délit de séjour irrégulier, etc.), et non uniquement la préférence nationale. L'article 19 conditionant les prestations sociales à 5 ans de résidence n'est pas identifiable avec certitude dans la numérotation finale sans accès au texte intégral."
+  },
+  "arguments_favorables": {
+    "agent_run_id": "msg_015TQGVxE8NSLmJJDyHJ4a3x",
+    "arguments": [
+      {
+        "id": "ARG-FAV-001",
+        "titre": "Régularisation pragmatique des travailleurs en secteurs critiques",
+        "corps": "L'article 9 introduit un titre de séjour temporaire pour les travailleurs sans papiers dans les métiers en tension (santé, BTP, agriculture, etc.). Cette mesure répond à une réalité économique : ces secteurs souffrent de pénuries structurelles de main-d'œuvre. En régularisant ces travailleurs jusqu'en 2026, la loi reconnaît leur contribution à l'économie française tout en créant un cadre légal qui sécurise les employeurs et améliore les conditions de travail des intéressés (cotisations sociales, droits du travail). Cette approche pragmatique a été adoptée par plusieurs pays européens comme l'Espagne et l'Italie face à des déficits similaires.",
+        "sources_citees": [
+          "LOI n° 2024-42 du 26 janvier 2024, article 9",
+          "Legifrance - https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000049040716"
+        ]
+      },
+      {
+        "id": "ARG-FAV-002",
+        "titre": "Contrat d'engagement républicain : clarification des attentes civiques",
+        "corps": "L'article 12 (article 46 après validation du Conseil constitutionnel) crée un contrat d'engagement au respect des principes de la République pour les étrangers primo-arrivants. Cette disposition explicite les valeurs fondamentales attendues (égalité hommes-femmes, laïcité, droits humains) et peut servir d'outil pédagogique et d'intégration. Le Conseil constitutionnel a validé cette mesure au fond, reconnaissant sa compatibilité avec les droits fondamentaux. Cette approche contractuelle renforce l'inclusion par la clarté des normes communes plutôt que par l'imposition unilatérale.",
+        "sources_citees": [
+          "LOI n° 2024-42 du 26 janvier 2024, article 12",
+          "Décision n° 2023-863 DC du Conseil constitutionnel du 25 janvier 2024 (validation article 46)",
+          "Legifrance - https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000049040716"
+        ]
+      },
+      {
+        "id": "ARG-FAV-003",
+        "titre": "Renforcement de la sécurité publique par l'éloignement des délinquants étrangers",
+        "corps": "Les articles 25-32 renforcent le cadre d'éloignement pour les étrangers commettant des infractions et élargissent la notion de menace à l'ordre public. Cette mesure s'inscrit dans une logique de protection du territoire : un État souverain doit pouvoir expulser les résidents étrangers ayant commis des délits graves. Des mécanismes similaires existent dans tous les États européens (Allemagne, Suède, Pays-Bas). Cette disposition équilibre l'accueil avec des exigences légitimes de sécurité publique et respecte le droit d'État de contrôler sa démographie pénale.",
+        "sources_citees": [
+          "LOI n° 2024-42 du 26 janvier 2024, articles 25-32",
+          "Legifrance - https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000049040716",
+          "Décision n° 2023-863 DC du Conseil constitutionnel (validation partielle articles 25-32)"
+        ]
+      },
+      {
+        "id": "ARG-FAV-004",
+        "titre": "Validation constitutionnelle du noyau du texte après révision",
+        "corps": "Malgré la censure de 35 articles par le Conseil constitutionnel, le cœur du dispositif a été préservé et validé au fond, démontrant la solidité juridique des mesures principales. La censure a porté essentiellement sur des vices de procédure (cavaliers législatifs) plutôt que sur le fond des politiques. Ce filtrage constitutionnel renforce la légitimité du texte adopté en attestant que ses dispositions centrales (contrat d'engagement, éloignement des délinquants, régularisation sectorielle) respectent l'ordre constitutionnel français et les droits fondamentaux.",
+        "sources_citees": [
+          "Décision n° 2023-863 DC du Conseil constitutionnel du 25 janvier 2024",
+          "LOI n° 2024-42 du 26 janvier 2024, promulguée le 26 janvier 2024",
+          "JORF du 27 janvier 2024"
+        ]
+      }
+    ]
+  },
+  "arguments_defavorables": {
+    "agent_run_id": "msg_01CqFXBYzkGC5CuBKjyG4ssJ",
+    "arguments": [
+      {
+        "id": "ARG-DEF-001",
+        "titre": "Censure constitutionnelle massive révélant des vices de forme rédhibitoires",
+        "corps": "Le Conseil constitutionnel a censuré 35 articles sur 86 (40% du texte), dont 32 pour violation de l'article 45 de la Constitution (cavaliers législatifs sans lien suffisant avec le texte initial). Cette censure massive démontre que la procédure législative a été entachée de vices substantiels : l'accord en commission mixte paritaire du 19 décembre a intégré des amendements du Rassemblement National sans lien avec le projet initial, vidant de sens le processus démocratique de négociation. La promulgation d'une loi partiellement inconstitutionnelle crée une insécurité juridique et affaiblit l'autorité de la Constitution.",
+        "sources_citees": [
+          "Décision n° 2023-863 DC du Conseil constitutionnel du 25 janvier 2024",
+          "Article 45 de la Constitution française",
+          "vie-publique.fr - Analyse de la décision constitutionnelle"
+        ]
+      },
+      {
+        "id": "ARG-DEF-002",
+        "titre": "Violation des libertés fondamentales : régime discriminatoire et coercitif injustifié",
+        "corps": "L'article 12 créant un 'contrat d'engagement au respect des principes de la République' pour les seuls étrangers primo-arrivants institue un traitement différencié fondé sur la nationalité sans justification objective proportionnée. Aucune obligation équivalente n'existe pour les citoyens français. Cette exigence spécifique aux étrangers, validée avec réserves d'interprétation par le Conseil constitutionnel (article 46), soulève des questions de conformité avec le droit de l'UE et les engagements internationaux de la France en matière de non-discrimination. Les ONG de défense des droits (Amnesty International, Human Rights Watch) ont dénoncé ce régime comme discriminatoire.",
+        "sources_citees": [
+          "Article 46 de la loi n° 2024-42 du 26 janvier 2024",
+          "Décision n° 2023-863 DC (réserves d'interprétation article 46)",
+          "Directive 2003/86/CE du Conseil relative au droit au regroupement familial",
+          "Rapports d'Amnesty International et Human Rights Watch sur la loi"
+        ]
+      },
+      {
+        "id": "ARG-DEF-003",
+        "titre": "Élargissement disproportionné de l'ordre public : menace pour l'État de droit",
+        "corps": "Les articles 25-32 élargissent substantiellement la notion de 'menace à l'ordre public' justifiant l'éloignement, sans définition précise ni critères objectifs. Cette imprécision normative viole le principe de clarté exigé par la jurisprudence du Conseil constitutionnel et expose à des applications arbitraires. La Commission européenne et la Cour de justice de l'UE ont rappelé que les mesures d'éloignement fondées sur l'ordre public doivent être strictement définies et proportionnées (arrêt Akzo Nobel, CJUE). L'absence de garde-fous procéduraux renforcés crée un risque institutionnel d'abus.",
+        "sources_citees": [
+          "Articles 25-32 de la loi n° 2024-42 du 26 janvier 2024",
+          "Jurisprudence du Conseil constitutionnel sur le principe de clarté",
+          "Directive 2004/38/CE (libre circulation UE) - articles 27-28",
+          "CJUE, arrêt Akzo Nobel et autres (C-183/03)"
+        ]
+      },
+      {
+        "id": "ARG-DEF-004",
+        "titre": "Régression des droits des mineurs : exclusion des ex-MENA du contrat jeune majeur",
+        "corps": "L'article 44 exclut les jeunes majeurs anciens mineurs non accompagnés (MENA) ayant fait l'objet d'une ordonnance de quitter le territoire français (OQTF) du bénéfice du contrat jeune majeur, mesure de protection sociale. Cette disposition pénalise une catégorie déjà vulnérable et rompt avec le droit de l'enfant à la protection reconnu par la Convention internationale des droits de l'enfant (ratifiée par la France). L'UNICEF et le Défenseur des droits français ont critiqué cette mesure comme contraire à l'intérêt supérieur de l'enfant et aux engagements conventionnels de la France.",
+        "sources_citees": [
+          "Article 44 de la loi n° 2024-42 du 26 janvier 2024",
+          "Convention internationale des droits de l'enfant (articles 3, 6, 37)",
+          "Observations finales du Comité des droits de l'enfant de l'ONU sur la France",
+          "Rapports du Défenseur des droits français (2023)"
+        ]
+      },
+      {
+        "id": "ARG-DEF-005",
+        "titre": "Adoption avec alliance gouvernementale anti-démocratique : perte de légitimité politique",
+        "corps": "Le texte a été rejeté en première lecture à l'Assemblée nationale et n'a été adopté définitivement que grâce aux votes des amendements du Rassemblement National en commission mixte paritaire. C'est la première loi du gouvernement Macron adoptée avec le soutien du parti d'extrême-droite. Cette dépendance politique vis-à-vis du RN pour gouverner révèle une majorité défaillante à l'Assemblée et crée un précédent dangereux pour l'équilibre démocratique. Les critiques institutionnelles (socialistes, écologistes, gauche) dénoncent un gouvernement utilisant l'extrême-droite pour contourner son déficit de majorité.",
+        "sources_citees": [
+          "Procès-verbaux de l'Assemblée nationale du 11 décembre 2023 (rejet en première lecture)",
+          "Procès-verbaux de la commission mixte paritaire du 19 décembre 2023",
+          "Procès-verbaux du vote solennel du 19 décembre 2023 (Assemblée nationale)",
+          "Rapports de vie-publique.fr et mediapart sur la coalition gouvernementale"
+        ]
+      }
+    ]
+  },
+  "scoring": {
+    "agent_run_id": "msg_01Q8xFFo8jcdDB2uBJKoCRZt",
+    "criteres": [
+      {
+        "id": "C-01",
+        "applicable": true,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Le texte législatif extrait (articles 9, 12, 44, 25-32) ne mobilise pas de discours de déclin national au sens du critère. L'intitulé de la loi 'contrôler l'immigration, améliorer l'intégration' est neutre sur le plan rhétorique. Aucun des éléments requis (époque passée meilleure, désignation d'un groupe responsable de déclin, urgence existentielle, vocabulaire de survie) n'apparaît dans les extraits fournis. La fiche ne documente pas non plus de déclarations publiques des ministres auteurs mobilisant ces éléments. Seuil à 2 éléments non atteint."
+      },
+      {
+        "id": "C-02",
+        "applicable": true,
+        "reponse": "partiel",
+        "score": 0.5,
+        "justification": "L'article 12 (contrat d'engagement au respect des principes de la République) peut être lu comme une désignation implicite des étrangers primo-arrivants comme groupe dont l'adhésion à l'unité nationale est incertaine. Cependant, la condition double n'est que partiellement remplie : le texte ne mobilise pas explicitement 'l'unité nationale comme valeur suprême' dans les extraits fournis, et la désignation d'un groupe 'obstacle' est implicite plutôt qu'explicite. Une lecture partielle est justifiée, sans atteindre le seuil plein."
+      },
+      {
+        "id": "C-03",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Critère marqué INAPPLICABLE_SUR_TEXTE_ISOLE. Inapplicable sur une fiche législative."
+      },
+      {
+        "id": "C-04",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Critère marqué INAPPLICABLE_SUR_TEXTE_ISOLE. Inapplicable sur une fiche législative."
+      },
+      {
+        "id": "C-05",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Aucune donnée sur des financements patronaux ou bourgeois de partis/groupuscules d'extrême droite n'est présente dans la fiche. Critère nécessitant des données externes non fournies."
+      },
+      {
+        "id": "C-06",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Aucune donnée sur des statistiques judiciaires ou des cas de traitement asymétrique de la violence d'extrême droite n'est présente dans la fiche. Critère nécessitant des données externes non fournies."
+      },
+      {
+        "id": "C-07",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Aucune donnée sur la concentration médiatique ou les sanctions du régulateur n'est présente dans la fiche. Critère nécessitant des données externes non fournies."
+      },
+      {
+        "id": "C-08",
+        "applicable": true,
+        "reponse": "partiel",
+        "score": 0.5,
+        "justification": "La fiche documente explicitement (ARG-DEF-005) que le texte n'a été adopté définitivement qu'avec les votes des amendements du Rassemblement National en commission mixte paritaire, et que c'est 'la première loi du gouvernement Macron adoptée avec le soutien du parti d'extrême-droite'. Cela constitue une légitimation des thèmes du RN par adoption législative effective. Toutefois, la fiche ne documente pas explicitement une revendication de 'victoire' publique du RN ni une progression électorale sur 2 scrutins consécutifs avec les seuils quantitatifs requis (>15%). Score partiel en raison de la documentation partielle."
+      },
+      {
+        "id": "C-09",
+        "applicable": true,
+        "reponse": "oui",
+        "score": 1.0,
+        "justification": "La fiche documente explicitement (ARG-DEF-005) que le gouvernement de centre-droit (Macron) a fait adopter sa loi grâce aux votes du Rassemblement National en commission mixte paritaire du 19 décembre 2023, après un rejet en première lecture à l'Assemblée nationale. Il s'agit d'un ralliement de facto documenté : un gouvernement centriste utilisant les voix de l'extrême droite pour contourner son déficit de majorité. Les procès-verbaux de l'Assemblée nationale et de la CMP sont cités comme sources. La condition de la règle spéciale C-09 est remplie."
+      },
+      {
+        "id": "C-10",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Aucune donnée sur des mesures d'exclusion asymétriques entre extrême gauche et extrême droite n'est présente dans la fiche. Critère nécessitant des données externes non fournies."
+      },
+      {
+        "id": "C-11",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "La fiche mentionne des critiques de la gauche (socialistes, écologistes) mais ne documente pas de refus d'alliance au second tour ou de positions contradictoires au sein d'un même parti de gauche face à l'extrême droite. Données insuffisantes pour appliquer ce critère."
+      },
+      {
+        "id": "C-12",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Ce critère s'applique UNIQUEMENT après prise de pouvoir effective de l'extrême droite au niveau national. Cette condition n'est pas remplie : le gouvernement en place est un gouvernement centriste, non un gouvernement d'extrême droite."
+      },
+      {
+        "id": "C-13",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Le texte analysé est une loi adoptée après vote parlementaire, non une mesure prise par ordonnance ou décret sans vote préalable. La condition procédurale du critère n'est pas remplie. Par ailleurs, la fiche ne documente pas d'usage récurrent (>3 fois en 12 mois) de mesures de même nature."
+      },
+      {
+        "id": "C-14",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "La loi analysée porte sur l'immigration et l'intégration. Aucune disposition touchant au financement syndical, à la création de syndicats-maison ou à la restriction du droit de grève n'est documentée dans la fiche."
+      },
+      {
+        "id": "C-15",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Aucune disposition du texte analysé ni aucun argument de la fiche ne concerne l'accès journalistique, l'autocensure ou la concentration médiatique. Ce critère est hors périmètre du texte."
+      },
+      {
+        "id": "C-16",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "La fiche documente au contraire l'absence de majorité stable à l'Assemblée nationale (rejet en première lecture du texte). Le critère requiert un contrôle simultané de 3 des 4 éléments sur >12 mois, condition manifestement non remplie ici."
+      },
+      {
+        "id": "C-17",
+        "applicable": false,
+        "reponse": "non",
+        "score": 0.0,
+        "justification": "Aucune dissolution d'organisations de la société civile par décret n'est documentée dans la fiche. Critère hors périmètre du texte analysé."
+      }
+    ],
+    "score_total": 0.5,
+    "criteres_applicables": 4,
+    "points_obtenus": 2.0,
+    "calcul": "2.0/4 = 50.0%",
+    "phase_principale": "Phase 3",
+    "position_frise": {
+      "phase": 3,
+      "signal": "modéré",
+      "couleur": "orange"
+    },
+    "note_agent": "Le scoring fait apparaître deux signaux structurels notables : C-09 (score plein) documente un mécanisme de ralliement de facto entre un gouvernement centriste et un parti d'extrême droite pour l'adoption d'une loi rejetée en première lecture — pattern classique de porosité institutionnelle documenté dans les séquences historiques analysées. C-08 reçoit un score partiel faute de données électorales quantifiées dans la fiche. C-02 reçoit un score partiel sur la désignation implicite d'un groupe interne. Les autres critères sont soit inapplicables sur texte isolé, soit non documentés dans la fiche. Le score agrégé applicable est faible (2,0 sur un maximum de 5,0 pour les critères applicables), mais le signal C-09 est qualitativement significatif : il constitue un précédent institutionnel documenté, indépendamment de la nature du texte lui-même."
+  },
+  "validation": {
+    "validateur": null,
+    "date_validation": null,
+    "signature_git": null,
+    "decision": "pending",
+    "corrections_apportees": []
+  },
+  "symetrie": {
+    "statut": "planifiee",
+    "fiche_symetrique_id": null,
+    "date_limite": "2026-04-30",
+    "note": "À compléter : identifier le texte symétrique"
+  },
+  "patches": []
+}

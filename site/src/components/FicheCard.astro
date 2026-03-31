@@ -1,0 +1,189 @@
+---
+const { fiche } = Astro.props;
+
+const score = fiche.scoring?.score_total || 0;
+const scorePct = Math.round(score * 100);
+const signal = fiche.scoring?.position_frise?.signal || 'aucun';
+const phase = fiche.scoring?.position_frise?.phase || 0;
+
+const signalMap = {
+  'critique': { cls: 'signal-crit',   bar: 'var(--signal-crit)',   label: 'Critique' },
+  'fort':     { cls: 'signal-fort',   bar: 'var(--signal-high)',   label: 'Fort' },
+  'modéré':   { cls: 'signal-modere', bar: 'var(--signal-mid)',    label: 'Modéré' },
+  'faible':   { cls: 'signal-faible', bar: 'var(--signal-low)',    label: 'Faible' },
+  'aucun':    { cls: 'signal-none',   bar: 'var(--signal-none)',   label: 'Aucun' },
+};
+
+const s = signalMap[signal] || signalMap['aucun'];
+
+// Critères activés (score > 0)
+const criteresActifs = (fiche.scoring?.criteres || [])
+  .filter(c => c.applicable && c.score > 0)
+  .map(c => c.id);
+
+// Date lisible
+const dateAnalyse = fiche.date_analyse
+  ? new Date(fiche.date_analyse).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+  : '—';
+
+const typeLabel = {
+  loi: 'Loi',
+  ordonnance: 'Ordonnance',
+  decret: 'Décret',
+  proposition_de_loi: 'Proposition de loi',
+  programme_electoral: 'Programme électoral',
+}[fiche.source?.type] || fiche.source?.type || '—';
+---
+
+<article class={`fiche-card signal-border-${signal}`}>
+  <header class="card-header">
+    <div class="card-meta">
+      <span class="label type-label">{typeLabel}</span>
+      <span class="label date-label">{dateAnalyse}</span>
+    </div>
+    <span class={`signal ${s.cls}`}>{s.label}</span>
+  </header>
+
+  <h3 class="card-title">{fiche.source?.reference?.substring(0, 90)}{fiche.source?.reference?.length > 90 ? '…' : ''}</h3>
+
+  <div class="card-score">
+    <div class="score-bar-wrap">
+      <div class="score-bar">
+        <div
+          class="score-bar-fill"
+          style={`width: ${scorePct}%; background: ${s.bar}`}
+        ></div>
+      </div>
+      <span class="score-value" style={`color: ${s.bar}`}>{scorePct}%</span>
+    </div>
+    <p class="score-caption">
+      Phase {phase} —
+      {fiche.scoring?.points_obtenus}/{fiche.scoring?.criteres_applicables} critères applicables
+    </p>
+  </div>
+
+  {criteresActifs.length > 0 && (
+    <div class="criteres-actifs">
+      {criteresActifs.map(id => (
+        <span class="critere-tag">{id}</span>
+      ))}
+    </div>
+  )}
+
+  <footer class="card-footer">
+    <span class="label">
+      {fiche.symetrie?.statut === 'planifiee'
+        ? `⟳ Symétrie planifiée`
+        : fiche.symetrie?.statut === 'complete'
+        ? '✓ Symétrie complète'
+        : ''}
+    </span>
+    <a
+      href={fiche.source?.url_source}
+      target="_blank"
+      rel="noopener"
+      class="card-link"
+    >
+      Source officielle ↗
+    </a>
+  </footer>
+</article>
+
+<style>
+  .fiche-card {
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    transition: border-color 0.15s;
+  }
+
+  .fiche-card:hover { border-color: var(--ink-faint); }
+
+  /* Accent de couleur en haut selon le signal */
+  .signal-border-critique { border-top: 3px solid var(--signal-crit); }
+  .signal-border-fort      { border-top: 3px solid var(--signal-high); }
+  .signal-border-modéré    { border-top: 3px solid var(--signal-mid); }
+  .signal-border-faible    { border-top: 3px solid var(--signal-low); }
+  .signal-border-aucun     { border-top: 3px solid var(--signal-none); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .type-label { color: var(--ink-light); }
+  .date-label { color: var(--ink-faint); }
+
+  .card-title {
+    font-family: var(--serif);
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .card-score { display: flex; flex-direction: column; gap: 0.3rem; }
+
+  .score-caption {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.03em;
+  }
+
+  /* ── Critères actifs ── */
+  .criteres-actifs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .critere-tag {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    color: var(--ink-light);
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+  }
+
+  /* ── Footer ── */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .card-footer .label {
+    color: var(--ink-faint);
+    font-size: 0.65rem;
+  }
+
+  .card-link {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-light);
+    text-decoration: none;
+  }
+
+  .card-link:hover { color: var(--ink); }
+</style>
