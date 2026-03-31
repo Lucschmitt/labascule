@@ -1,9 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import FicheCard from '../components/FicheCard.astro';
-import FicheDrawer from '../components/FicheDrawer.astro';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+const u = (path: string) => `${BASE}${path}`;
 
 // Charge les fiches JSON depuis public/fiches/ de façon robuste
 let fiches = [];
@@ -132,7 +134,7 @@ function signalClass(signal) {
     <p>
       Les critères C-03, C-04, C-05, C-06, C-07 sont des critères contextuels
       non évaluables sur un texte législatif isolé. Les scores reflètent les critères
-      applicables au texte analysé. <a href="/methode/">Lire la méthode →</a>
+      applicables au texte analysé. <a href={u('/methode/')}>Lire la méthode →</a>
     </p>
   </div>
 </Base>

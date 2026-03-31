@@ -1,5 +1,12 @@
 ---
 const { title, description } = Astro.props;
+
+// BASE_URL vaut '/' en local et '/labascule/' sur GitHub Pages
+// u() construit un chemin sans double slash dans les deux cas
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, ''); // '' en local, '/labascule' sur GH Pages
+const u = (path: string) => `${BASE}${path}`;
+
+const path = Astro.url.pathname;
 ---
 <!DOCTYPE html>
 <html lang="fr">
@@ -237,12 +244,12 @@ const { title, description } = Astro.props;
 </head>
 <body>
   <header class="site-header">
-    <a href="/" class="site-logo">La <span>Bascule</span></a>
+    <a href={u('/')} class="site-logo">La <span>Bascule</span></a>
     <nav>
       <ul class="site-nav">
-        <li><a href="/" class={Astro.url.pathname === '/' || Astro.url.pathname === import.meta.env.BASE_URL || Astro.url.pathname === import.meta.env.BASE_URL + '/' ? 'active' : ''}>Frise</a></li>
-        <li><a href="/barometre/" class={Astro.url.pathname.includes('barometre') ? 'active' : ''}>Baromètre</a></li>
-        <li><a href="/methode/" class={Astro.url.pathname.includes('methode') ? 'active' : ''}>Méthode</a></li>
+        <li><a href={u('/')} class={path === u('/') || path === u('') || path === BASE + '/' ? 'active' : ''}>Frise</a></li>
+        <li><a href={u('/barometre/')} class={path.includes('/barometre') ? 'active' : ''}>Baromètre</a></li>
+        <li><a href={u('/methode/')} class={path.includes('/methode') ? 'active' : ''}>Méthode</a></li>
         <li><a href="https://github.com/lucschmitt/labascule" target="_blank" rel="noopener">GitHub ↗</a></li>
       </ul>
     </nav>

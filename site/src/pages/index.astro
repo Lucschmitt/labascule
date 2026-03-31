@@ -3,6 +3,9 @@ import Base from '../layouts/Base.astro';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+const u = (path: string) => `${BASE}${path}`;
+
 // Charge la dernière fiche publiée pour le bandeau
 let derniereFiche = null;
 try {
@@ -102,7 +105,7 @@ const phases = [
           </span>
         </>
       )}
-      <a href="/barometre/" class="bandeau-link">Baromètre →</a>
+      <a href={u('/barometre/')} class="bandeau-link">Baromètre →</a>
     </div>
   </div>
 
@@ -205,9 +208,9 @@ const phases = [
     <p>
       Grille de 17 critères — Paxton (2004), Gramsci (1929-1935),
       Chapoutot (2025), Evans (2003), Milza (1999).
-      <a href="/methode/">Méthode complète →</a>
+      <a href={u('/methode/')}>Méthode complète →</a>
       &nbsp;·&nbsp;
-      <a href="/barometre/">Baromètre →</a>
+      <a href={u('/barometre/')}>Baromètre →</a>
     </p>
   </div>
 
