@@ -1,0 +1,595 @@
+---
+// FicheDrawer.astro — Panel latéral détail d'une fiche
+// Inclure une seule fois dans barometre.astro
+---
+
+<!-- Overlay -->
+<div id="drawer-overlay" aria-hidden="true"></div>
+
+<!-- Drawer -->
+<aside id="fiche-drawer" role="dialog" aria-modal="true" aria-label="Détail de la fiche" tabindex="-1">
+
+  <div class="drawer-inner">
+
+    <!-- ── Header fixe ── -->
+    <div class="drawer-header">
+      <div class="drawer-header-left">
+        <span id="d-type" class="d-label"></span>
+        <span id="d-date" class="d-label d-date"></span>
+      </div>
+      <div class="drawer-header-right">
+        <span id="d-signal" class="signal"></span>
+        <button id="drawer-close" aria-label="Fermer" title="Fermer (Échap)">✕</button>
+      </div>
+    </div>
+
+    <!-- ── Scrollable body ── -->
+    <div class="drawer-body">
+
+      <!-- Titre -->
+      <h2 id="d-title" class="d-title"></h2>
+      <div id="d-institution" class="d-institution"></div>
+
+      <!-- Score synthèse -->
+      <div class="d-score-block">
+        <div class="d-score-bar-wrap">
+          <div class="d-score-bar"><div id="d-score-fill" class="d-score-fill"></div></div>
+          <span id="d-score-pct" class="d-score-pct"></span>
+        </div>
+        <p id="d-score-caption" class="d-score-caption"></p>
+      </div>
+
+      <hr class="d-rule" />
+
+      <!-- Contexte -->
+      <section class="d-section" id="section-contexte">
+        <h3 class="d-section-title">Contexte</h3>
+        <div id="d-vote" class="d-vote-block"></div>
+        <div id="d-auteurs" class="d-auteurs"></div>
+        <div id="d-contexte-note" class="d-contexte-note"></div>
+        <div id="d-declarations" class="d-declarations"></div>
+        <div id="d-institutions-avis" class="d-institutions-avis"></div>
+      </section>
+
+      <hr class="d-rule" />
+
+      <!-- Critères activés -->
+      <section class="d-section" id="section-criteres">
+        <h3 class="d-section-title">Critères activés</h3>
+        <p class="d-section-sub">Seuls les critères applicables ayant produit un signal sont présentés.</p>
+        <div id="d-criteres-list" class="d-criteres-list"></div>
+      </section>
+
+      <hr class="d-rule" />
+
+      <!-- Arguments pour / contre -->
+      <section class="d-section" id="section-args">
+        <h3 class="d-section-title">Arguments analysés</h3>
+        <p class="d-section-sub">
+          Produits par deux agents IA indépendants en contextes isolés,
+          avant le scoring. Le scoring est aveugle au bord politique.
+        </p>
+        <div class="d-args-grid">
+          <div class="d-args-col d-args-pro">
+            <h4 class="d-args-head d-args-head-pro">Arguments favorables</h4>
+            <div id="d-args-fav" class="d-args-content"></div>
+          </div>
+          <div class="d-args-col d-args-con">
+            <h4 class="d-args-head d-args-head-con">Arguments défavorables</h4>
+            <div id="d-args-def" class="d-args-content"></div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="d-rule" />
+
+      <!-- Pied de fiche -->
+      <footer class="d-footer">
+        <div class="d-footer-meta">
+          <span id="d-grille-version" class="d-label"></span>
+          <span id="d-modele" class="d-label"></span>
+          <span id="d-symetrie" class="d-label"></span>
+        </div>
+        <a id="d-source-link" href="#" target="_blank" rel="noopener" class="d-source-link">
+          Texte source officiel ↗
+        </a>
+      </footer>
+
+    </div><!-- /drawer-body -->
+  </div><!-- /drawer-inner -->
+</aside>
+
+<style>
+  /* ── Overlay ── */
+  #drawer-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(26,24,20,0); pointer-events: none;
+    transition: background 0.3s ease;
+  }
+  #drawer-overlay.open {
+    background: rgba(26,24,20,0.45); pointer-events: auto;
+  }
+
+  /* ── Drawer ── */
+  #fiche-drawer {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(640px, 100vw); z-index: 210;
+    background: #f7f4ed;
+    border-left: 1px solid #d4cfc4;
+    display: flex; flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -8px 0 32px rgba(0,0,0,0);
+  }
+  #fiche-drawer.open {
+    transform: translateX(0);
+    box-shadow: -8px 0 32px rgba(0,0,0,0.12);
+  }
+
+  .drawer-inner { display:flex; flex-direction:column; height:100%; overflow:hidden; }
+
+  /* ── Header fixe ── */
+  .drawer-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.5rem; border-bottom: 1px solid #d4cfc4;
+    flex-shrink: 0; background: #f7f4ed; gap: 1rem;
+  }
+  .drawer-header-left  { display:flex; gap:0.75rem; align-items:center; min-width:0; }
+  .drawer-header-right { display:flex; gap:0.75rem; align-items:center; flex-shrink:0; }
+
+  #drawer-close {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid #d4cfc4; background: transparent;
+    cursor: pointer; font-size: 0.75rem; color: #4a4540;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.12s, color 0.12s;
+  }
+  #drawer-close:hover { background: #1a1814; color: #f5f2eb; }
+
+  /* ── Body scrollable ── */
+  .drawer-body {
+    flex: 1; overflow-y: auto; padding: 1.75rem 1.5rem 3rem;
+    scroll-behavior: smooth;
+  }
+  .drawer-body::-webkit-scrollbar { width: 4px; }
+  .drawer-body::-webkit-scrollbar-track { background: transparent; }
+  .drawer-body::-webkit-scrollbar-thumb { background: #d4cfc4; border-radius: 2px; }
+
+  /* ── Labels ── */
+  .d-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.08em; text-transform: uppercase; color: #8a8480;
+  }
+  .d-date { color: #b4b2a9; }
+
+  /* ── Titre ── */
+  .d-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.3rem; font-weight: 700; line-height: 1.25;
+    letter-spacing: -0.01em; color: #1a1814; margin-bottom: 0.4rem;
+  }
+  .d-institution {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    color: #8a8480; letter-spacing: 0.04em; margin-bottom: 1.25rem;
+  }
+
+  /* ── Score ── */
+  .d-score-block { margin-bottom: 0.5rem; }
+  .d-score-bar-wrap { display:flex; align-items:center; gap:1rem; }
+  .d-score-bar {
+    flex: 1; height: 5px; background: #e8e3da; border-radius: 2px; overflow: hidden;
+  }
+  .d-score-fill { height: 100%; border-radius: 2px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
+  .d-score-pct {
+    font-family: 'IBM Plex Mono', monospace; font-size: 1.1rem; font-weight: 500;
+    min-width: 3.5rem; text-align: right;
+  }
+  .d-score-caption {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+    color: #8a8480; letter-spacing: 0.04em; margin-top: 0.4rem;
+  }
+
+  /* ── Rule ── */
+  .d-rule { border:none; border-top:1px solid #d4cfc4; margin: 1.5rem 0; }
+
+  /* ── Sections ── */
+  .d-section { margin-bottom: 0.5rem; }
+  .d-section-title {
+    font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700;
+    color: #1a1814; margin-bottom: 0.3rem; letter-spacing: -0.01em;
+  }
+  .d-section-sub {
+    font-size: 0.78rem; color: #8a8480; font-family: 'IBM Plex Mono', monospace;
+    font-style: italic; margin-bottom: 1rem; line-height: 1.5;
+  }
+
+  /* ── Contexte : vote ── */
+  .d-vote-block {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+    background: #ede9e0; padding: 0.85rem 1rem;
+    border-radius: 2px; margin-bottom: 1rem; font-family: 'IBM Plex Mono', monospace;
+  }
+  .d-vote-item { display:flex; flex-direction:column; gap:0.15rem; }
+  .d-vote-num  { font-size: 1.2rem; font-weight: 500; color: #1a1814; line-height:1; }
+  .d-vote-lbl  { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8a8480; }
+  .d-vote-groups { margin-top:0.5rem; }
+  .d-vote-group-row { display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.3rem; align-items:center; }
+  .d-vote-tag {
+    font-size: 0.62rem; padding: 0.1rem 0.4rem; border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace; letter-spacing:0.03em;
+  }
+  .d-vote-pour { background:#eaf3e8; color:#2d5a27; }
+  .d-vote-contre { background:#fde8e8; color:#7a1500; }
+
+  /* ── Auteurs ── */
+  .d-auteurs { margin-bottom: 0.75rem; }
+  .d-auteur-row {
+    display: flex; gap: 0.5rem; align-items: baseline;
+    font-size: 0.85rem; padding: 0.3rem 0;
+    border-bottom: 1px solid #e8e3da; color: #1a1814;
+  }
+  .d-auteur-nom { font-family:'Source Serif 4',serif; font-weight:400; }
+  .d-auteur-fn  { font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:#8a8480; }
+
+  /* ── Contexte note ── */
+  .d-contexte-note {
+    font-size: 0.85rem; color: #4a4540; line-height: 1.7;
+    font-family: 'Source Serif 4', serif;
+    border-left: 2px solid #d4cfc4; padding-left: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Déclarations ── */
+  .d-decl-item {
+    margin-bottom: 0.85rem; padding: 0.75rem 1rem;
+    background: #ede9e0; border-radius: 2px;
+    border-left: 3px solid #8a8480;
+  }
+  .d-decl-quote {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 0.88rem; color: #1a1814; line-height: 1.55;
+    margin-bottom: 0.35rem;
+  }
+  .d-decl-attr {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    color: #8a8480; letter-spacing: 0.04em;
+  }
+
+  /* ── Avis institutions ── */
+  .d-avis-item {
+    margin-bottom: 0.75rem; padding: 0.75rem 1rem;
+    border: 1px solid #d4cfc4; border-radius: 2px; background: #faf7f3;
+  }
+  .d-avis-inst {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+    font-weight: 500; color: #4a4540; letter-spacing: 0.05em;
+    text-transform: uppercase; margin-bottom: 0.3rem;
+  }
+  .d-avis-text { font-size: 0.83rem; color: #4a4540; line-height: 1.6; }
+
+  /* ── Critères ── */
+  .d-criteres-list { display:flex; flex-direction:column; gap:0.75rem; }
+
+  .d-critere-item {
+    border: 1px solid #d4cfc4; border-radius: 2px; overflow: hidden;
+  }
+  .d-critere-head {
+    display: flex; align-items: center; gap: 0.85rem;
+    padding: 0.7rem 1rem; cursor: pointer;
+    background: #ede9e0; user-select: none;
+    transition: background 0.12s;
+  }
+  .d-critere-head:hover { background: #e4dfd6; }
+
+  .d-critere-id {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+    font-weight: 500; color: #4a4540; min-width: 2.8rem; letter-spacing: 0.04em;
+  }
+  .d-critere-label {
+    flex: 1; font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem; color: #1a1814; line-height: 1.3;
+  }
+  .d-critere-score {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+    font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .score-oui     { background: #eaf3e8; color: #2d5a27; }
+  .score-partiel { background: #fef8e1; color: #7a6200; }
+  .score-non     { background: #ede9e0; color: #8a8480; }
+
+  .d-critere-chevron {
+    font-size: 0.6rem; color: #8a8480; flex-shrink: 0;
+    transition: transform 0.2s; display: inline-block;
+  }
+  .d-critere-item.open .d-critere-chevron { transform: rotate(90deg); }
+
+  .d-critere-body {
+    display: none; padding: 0.85rem 1rem; background: #faf7f3;
+    border-top: 1px solid #d4cfc4;
+  }
+  .d-critere-item.open .d-critere-body { display: block; }
+
+  .d-critere-just {
+    font-size: 0.83rem; color: #4a4540; line-height: 1.65;
+    font-family: 'Source Serif 4', serif; margin-bottom: 0.6rem;
+  }
+  .d-critere-sources { display:flex; flex-wrap:wrap; gap:0.35rem; }
+  .d-critere-src {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+    color: #8a8480; background: #ede9e0; padding: 0.1rem 0.4rem;
+    border-radius: 2px; letter-spacing: 0.02em;
+  }
+
+  /* ── Arguments grid ── */
+  .d-args-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: #d4cfc4; border: 1px solid #d4cfc4;
+    border-radius: 2px; overflow: hidden;
+  }
+  .d-args-col { background: #faf7f3; }
+  .d-args-head {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500;
+    padding: 0.6rem 1rem; border-bottom: 1px solid #d4cfc4;
+  }
+  .d-args-head-pro { color: #2d5a27; background: #eaf3e8; }
+  .d-args-head-con { color: #7a1500; background: #fde8e8; }
+  .d-args-content  { padding: 0.75rem 1rem; }
+
+  .d-arg-item { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e8e3da; }
+  .d-arg-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .d-arg-titre {
+    font-family: 'Source Serif 4', serif; font-size: 0.83rem; font-weight: 400;
+    color: #1a1814; margin-bottom: 0.35rem; line-height: 1.35;
+  }
+  .d-arg-corps {
+    font-size: 0.78rem; color: #4a4540; line-height: 1.6; margin-bottom: 0.4rem;
+  }
+  .d-arg-sources { display:flex; flex-direction:column; gap:0.2rem; }
+  .d-arg-src {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+    color: #b4b2a9; letter-spacing: 0.02em; line-height: 1.4;
+  }
+
+  /* ── Footer ── */
+  .d-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.5rem; padding-top: 0.5rem;
+  }
+  .d-footer-meta { display:flex; gap:1rem; flex-wrap:wrap; }
+  .d-source-link {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.05em; color: #4a4540; text-decoration: none;
+    border-bottom: 1px solid #d4cfc4; padding-bottom: 1px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .d-source-link:hover { color: #1a1814; border-color: #1a1814; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    #fiche-drawer { width: 100vw; }
+    .d-args-grid  { grid-template-columns: 1fr; }
+    .drawer-body  { padding: 1.25rem 1.1rem 3rem; }
+  }
+</style>
+
+<script>
+const SIGNAL_MAP = {
+  critique: { cls: 'signal-crit',   bar: '#a32d2d', label: 'Critique' },
+  fort:     { cls: 'signal-fort',   bar: '#854f0b', label: 'Fort' },
+  'modéré': { cls: 'signal-modere', bar: '#8a3a00', label: 'Modéré' },
+  faible:   { cls: 'signal-faible', bar: '#7a6200', label: 'Faible' },
+  aucun:    { cls: 'signal-none',   bar: '#2d5a27', label: 'Aucun signal' },
+};
+
+const TYPE_LABEL = {
+  loi: 'Loi', ordonnance: 'Ordonnance', decret: 'Décret',
+  proposition_de_loi: 'Proposition de loi', programme_electoral: 'Programme électoral',
+};
+
+const drawer  = document.getElementById('fiche-drawer');
+const overlay = document.getElementById('drawer-overlay');
+const btnClose = document.getElementById('drawer-close');
+
+function openDrawer(fiche) {
+  populate(fiche);
+  drawer.classList.add('open');
+  overlay.classList.add('open');
+  drawer.focus();
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer() {
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function txt(el, content) {
+  const node = document.getElementById(el);
+  if (node) node.textContent = content || '';
+}
+
+function html(el, content) {
+  const node = document.getElementById(el);
+  if (node) node.innerHTML = content || '';
+}
+
+function show(el, visible) {
+  const node = document.getElementById(el)?.closest('.d-section') || document.getElementById(el);
+  if (node) node.style.display = visible ? '' : 'none';
+}
+
+function populate(f) {
+  const score  = f.scoring?.score_total || 0;
+  const pct    = Math.round(score * 100);
+  const signal = f.scoring?.position_frise?.signal || 'aucun';
+  const s      = SIGNAL_MAP[signal] || SIGNAL_MAP['aucun'];
+  const phase  = f.scoring?.position_frise?.phase || 0;
+
+  // Header
+  txt('d-type', TYPE_LABEL[f.source?.type] || f.source?.type || '');
+  txt('d-date', f.date_analyse
+    ? new Date(f.date_analyse).toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' })
+    : '');
+  const sigEl = document.getElementById('d-signal');
+  sigEl.className = `signal ${s.cls}`;
+  sigEl.textContent = s.label;
+
+  // Titre
+  txt('d-title', f.source?.reference || '');
+  txt('d-institution', f.source?.institution || '');
+
+  // Score
+  const fill = document.getElementById('d-score-fill');
+  fill.style.width  = `${pct}%`;
+  fill.style.background = s.bar;
+  const pctEl = document.getElementById('d-score-pct');
+  pctEl.textContent = `${pct}%`;
+  pctEl.style.color = s.bar;
+  txt('d-score-caption',
+    `Phase ${phase} — ${f.scoring?.points_obtenus || 0}/${f.scoring?.criteres_applicables || 0} critères applicables · Grille ${f.grille_version || ''}`
+  );
+
+  // Vote
+  const vote = f.vote;
+  let voteHtml = '';
+  if (vote?.pour != null || vote?.contre != null) {
+    voteHtml += `<div class="d-vote-item"><span class="d-vote-num">${vote.pour ?? '—'}</span><span class="d-vote-lbl">Pour</span></div>`;
+    voteHtml += `<div class="d-vote-item"><span class="d-vote-num">${vote.contre ?? '—'}</span><span class="d-vote-lbl">Contre</span></div>`;
+    if (vote.abstentions != null)
+      voteHtml += `<div class="d-vote-item"><span class="d-vote-num">${vote.abstentions}</span><span class="d-vote-lbl">Abstentions</span></div>`;
+  }
+  if (vote?.groupes_pour?.length || vote?.groupes_contre?.length) {
+    voteHtml += `<div class="d-vote-groups" style="width:100%">`;
+    if (vote.groupes_pour?.length)
+      voteHtml += `<div class="d-vote-group-row">${vote.groupes_pour.map(g => `<span class="d-vote-tag d-vote-pour">${g}</span>`).join('')}</div>`;
+    if (vote.groupes_contre?.length)
+      voteHtml += `<div class="d-vote-group-row">${vote.groupes_contre.map(g => `<span class="d-vote-tag d-vote-contre">${g}</span>`).join('')}</div>`;
+    voteHtml += `</div>`;
+  }
+  if (vote?.note)
+    voteHtml += `<div style="width:100%;font-size:0.75rem;color:#8a8480;font-family:'IBM Plex Mono',monospace;margin-top:0.5rem;line-height:1.5">${vote.note}</div>`;
+  html('d-vote', voteHtml ? `<div class="d-vote-block">${voteHtml}</div>` : '');
+
+  // Auteurs
+  const auteurs = f.auteurs || [];
+  html('d-auteurs', auteurs.map(a =>
+    `<div class="d-auteur-row">
+      <span class="d-auteur-nom">${a.nom || ''}</span>
+      <span class="d-auteur-fn">${a.fonction || a.qualite || ''}</span>
+    </div>`
+  ).join(''));
+
+  // Contexte note
+  const note = f.contexte_procedural?.note || '';
+  html('d-contexte-note', note ? `<p>${note}</p>` : '');
+
+  // Déclarations publiques
+  const decls = f.declarations_publiques || [];
+  html('d-declarations', decls.map(d =>
+    `<div class="d-decl-item">
+      <p class="d-decl-quote">"${d.declaration || ''}"</p>
+      <span class="d-decl-attr">${d.auteur || ''} · ${d.fonction || ''} · ${d.date || ''}</span>
+    </div>`
+  ).join(''));
+
+  // Avis institutions
+  const avis = f.avis_institutions_independantes || [];
+  html('d-institutions-avis', avis.map(a =>
+    `<div class="d-avis-item">
+      <p class="d-avis-inst">${a.institution || ''}</p>
+      <p class="d-avis-text">${a.synthese || a.position || ''}</p>
+    </div>`
+  ).join(''));
+
+  // ── Critères activés ──
+  const criteres = (f.scoring?.criteres || [])
+    .filter(c => c.applicable && c.score > 0);
+
+  html('d-criteres-list', criteres.map(c => {
+    const scoreCls = c.reponse === 'oui' ? 'score-oui' : c.reponse === 'partiel' ? 'score-partiel' : 'score-non';
+    const scoreLabel = c.reponse === 'oui' ? 'Oui — 1.0' : c.reponse === 'partiel' ? 'Partiel — 0.5' : 'Non — 0';
+    const srcHtml = (c.source_historique_citee || c.sources_citees || '')
+      ? `<div class="d-critere-sources"><span class="d-critere-src">Sources : ${c.source_historique_citee || (c.sources_citees || []).join(', ')}</span></div>`
+      : '';
+    return `
+      <div class="d-critere-item">
+        <div class="d-critere-head" role="button" tabindex="0">
+          <span class="d-critere-id">${c.id}</span>
+          <span class="d-critere-label">${c.libelle || ''}</span>
+          <span class="d-critere-score ${scoreCls}">${scoreLabel}</span>
+          <span class="d-critere-chevron">▶</span>
+        </div>
+        <div class="d-critere-body">
+          <p class="d-critere-just">${c.justification || ''}</p>
+          ${srcHtml}
+        </div>
+      </div>`;
+  }).join(''));
+
+  // Accordéon critères
+  document.querySelectorAll('.d-critere-head').forEach(head => {
+    head.addEventListener('click', () => {
+      head.closest('.d-critere-item').classList.toggle('open');
+    });
+    head.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') head.click();
+    });
+  });
+
+  // ── Arguments ──
+  const argsF = (f.arguments_favorables?.arguments || []);
+  const argsD = (f.arguments_defavorables?.arguments || []);
+
+  html('d-args-fav', argsF.map(a =>
+    `<div class="d-arg-item">
+      <p class="d-arg-titre">${a.titre || ''}</p>
+      <p class="d-arg-corps">${a.corps || ''}</p>
+      <div class="d-arg-sources">${(a.sources_citees || []).map(s => `<span class="d-arg-src">${s}</span>`).join('')}</div>
+    </div>`
+  ).join(''));
+
+  html('d-args-def', argsD.map(a =>
+    `<div class="d-arg-item">
+      <p class="d-arg-titre">${a.titre || ''}</p>
+      <p class="d-arg-corps">${a.corps || ''}</p>
+      <div class="d-arg-sources">${(a.sources_citees || []).map(s => `<span class="d-arg-src">${s}</span>`).join('')}</div>
+    </div>`
+  ).join(''));
+
+  // Footer
+  txt('d-grille-version', `Grille ${f.grille_version || ''}`);
+  txt('d-modele', `Modèle ${f.modele_ia || ''}`);
+  txt('d-symetrie', f.symetrie?.statut === 'planifiee' ? '⟳ Symétrie planifiée'
+    : f.symetrie?.statut === 'complete' ? '✓ Symétrique' : '');
+  const srcLink = document.getElementById('d-source-link');
+  srcLink.href = f.source?.url_source || '#';
+
+  // Reset scroll
+  document.querySelector('.drawer-body').scrollTop = 0;
+}
+
+// ── Événements ──
+btnClose.addEventListener('click', closeDrawer);
+overlay.addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+// Délégation sur les cartes
+document.addEventListener('click', e => {
+  const card = e.target.closest('[data-fiche]');
+  if (card) {
+    try {
+      const fiche = JSON.parse(card.dataset.fiche);
+      openDrawer(fiche);
+    } catch {}
+  }
+});
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('[data-fiche]')) {
+    e.preventDefault();
+    e.target.closest('[data-fiche]').click();
+  }
+});
+</script>

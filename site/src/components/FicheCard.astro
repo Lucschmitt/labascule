@@ -1,41 +1,52 @@
 ---
 const { fiche } = Astro.props;
 
-const score = fiche.scoring?.score_total || 0;
+const score    = fiche.scoring?.score_total || 0;
 const scorePct = Math.round(score * 100);
-const signal = fiche.scoring?.position_frise?.signal || 'aucun';
-const phase = fiche.scoring?.position_frise?.phase || 0;
+const signal   = fiche.scoring?.position_frise?.signal || 'aucun';
+const phase    = fiche.scoring?.position_frise?.phase  || 0;
 
 const signalMap = {
-  'critique': { cls: 'signal-crit',   bar: 'var(--signal-crit)',   label: 'Critique' },
-  'fort':     { cls: 'signal-fort',   bar: 'var(--signal-high)',   label: 'Fort' },
-  'modéré':   { cls: 'signal-modere', bar: 'var(--signal-mid)',    label: 'Modéré' },
-  'faible':   { cls: 'signal-faible', bar: 'var(--signal-low)',    label: 'Faible' },
-  'aucun':    { cls: 'signal-none',   bar: 'var(--signal-none)',   label: 'Aucun' },
+  'critique': { cls: 'signal-crit',   bar: 'var(--signal-crit)',  label: 'Critique' },
+  'fort':     { cls: 'signal-fort',   bar: 'var(--signal-high)',  label: 'Fort' },
+  'modéré':   { cls: 'signal-modere', bar: 'var(--signal-mid)',   label: 'Modéré' },
+  'faible':   { cls: 'signal-faible', bar: 'var(--signal-low)',   label: 'Faible' },
+  'aucun':    { cls: 'signal-none',   bar: 'var(--signal-none)',  label: 'Aucun' },
 };
-
 const s = signalMap[signal] || signalMap['aucun'];
 
-// Critères activés (score > 0)
-const criteresActifs = (fiche.scoring?.criteres || [])
-  .filter(c => c.applicable && c.score > 0)
-  .map(c => c.id);
+const criteresApplicables = (fiche.scoring?.criteres || [])
+  .filter(c => c.applicable)
+  .sort((a, b) => (b.score || 0) - (a.score || 0));
 
-// Date lisible
+const criteresActifs = criteresApplicables.filter(c => (c.score || 0) > 0);
+
 const dateAnalyse = fiche.date_analyse
   ? new Date(fiche.date_analyse).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
   : '—';
 
 const typeLabel = {
-  loi: 'Loi',
-  ordonnance: 'Ordonnance',
-  decret: 'Décret',
-  proposition_de_loi: 'Proposition de loi',
-  programme_electoral: 'Programme électoral',
+  loi: 'Loi', ordonnance: 'Ordonnance', decret: 'Décret',
+  proposition_de_loi: 'Proposition de loi', programme_electoral: 'Programme électoral',
 }[fiche.source?.type] || fiche.source?.type || '—';
+
+const auteurs = (fiche.auteurs || [])
+  .map(a => [a.nom, a.fonction || a.qualite].filter(Boolean).join(', '))
+  .join(' · ');
+
+const modalId = `modal-${fiche.fiche_id?.replace(/[^a-z0-9]/gi, '-')}`;
+const scoreColor = s.bar;
+const argsFav  = fiche.arguments_favorables?.arguments  || [];
+const argsDef  = fiche.arguments_defavorables?.arguments || [];
 ---
 
-<article class={`fiche-card signal-border-${signal}`}>
+<article
+  class={`fiche-card signal-border-${signal}`}
+  role="button" tabindex="0" aria-haspopup="dialog"
+  data-modal={modalId}
+  onclick={`document.getElementById('${modalId}').showModal()`}
+  onkeydown={`if(event.key==='Enter'||event.key===' ')document.getElementById('${modalId}').showModal()`}
+>
   <header class="card-header">
     <div class="card-meta">
       <span class="label type-label">{typeLabel}</span>
@@ -44,146 +55,320 @@ const typeLabel = {
     <span class={`signal ${s.cls}`}>{s.label}</span>
   </header>
 
-  <h3 class="card-title">{fiche.source?.reference?.substring(0, 90)}{fiche.source?.reference?.length > 90 ? '…' : ''}</h3>
+  <h3 class="card-title">
+    {fiche.source?.reference?.substring(0, 90)}{(fiche.source?.reference?.length || 0) > 90 ? '…' : ''}
+  </h3>
 
   <div class="card-score">
     <div class="score-bar-wrap">
       <div class="score-bar">
-        <div
-          class="score-bar-fill"
-          style={`width: ${scorePct}%; background: ${s.bar}`}
-        ></div>
+        <div class="score-bar-fill" style={`width:${scorePct}%;background:${scoreColor}`}></div>
       </div>
-      <span class="score-value" style={`color: ${s.bar}`}>{scorePct}%</span>
+      <span class="score-value" style={`color:${scoreColor}`}>{scorePct}%</span>
     </div>
     <p class="score-caption">
-      Phase {phase} —
-      {fiche.scoring?.points_obtenus}/{fiche.scoring?.criteres_applicables} critères applicables
+      Phase {phase} — {fiche.scoring?.points_obtenus}/{fiche.scoring?.criteres_applicables} critères applicables
     </p>
   </div>
 
   {criteresActifs.length > 0 && (
     <div class="criteres-actifs">
-      {criteresActifs.map(id => (
-        <span class="critere-tag">{id}</span>
-      ))}
+      {criteresActifs.map(c => <span class="critere-tag">{c.id}</span>)}
     </div>
   )}
 
   <footer class="card-footer">
+    <span class="label hint">↗ Cliquer pour le détail</span>
     <span class="label">
-      {fiche.symetrie?.statut === 'planifiee'
-        ? `⟳ Symétrie planifiée`
-        : fiche.symetrie?.statut === 'complete'
-        ? '✓ Symétrie complète'
-        : ''}
+      {fiche.symetrie?.statut === 'planifiee' ? '⟳ Symétrie planifiée'
+       : fiche.symetrie?.statut === 'complete' ? '✓ Symétrie complète' : ''}
     </span>
-    <a
-      href={fiche.source?.url_source}
-      target="_blank"
-      rel="noopener"
-      class="card-link"
-    >
-      Source officielle ↗
-    </a>
   </footer>
 </article>
 
+<dialog id={modalId} class="fiche-modal" onclick="if(event.target===this)this.close()">
+  <div class="modal-inner">
+
+    <div class="modal-header" style={`border-top:4px solid ${scoreColor}`}>
+      <div class="modal-header-top">
+        <div class="modal-title-block">
+          <span class="label">{typeLabel} · {dateAnalyse}</span>
+          <h2 class="modal-title">{fiche.source?.reference}</h2>
+          {auteurs && <p class="modal-auteurs">{auteurs}</p>}
+        </div>
+        <button class="modal-close" onclick={`document.getElementById('${modalId}').close()`} aria-label="Fermer">✕</button>
+      </div>
+      <div class="modal-score-wrap">
+        <div class="modal-score-big" style={`color:${scoreColor}`}>{scorePct}%</div>
+        <div class="modal-score-detail">
+          <span class={`signal ${s.cls}`}>{s.label}</span>
+          <span class="label">Phase {phase} · {fiche.scoring?.points_obtenus}/{fiche.scoring?.criteres_applicables} critères applicables</span>
+          {fiche.scoring?.note_agent && <p class="modal-note-agent">{fiche.scoring.note_agent}</p>}
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-body">
+
+      {(fiche.contexte_procedural?.note || fiche.vote?.pour || fiche.declarations_publiques?.length > 0) && (
+        <section class="modal-section">
+          <h3 class="section-title">Contexte</h3>
+          {fiche.contexte_procedural?.note && (
+            <p class="section-text">{fiche.contexte_procedural.note}</p>
+          )}
+          {fiche.vote && (fiche.vote.pour || fiche.vote.note) && (
+            <div class="vote-block">
+              {fiche.vote.pour && (
+                <div class="vote-chiffres">
+                  <span class="vote-num pour">{fiche.vote.pour} pour</span>
+                  <span class="vote-num contre">{fiche.vote.contre} contre</span>
+                  {fiche.vote.abstentions && <span class="vote-num abs">{fiche.vote.abstentions} abstentions</span>}
+                </div>
+              )}
+              {fiche.vote.groupes_pour?.length > 0 && (
+                <p class="vote-groupes"><span class="label">Pour : </span>{fiche.vote.groupes_pour.join(', ')}</p>
+              )}
+              {fiche.vote.groupes_contre?.length > 0 && (
+                <p class="vote-groupes"><span class="label">Contre : </span>{fiche.vote.groupes_contre.join(', ')}</p>
+              )}
+              {fiche.vote.note && <p class="vote-note">{fiche.vote.note}</p>}
+            </div>
+          )}
+          {fiche.declarations_publiques?.length > 0 && (
+            <div class="declarations">
+              {fiche.declarations_publiques.slice(0, 5).map((d) => (
+                <blockquote class="declaration">
+                  <p>« {d.declaration} »</p>
+                  <cite>{d.auteur}{d.fonction ? `, ${d.fonction}` : ''}{d.date ? ` — ${d.date}` : ''}</cite>
+                </blockquote>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+
+      {criteresApplicables.length > 0 && (
+        <section class="modal-section">
+          <h3 class="section-title">Critères analysés</h3>
+          <p class="section-intro">
+            Seuls les critères applicables à ce texte sont présentés.
+            Les critères contextuels et ceux nécessitant des données externes non disponibles sont exclus.
+          </p>
+          <div class="criteres-list">
+            {criteresApplicables.map(c => (
+              <div class={`critere-item score-${c.reponse}`}>
+                <div class="critere-header">
+                  <span class="critere-id-badge">{c.id}</span>
+                  <span class={`critere-reponse rep-${c.reponse}`}>
+                    {c.reponse === 'oui' ? '✓ Oui' : c.reponse === 'partiel' ? '◐ Partiel' : '✗ Non'}
+                  </span>
+                  <span class="critere-score-val">{c.reponse === 'oui' ? '1.0' : c.reponse === 'partiel' ? '0.5' : '0'}</span>
+                </div>
+                {c.libelle && <p class="critere-libelle">{c.libelle}</p>}
+                {c.justification && (
+                  <div class="critere-justif">
+                    <span class="label">Justification de l'agent</span>
+                    <p>{c.justification}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {argsFav.length > 0 && (
+        <section class="modal-section">
+          <h3 class="section-title section-fav">Arguments en faveur du texte</h3>
+          <p class="section-intro">Produits par un agent IA indépendant en contexte isolé.</p>
+          <div class="args-list">
+            {argsFav.map(a => (
+              <div class="arg-item arg-fav">
+                <strong class="arg-titre">{a.titre}</strong>
+                <p class="arg-corps">{a.corps}</p>
+                {a.sources_citees?.length > 0 && (
+                  <div class="arg-sources">{a.sources_citees.map(src => <span class="src-tag">{src}</span>)}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {argsDef.length > 0 && (
+        <section class="modal-section">
+          <h3 class="section-title section-def">Arguments contre le texte</h3>
+          <p class="section-intro">Produits par un agent IA indépendant en contexte isolé.</p>
+          <div class="args-list">
+            {argsDef.map(a => (
+              <div class="arg-item arg-def">
+                <strong class="arg-titre">{a.titre}</strong>
+                <p class="arg-corps">{a.corps}</p>
+                {a.sources_citees?.length > 0 && (
+                  <div class="arg-sources">{a.sources_citees.map(src => <span class="src-tag">{src}</span>)}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {fiche.avis_institutions_independantes?.length > 0 && (
+        <section class="modal-section">
+          <h3 class="section-title">Avis des institutions indépendantes</h3>
+          <div class="institutions-list">
+            {fiche.avis_institutions_independantes.map(av => (
+              <div class="institution-item">
+                <strong class="inst-nom">{av.institution}</strong>
+                {av.type_avis && <span class="inst-ref">{av.type_avis}</span>}
+                <p class="inst-synthese">{av.synthese}</p>
+                {av.url && <a href={av.url} target="_blank" rel="noopener" class="inst-link">Source ↗</a>}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <div class="modal-footer">
+        <div class="modal-footer-meta">
+          <span class="label">Analysé le {dateAnalyse}</span>
+          <span class="label">Modèle : {fiche.modele_ia}</span>
+          <span class="label">Grille : {fiche.grille_version}</span>
+          {fiche.symetrie?.statut === 'planifiee' && (
+            <span class="label sym-info">⟳ Analyse symétrique planifiée avant le {fiche.symetrie.date_limite}</span>
+          )}
+        </div>
+        {fiche.source?.url_source && (
+          <a href={fiche.source.url_source} target="_blank" rel="noopener" class="source-link">
+            Texte source officiel ↗
+          </a>
+        )}
+      </div>
+
+    </div>
+  </div>
+</dialog>
+
 <style>
+  /* ── Carte ── */
   .fiche-card {
-    background: var(--paper-dark);
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-    transition: border-color 0.15s;
+    background: var(--paper-dark); border: 1px solid var(--rule); border-radius: 2px;
+    padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem;
+    cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; user-select: none;
   }
+  .fiche-card:hover { border-color: var(--ink-faint); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .fiche-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-  .fiche-card:hover { border-color: var(--ink-faint); }
-
-  /* Accent de couleur en haut selon le signal */
   .signal-border-critique { border-top: 3px solid var(--signal-crit); }
   .signal-border-fort      { border-top: 3px solid var(--signal-high); }
   .signal-border-modéré    { border-top: 3px solid var(--signal-mid); }
   .signal-border-faible    { border-top: 3px solid var(--signal-low); }
   .signal-border-aucun     { border-top: 3px solid var(--signal-none); }
 
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
+  .card-header { display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+  .card-meta   { display:flex; gap:.75rem; align-items:center; }
+  .type-label  { color:var(--ink-light); }
+  .date-label  { color:var(--ink-faint); }
+  .card-title  { font-family:var(--serif); font-size:.9rem; font-weight:400; line-height:1.4; color:var(--ink); }
+  .card-score  { display:flex; flex-direction:column; gap:.3rem; }
+  .score-caption { font-family:var(--mono); font-size:.65rem; color:var(--ink-faint); letter-spacing:.03em; }
+  .criteres-actifs { display:flex; flex-wrap:wrap; gap:.3rem; }
+  .critere-tag { font-family:var(--mono); font-size:.62rem; background:var(--paper); border:1px solid var(--rule); color:var(--ink-light); padding:.1rem .4rem; border-radius:2px; }
+  .card-footer { display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-top:auto; padding-top:.5rem; border-top:1px solid var(--rule); }
+  .card-footer .label { color:var(--ink-faint); font-size:.65rem; }
+  .hint { font-style:italic; }
+
+  /* ── Modal ── */
+  .fiche-modal {
+    position:fixed; inset:0; width:min(860px,96vw); max-height:90vh;
+    margin:auto; padding:0; border:1px solid var(--rule); border-radius:4px;
+    background:var(--paper); box-shadow:0 8px 40px rgba(0,0,0,0.2);
+    overflow:hidden; display:flex; flex-direction:column;
   }
+  .fiche-modal::backdrop { background:rgba(26,24,20,.65); backdrop-filter:blur(2px); }
+  .fiche-modal[open] { display:flex; }
+  .modal-inner { display:flex; flex-direction:column; overflow:hidden; height:100%; }
 
-  .card-meta {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
+  .modal-header { padding:1.5rem 1.75rem 1.25rem; background:var(--paper-dark); border-bottom:1px solid var(--rule); flex-shrink:0; }
+  .modal-header-top { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:1rem; }
+  .modal-title-block { flex:1; min-width:0; }
+  .modal-title-block .label { margin-bottom:.35rem; display:block; }
+  .modal-title { font-family:var(--display); font-size:1.1rem; font-weight:700; line-height:1.3; color:var(--ink); margin-bottom:.3rem; }
+  .modal-auteurs { font-family:var(--mono); font-size:.68rem; color:var(--ink-light); }
+  .modal-close { background:none; border:1px solid var(--rule); border-radius:2px; width:28px; height:28px; cursor:pointer; color:var(--ink-faint); font-size:.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:color .12s,border-color .12s; }
+  .modal-close:hover { color:var(--ink); border-color:var(--ink); }
+  .modal-score-wrap { display:flex; align-items:center; gap:1.25rem; }
+  .modal-score-big { font-family:var(--mono); font-size:2.4rem; font-weight:500; line-height:1; flex-shrink:0; }
+  .modal-score-detail { display:flex; flex-direction:column; gap:.3rem; }
+  .modal-score-detail .label { margin-top:.2rem; }
+  .modal-note-agent { font-size:.78rem; color:var(--ink-light); line-height:1.5; font-style:italic; margin-top:.3rem; max-width:55ch; }
+
+  .modal-body { overflow-y:auto; flex:1; padding:1.5rem 1.75rem; display:flex; flex-direction:column; gap:0; }
+  .modal-section { padding-bottom:1.75rem; margin-bottom:1.75rem; border-bottom:1px solid var(--rule); }
+  .modal-section:last-of-type { border-bottom:none; }
+
+  .section-title { font-family:var(--mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-faint); margin-bottom:.9rem; padding-bottom:.5rem; border-bottom:1px solid var(--rule); }
+  .section-fav { color:var(--signal-none); }
+  .section-def { color:var(--signal-mid); }
+  .section-text { font-size:.88rem; color:var(--ink-light); line-height:1.65; margin-bottom:1rem; }
+  .section-intro { font-size:.78rem; color:var(--ink-faint); line-height:1.5; font-style:italic; margin-bottom:1rem; }
+
+  .vote-block { margin-bottom:1rem; }
+  .vote-chiffres { display:flex; gap:1rem; margin-bottom:.5rem; flex-wrap:wrap; }
+  .vote-num { font-family:var(--mono); font-size:.78rem; font-weight:500; padding:.2rem .6rem; border-radius:2px; }
+  .vote-num.pour    { color:var(--signal-none); background:var(--bg-none); }
+  .vote-num.contre  { color:var(--signal-mid);  background:var(--bg-mid); }
+  .vote-num.abs     { color:var(--ink-faint);   background:var(--paper-dark); }
+  .vote-groupes { font-size:.82rem; color:var(--ink-light); margin-bottom:.25rem; }
+  .vote-note { font-size:.82rem; color:var(--ink-light); margin-top:.5rem; font-style:italic; }
+
+  .declarations { display:flex; flex-direction:column; gap:.75rem; margin-top:1rem; }
+  .declaration { border-left:2px solid var(--rule); padding:.5rem .9rem; margin:0; background:var(--paper-dark); border-radius:0 2px 2px 0; }
+  .declaration p { font-size:.88rem; color:var(--ink); font-style:italic; line-height:1.5; margin-bottom:.3rem; }
+  .declaration cite { font-family:var(--mono); font-size:.65rem; color:var(--ink-faint); font-style:normal; }
+
+  .criteres-list { display:flex; flex-direction:column; gap:.75rem; }
+  .critere-item { padding:.85rem 1rem; border-radius:2px; border:1px solid var(--rule); background:var(--paper-dark); }
+  .score-oui     { border-left:3px solid var(--signal-none); }
+  .score-partiel { border-left:3px solid var(--signal-low); }
+  .score-non     { border-left:3px solid var(--rule); opacity:.7; }
+  .critere-header { display:flex; align-items:center; gap:.6rem; margin-bottom:.35rem; }
+  .critere-id-badge { font-family:var(--mono); font-size:.68rem; font-weight:500; background:var(--paper); border:1px solid var(--rule); padding:.1rem .4rem; border-radius:2px; color:var(--ink-light); }
+  .critere-reponse { font-family:var(--mono); font-size:.72rem; font-weight:500; }
+  .rep-oui     { color:var(--signal-none); }
+  .rep-partiel { color:var(--signal-low); }
+  .rep-non     { color:var(--ink-faint); }
+  .critere-score-val { font-family:var(--mono); font-size:.68rem; color:var(--ink-faint); margin-left:auto; }
+  .critere-libelle { font-size:.85rem; color:var(--ink); margin-bottom:.4rem; line-height:1.3; }
+  .critere-justif .label { margin-bottom:.2rem; display:block; }
+  .critere-justif p { font-size:.82rem; color:var(--ink-light); line-height:1.55; }
+
+  .args-list { display:flex; flex-direction:column; gap:.75rem; }
+  .arg-item { padding:.9rem 1rem; border-radius:2px; border:1px solid var(--rule); }
+  .arg-fav { border-left:3px solid var(--signal-none); background:#f4faf3; }
+  .arg-def { border-left:3px solid var(--signal-mid);  background:#fef8f4; }
+  .arg-titre { font-family:var(--serif); font-size:.88rem; font-weight:400; display:block; margin-bottom:.4rem; color:var(--ink); }
+  .arg-corps { font-size:.82rem; color:var(--ink-light); line-height:1.6; margin-bottom:.5rem; }
+  .arg-sources { display:flex; flex-wrap:wrap; gap:.3rem; }
+  .src-tag { font-family:var(--mono); font-size:.6rem; color:var(--ink-faint); background:var(--paper-dark); border:1px solid var(--rule); padding:.1rem .4rem; border-radius:2px; }
+
+  .institutions-list { display:flex; flex-direction:column; gap:.75rem; }
+  .institution-item { padding:.9rem 1rem; background:var(--paper-dark); border:1px solid var(--rule); border-radius:2px; }
+  .inst-nom { display:block; font-size:.88rem; color:var(--ink); margin-bottom:.2rem; }
+  .inst-ref { font-family:var(--mono); font-size:.62rem; color:var(--ink-faint); display:block; margin-bottom:.4rem; }
+  .inst-synthese { font-size:.82rem; color:var(--ink-light); line-height:1.6; margin-bottom:.4rem; }
+  .inst-link { font-family:var(--mono); font-size:.65rem; color:var(--ink-light); }
+
+  .modal-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; padding:1rem 1.75rem; background:var(--paper-dark); border-top:1px solid var(--rule); flex-shrink:0; }
+  .modal-footer-meta { display:flex; flex-wrap:wrap; gap:.75rem; }
+  .modal-footer-meta .label { color:var(--ink-faint); }
+  .sym-info { color:var(--signal-low) !important; }
+  .source-link { font-family:var(--mono); font-size:.7rem; color:var(--ink-light); text-decoration:none; border-bottom:1px solid var(--rule); }
+  .source-link:hover { color:var(--ink); border-color:var(--ink); }
+
+  @media (max-width:640px) {
+    .fiche-modal { width:100vw; max-height:100vh; border-radius:0; margin:0; }
+    .modal-score-big { font-size:1.8rem; }
+    .modal-header, .modal-body, .modal-footer { padding:1rem 1.25rem; }
   }
-
-  .type-label { color: var(--ink-light); }
-  .date-label { color: var(--ink-faint); }
-
-  .card-title {
-    font-family: var(--serif);
-    font-size: 0.9rem;
-    font-weight: 400;
-    line-height: 1.4;
-    color: var(--ink);
-  }
-
-  .card-score { display: flex; flex-direction: column; gap: 0.3rem; }
-
-  .score-caption {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: var(--ink-faint);
-    letter-spacing: 0.03em;
-  }
-
-  /* ── Critères actifs ── */
-  .criteres-actifs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-  }
-
-  .critere-tag {
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.04em;
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    color: var(--ink-light);
-    padding: 0.1rem 0.4rem;
-    border-radius: 2px;
-  }
-
-  /* ── Footer ── */
-  .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    margin-top: auto;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--rule);
-  }
-
-  .card-footer .label {
-    color: var(--ink-faint);
-    font-size: 0.65rem;
-  }
-
-  .card-link {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.04em;
-    color: var(--ink-light);
-    text-decoration: none;
-  }
-
-  .card-link:hover { color: var(--ink); }
 </style>
