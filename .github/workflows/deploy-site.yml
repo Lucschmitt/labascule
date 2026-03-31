@@ -41,6 +41,8 @@ jobs:
       - name: Build Astro
         working-directory: site
         run: npm run build
+        env:
+          PUBLIC_SITE_BASE: /labascule
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

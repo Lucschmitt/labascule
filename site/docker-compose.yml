@@ -3,7 +3,7 @@ services:
     build:
       context: .
       args:
-        SITE_BASE: ""
+        PUBLIC_SITE_BASE: ""
     image: labascule-site:latest
     ports:
       - "4321:4321"

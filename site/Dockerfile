@@ -9,8 +9,8 @@ RUN npm install
 COPY . .
 RUN mkdir -p public/fiches
 
-ARG SITE_BASE=""
-ENV SITE_BASE=$SITE_BASE
+ARG PUBLIC_SITE_BASE=""
+ENV PUBLIC_SITE_BASE=$PUBLIC_SITE_BASE
 
 RUN npm run build
 
