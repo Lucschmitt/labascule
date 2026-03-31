@@ -397,7 +397,7 @@ C-14 (destruction des syndicats — Deutsche Arbeitsfront, mai 1933), C-15
 
 Ces ouvrages fondent les choix normatifs assumés en Section 1.3.3.
 Ils ne sont pas directement opérationnels dans la grille mais constituent
-le fondement philosophique du projet.
+le fondement philosophique et épistémologique du projet.
 
 **[BOB94]** Bobbio, Norberto. *Destra e Sinistra. Ragioni e significati di
 una distinzione politica*. Donzelli, Rome, 1994. Traduction française :
