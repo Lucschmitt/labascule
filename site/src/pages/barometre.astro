@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import FicheCard from '../components/FicheCard.astro';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
+import { computeDashboard, CRITERES_C_LABELS, COLORS } from '../lib/dashboard.js';
 
 let fiches = [];
 let etalons = [];
@@ -28,6 +29,40 @@ try {
     .sort((a, b) => (b.scoring?.score_total || 0) - (a.scoring?.score_total || 0));
 } catch (e) {}
 
+// ── Tableau de bord longitudinal ──────────────────────────────────────────
+let stripes = [];
+let vector  = { deltaInst: 0, deltaRhet: 0, force: 0, nActive: 0, color: '#1D9E75', hasCurrent: false, hasPrevious: false, angle: 0 };
+let criteres = [];
+let metrics  = { avgL: null, avgC: null, signal: 'Vert', signalSub: 'Aucun signal détecté', signalColor: '#1D9E75', nFiches: 0 };
+
+try {
+  const fichesDir = join(process.cwd(), 'public', 'fiches');
+  const allFiles = await readdir(fichesDir, { recursive: true }).catch(() => []);
+  const jsonFiles = allFiles.filter(f => f.endsWith('.json') && !f.includes('calibration'));
+
+  const fichesDB = (
+    await Promise.all(
+      jsonFiles.map(async f => {
+        try {
+          const raw = await readFile(join(fichesDir, f), 'utf-8');
+          return JSON.parse(raw);
+        } catch { return null; }
+      })
+    )
+  ).filter(Boolean).filter(f => f.statut !== 'calibration-historique');
+
+  ({ stripes, vector, criteres, metrics } = computeDashboard(fichesDB));
+} catch (e) {}
+
+// Sérialisation pour le client
+const stripesJson  = JSON.stringify(stripes);
+const vectorJson   = JSON.stringify(vector);
+const criteresJson = JSON.stringify(criteres);
+const metricsJson  = JSON.stringify(metrics);
+const labelsJson   = JSON.stringify(CRITERES_C_LABELS);
+const colorsJson   = JSON.stringify(COLORS);
+
+// ── Helpers template ──────────────────────────────────────────────────────
 function signalClass(signal) {
   const map = {
     'critique': 'signal-crit',
@@ -128,6 +163,106 @@ function signalClass(signal) {
       applicables au texte analysé. <a href={`${import.meta.env.BASE_URL}/methode`}>Lire la méthode →</a>
     </p>
   </div>
+
+  <hr class="divider" />
+
+  <!-- ================================================================== -->
+  <!-- TABLEAU DE BORD LONGITUDINAL                                        -->
+  <!-- ================================================================== -->
+  <section class="db-section" aria-label="Tableau de bord longitudinal">
+
+    <h2 class="db-section__title">Tableau de bord longitudinal</h2>
+    <p class="db-section__subtitle">
+      Évolution temporelle des signaux détectés par le pipeline d'analyse.
+    </p>
+
+    <!-- CARDS MÉTRIQUES -->
+    <div class="db-cards">
+      <div class="db-card">
+        <span class="db-card__label">Score L moyen <small>(3 mois)</small></span>
+        <span class="db-card__value" id="card-avgL">—</span>
+      </div>
+      <div class="db-card">
+        <span class="db-card__label">Score C moyen <small>(3 mois)</small></span>
+        <span class="db-card__value" id="card-avgC">—</span>
+      </div>
+      <div class="db-card db-card--signal" id="card-signal">
+        <span class="db-card__label">Signal période</span>
+        <span class="db-card__value" id="card-signal-value">—</span>
+        <span class="db-card__sub" id="card-signal-sub"></span>
+      </div>
+    </div>
+
+    <!-- INDICATEUR 1 : STRIPES -->
+    <div class="db-block">
+      <h3 class="db-block__title">Intensité mensuelle — score L normalisé</h3>
+      <p class="db-block__note">
+        Adapté des Climate Stripes (Hawkins, 2018). Chaque bande représente
+        le score L moyen des textes analysés ce mois.
+      </p>
+      <div class="stripes-wrap">
+        <canvas id="canvas-stripes" height="80" aria-label="Stripes mensuelles"></canvas>
+        <div class="stripes-axis" id="stripes-axis"></div>
+      </div>
+      <div class="stripes-legend">
+        <canvas id="canvas-legend" width="160" height="16" aria-hidden="true"></canvas>
+        <div class="stripes-legend__labels">
+          <span>Aucun signal (0&nbsp;%)</span>
+          <span>Signal critique (100&nbsp;%)</span>
+        </div>
+        <p class="stripes-legend__note">
+          Score L normalisé — moyenne mensuelle des fiches analysées.
+          Plus la bande est foncée, plus les critères législatifs de similitude sont activés.
+        </p>
+      </div>
+    </div>
+
+    <!-- INDICATEUR 2 : VECTEUR -->
+    <div class="db-block">
+      <h3 class="db-block__title">Vecteur de progression — dérivée sur 3 mois</h3>
+      <p class="db-block__note">
+        Basé sur Paxton (2004) et Levitsky &amp; Ziblatt (2018).
+        La dérivée temporelle est plus prédictive du franchissement de seuil
+        que le niveau absolu.
+      </p>
+      <div class="vector-wrap">
+        <canvas id="canvas-vector" width="200" height="200"
+          aria-label="Vecteur de progression autoritaire"></canvas>
+        <div class="vector-metrics">
+          <div class="vector-metric">
+            <span class="vector-metric__label">Force du signal</span>
+            <span class="vector-metric__value" id="vector-force">—</span>
+          </div>
+          <div class="vector-metric">
+            <span class="vector-metric__label">Dérivée 3 mois</span>
+            <span class="vector-metric__value" id="vector-deriv">—</span>
+          </div>
+        </div>
+      </div>
+      <p class="db-block__ref">
+        Axe vertical : diffusion institutionnelle (Paxton 2004).
+        Axe horizontal : intensification rhétorique (Levitsky &amp; Ziblatt 2018).
+        Épaisseur de la flèche = nombre de critères C activés.
+      </p>
+    </div>
+
+    <!-- INDICATEUR 3 : BARRES CRITÈRES C -->
+    <div class="db-block">
+      <h3 class="db-block__title">Critères C — taux d'activation sur 6 mois glissants</h3>
+      <p class="db-block__note">
+        Fenêtre 6 mois : seuil canonique pour distinguer tendance structurelle
+        du bruit conjoncturel (CDC/ECDC ; Levitsky &amp; Ziblatt 2018, pp.&nbsp;91-108).
+      </p>
+      <div class="criteres-list" id="criteres-list" role="list">
+        <div class="criteres-empty">Chargement…</div>
+      </div>
+      <p class="db-block__ref">
+        Barre foncée = 6 mois courants · Barre claire = 6 mois précédents.
+      </p>
+    </div>
+
+  </section>
+
 </Base>
 
 <!-- ═══════════════════════════════════════════════
@@ -240,6 +375,252 @@ function signalClass(signal) {
   .method-note .label { margin-bottom: 0.4rem; }
   .method-note a { color: var(--ink-light); }
 
+  /* ════════════════════════════════════════════
+     TABLEAU DE BORD LONGITUDINAL
+  ════════════════════════════════════════════ */
+
+  .db-section {
+    margin-top: 2rem;
+  }
+
+  .db-section__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .db-section__subtitle {
+    color: var(--ink-faint);
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+  }
+
+  /* Cards */
+  .db-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .db-card {
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .db-card--signal {
+    border-left-width: 4px;
+  }
+
+  .db-card__label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+  }
+
+  .db-card__label small {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.9em;
+  }
+
+  .db-card__value {
+    font-family: var(--mono);
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .db-card__sub {
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+  }
+
+  /* Blocks */
+  .db-block {
+    margin-bottom: 2.5rem;
+  }
+
+  .db-block__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .db-block__note {
+    font-size: 0.83rem;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+    max-width: 60ch;
+  }
+
+  .db-block__ref {
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    margin-top: 0.75rem;
+    font-style: italic;
+  }
+
+  /* Stripes */
+  .stripes-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  #canvas-stripes {
+    display: block;
+    width: 100%;
+    min-width: 320px;
+    border-radius: 2px;
+  }
+
+  .stripes-axis {
+    display: flex;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--ink-faint);
+    margin-top: 4px;
+    overflow: hidden;
+  }
+
+  .stripes-legend {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  #canvas-legend {
+    border-radius: 2px;
+  }
+
+  .stripes-legend__labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--ink-faint);
+    width: 160px;
+  }
+
+  .stripes-legend__note {
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    max-width: 50ch;
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* Vecteur */
+  .vector-wrap {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  #canvas-vector {
+    max-width: 200px;
+    width: 200px;
+    flex-shrink: 0;
+  }
+
+  .vector-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .vector-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .vector-metric__label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+  }
+
+  .vector-metric__value {
+    font-family: var(--mono);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* Critères */
+  .criteres-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .critere-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .critere-row__id {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    width: 3.5rem;
+    flex-shrink: 0;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+
+  .critere-row__bars {
+    position: relative;
+    flex: 1;
+    height: 18px;
+    border-radius: 2px;
+    overflow: visible;
+    cursor: help;
+    background: var(--paper-dark);
+  }
+
+  .critere-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .critere-bar--prev {
+    opacity: 0.3;
+  }
+
+  .critere-row__delta {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    width: 4rem;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .criteres-empty {
+    color: var(--ink-faint);
+    font-style: italic;
+    font-size: 0.85rem;
+  }
+
   /* ── Backdrop ── */
   .fiche-backdrop {
     display: none;
@@ -323,9 +704,7 @@ function signalClass(signal) {
   }
 
   /* ── Panel interior styles ── */
-  :global(.panel-content) {
-    /* Typography reset inside panel */
-  }
+  :global(.panel-content) {}
 
   :global(.panel-signal-bar) {
     height: 4px;
@@ -451,13 +830,8 @@ function signalClass(signal) {
     border-radius: 0 2px 2px 0;
   }
 
-  :global(.arg-item.arg-fav) {
-    border-left-color: var(--signal-none);
-  }
-
-  :global(.arg-item.arg-def) {
-    border-left-color: var(--signal-crit);
-  }
+  :global(.arg-item.arg-fav) { border-left-color: var(--signal-none); }
+  :global(.arg-item.arg-def) { border-left-color: var(--signal-crit); }
 
   :global(.arg-titre) {
     font-family: var(--serif);
@@ -576,10 +950,264 @@ function signalClass(signal) {
     .fiche-panel { width: 100vw; }
     .panel-content { padding: 1.5rem 1.25rem 3rem; }
     :global(.panel-signal-bar) { margin-left: -1.25rem; margin-right: -1.25rem; }
+    .db-cards { grid-template-columns: 1fr; }
+    .vector-wrap { flex-direction: column; align-items: flex-start; }
   }
 </style>
 
-<script>
+<script define:vars={{ stripesJson, vectorJson, criteresJson, metricsJson, labelsJson, colorsJson }}>
+
+  // ─── Dashboard data ──────────────────────────────────────────────────────
+  const stripes  = JSON.parse(stripesJson);
+  const vector   = JSON.parse(vectorJson);
+  const criteres = JSON.parse(criteresJson);
+  const metrics  = JSON.parse(metricsJson);
+  const LABELS   = JSON.parse(labelsJson);
+  const COLORS   = JSON.parse(colorsJson);
+
+  const isDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  // ─── Helpers ─────────────────────────────────────────────────────────────
+  function signedPct(v) {
+    if (v === null || v === undefined) return '—';
+    const s = (v * 100).toFixed(1);
+    return v >= 0 ? '+' + s + ' %' : s + ' %';
+  }
+
+  // ─── CARDS ───────────────────────────────────────────────────────────────
+  function renderCards() {
+    const avgLEl   = document.getElementById('card-avgL');
+    const avgCEl   = document.getElementById('card-avgC');
+    const sigEl    = document.getElementById('card-signal');
+    const sigValEl = document.getElementById('card-signal-value');
+    const sigSubEl = document.getElementById('card-signal-sub');
+
+    if (avgLEl) avgLEl.textContent = metrics.avgL !== null ? Math.round(metrics.avgL * 100) + ' %' : '—';
+    if (avgCEl) avgCEl.textContent = metrics.avgC !== null ? Math.round(metrics.avgC * 100) + ' %' : '—';
+    if (sigValEl) { sigValEl.textContent = metrics.signal; sigValEl.style.color = metrics.signalColor; }
+    if (sigSubEl) sigSubEl.textContent = metrics.signalSub;
+    if (sigEl)    sigEl.style.borderLeftColor = metrics.signalColor;
+  }
+
+  // ─── INDICATEUR 1 : STRIPES ──────────────────────────────────────────────
+  function renderStripes() {
+    const canvas = document.getElementById('canvas-stripes');
+    if (!canvas || stripes.length === 0) return;
+
+    const W = canvas.parentElement.clientWidth || 600;
+    const H = 80;
+    canvas.width  = W;
+    canvas.height = H;
+
+    const ctx = canvas.getContext('2d');
+    const nStripes = stripes.length;
+    const stripeW  = W / nStripes;
+
+    stripes.forEach((s, i) => {
+      ctx.fillStyle   = s.color;
+      ctx.globalAlpha = s.hasData ? 1 : 0.35;
+      ctx.fillRect(Math.floor(i * stripeW), 0, Math.ceil(stripeW), H);
+      ctx.globalAlpha = 1;
+    });
+
+    // Axe temporel — label tous les 2 mois
+    const axisEl = document.getElementById('stripes-axis');
+    if (axisEl) {
+      axisEl.innerHTML = '';
+      const MONTHS = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'];
+      stripes.forEach((s, i) => {
+        if (i % 2 !== 0) return;
+        const [yr, mo] = s.month.split('-').map(Number);
+        const label = document.createElement('span');
+        label.textContent = MONTHS[mo - 1] + ' ' + String(yr).slice(2);
+        label.style.flex      = '0 0 ' + (stripeW * 2) + 'px';
+        label.style.overflow  = 'hidden';
+        label.style.whiteSpace = 'nowrap';
+        axisEl.appendChild(label);
+      });
+    }
+
+    // Légende gradient
+    const legendCanvas = document.getElementById('canvas-legend');
+    if (legendCanvas) {
+      const lctx = legendCanvas.getContext('2d');
+      const grad = lctx.createLinearGradient(0, 0, 160, 0);
+      [
+        [0,    '#E1F5EE'], [0.1, '#9FE1CB'], [0.2, '#5DCAA5'],
+        [0.3,  '#1D9E75'], [0.4, '#EF9F27'], [0.55,'#D85A30'],
+        [0.7,  '#993C1D'], [0.85,'#712B13'], [1,   '#712B13'],
+      ].forEach(([t, c]) => grad.addColorStop(t, c));
+      lctx.fillStyle = grad;
+      lctx.fillRect(0, 0, 160, 16);
+    }
+  }
+
+  // ─── INDICATEUR 2 : VECTEUR ──────────────────────────────────────────────
+  function renderVector() {
+    const canvas = document.getElementById('canvas-vector');
+    if (!canvas) return;
+
+    const SIZE = 200;
+    canvas.width  = SIZE;
+    canvas.height = SIZE;
+    const ctx = canvas.getContext('2d');
+    const cx = SIZE / 2;
+    const cy = SIZE / 2;
+    const R  = SIZE / 2 - 16;
+    const dark = isDark();
+    const gridColor  = dark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.10)';
+    const axisColor  = dark ? 'rgba(255,255,255,0.30)' : 'rgba(0,0,0,0.25)';
+    const labelColor = dark ? '#aaa' : '#666';
+
+    ctx.clearRect(0, 0, SIZE, SIZE);
+
+    // Cercle de fond
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.strokeStyle = gridColor;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Cercles concentriques
+    [0.33, 0.66, 1.0].forEach(t => {
+      ctx.beginPath();
+      ctx.arc(cx, cy, R * t, 0, Math.PI * 2);
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = gridColor;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    // Axes
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - R); ctx.lineTo(cx, cy + R);
+    ctx.moveTo(cx - R, cy); ctx.lineTo(cx + R, cy);
+    ctx.strokeStyle = axisColor;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Labels
+    ctx.fillStyle = labelColor;
+    ctx.font = '9px var(--mono, monospace)';
+    ctx.textAlign = 'center';
+    ctx.fillText('Diffusion institutionnelle ↑', cx, cy - R - 4);
+    ctx.fillText('↓', cx, cy + R + 12);
+    ctx.textAlign = 'right';
+    ctx.fillText('← Non-fasciste', cx - 4, cy - 5);
+    ctx.textAlign = 'left';
+    ctx.fillText('Rhétorique →', cx + 4, cy - 5);
+
+    // Flèche
+    if (vector.hasCurrent || vector.hasPrevious) {
+      const maxLen   = R * 0.9;
+      const arrowLen = Math.min(vector.force, 1) * maxLen;
+      const angle    = Math.atan2(vector.deltaInst, vector.deltaRhet);
+      const dx =  Math.cos(angle) * arrowLen;
+      const dy = -Math.sin(angle) * arrowLen;
+      const thickness = 2 + Math.min(vector.nActive, 10) * 0.8;
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + dx, cy + dy);
+      ctx.strokeStyle = vector.color;
+      ctx.lineWidth   = thickness;
+      ctx.lineCap     = 'round';
+      ctx.stroke();
+
+      // Pointe
+      const HL = 10, HA = 0.4;
+      ctx.beginPath();
+      ctx.moveTo(cx + dx, cy + dy);
+      ctx.lineTo(cx + dx - HL * Math.cos(angle - HA), cy + dy + HL * Math.sin(angle - HA));
+      ctx.moveTo(cx + dx, cy + dy);
+      ctx.lineTo(cx + dx - HL * Math.cos(angle + HA), cy + dy + HL * Math.sin(angle + HA));
+      ctx.stroke();
+    }
+
+    // Métriques texte
+    const forceEl = document.getElementById('vector-force');
+    const derivEl = document.getElementById('vector-deriv');
+    if (forceEl) { forceEl.textContent = (vector.force * 100).toFixed(1) + ' %'; forceEl.style.color = vector.color; }
+    if (derivEl) {
+      const totalDelta = (vector.deltaInst + vector.deltaRhet) / 2;
+      derivEl.textContent = signedPct(totalDelta);
+      derivEl.style.color = totalDelta > 0 ? COLORS.coral : COLORS.tealDark;
+    }
+  }
+
+  // ─── INDICATEUR 3 : BARRES CRITÈRES C ────────────────────────────────────
+  function renderCriteres() {
+    const listEl = document.getElementById('criteres-list');
+    if (!listEl) return;
+
+    if (criteres.length === 0) {
+      listEl.innerHTML = '<div class="criteres-empty">Données insuffisantes.</div>';
+      return;
+    }
+
+    listEl.innerHTML = '';
+
+    criteres.forEach(({ id, curr, prev, delta, color, insuffisant }) => {
+      const row = document.createElement('div');
+      row.className = 'critere-row';
+      row.setAttribute('role', 'listitem');
+
+      const idEl = document.createElement('span');
+      idEl.className   = 'critere-row__id';
+      idEl.textContent = id;
+      row.appendChild(idEl);
+
+      const barsEl = document.createElement('div');
+      barsEl.className = 'critere-row__bars';
+      barsEl.setAttribute('title', LABELS[id] || id);
+
+      if (!insuffisant && curr !== null) {
+        if (prev !== null) {
+          const barPrev = document.createElement('div');
+          barPrev.className      = 'critere-bar critere-bar--prev';
+          barPrev.style.width    = (prev * 100) + '%';
+          barPrev.style.background = color;
+          barsEl.appendChild(barPrev);
+        }
+        const barCurr = document.createElement('div');
+        barCurr.className      = 'critere-bar critere-bar--curr';
+        barCurr.style.width    = (curr * 100) + '%';
+        barCurr.style.background = color;
+        barsEl.appendChild(barCurr);
+      } else {
+        barsEl.title = (LABELS[id] || id) + ' — données insuffisantes';
+      }
+      row.appendChild(barsEl);
+
+      const deltaEl = document.createElement('span');
+      deltaEl.className   = 'critere-row__delta';
+      deltaEl.textContent = delta !== null ? signedPct(delta) : '—';
+      deltaEl.style.color = delta !== null ? color : COLORS.grey;
+      row.appendChild(deltaEl);
+
+      listEl.appendChild(row);
+    });
+  }
+
+  // ─── Init & resize ────────────────────────────────────────────────────────
+  function render() {
+    renderCards();
+    renderStripes();
+    renderVector();
+    renderCriteres();
+  }
+
+  render();
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 120);
+  });
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+
   // ─── Signal colours ───────────────────────────────────────────────────────
   const SIGNAL_MAP = {
     critique: { barColor: '#5a0000', textColor: 'var(--signal-crit)', cls: 'signal-crit', label: 'Critique' },
@@ -589,18 +1217,13 @@ function signalClass(signal) {
     aucun:    { barColor: '#2d5a27', textColor: 'var(--signal-none)', cls: 'signal-none', label: 'Aucun' },
   };
 
-  function getSignal(s) {
-    return SIGNAL_MAP[s] || SIGNAL_MAP['aucun'];
-  }
+  function getSignal(s) { return SIGNAL_MAP[s] || SIGNAL_MAP['aucun']; }
 
-  // ─── Helpers ──────────────────────────────────────────────────────────────
   function esc(str) {
     if (!str) return '';
     return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
   function typeLabel(t) {
@@ -624,23 +1247,19 @@ function signalClass(signal) {
     </div>`;
   }
 
-  // ─── Build panel HTML ─────────────────────────────────────────────────────
   function buildPanel(f) {
     const sig = f.scoring?.position_frise?.signal || 'aucun';
     const s = getSignal(sig);
     const scorePct = Math.round((f.scoring?.score_total || 0) * 100);
     const scoreColor = s.textColor;
 
-    // ── Header ──
     let html = `
       <div class="panel-signal-bar" style="background:${s.barColor};margin-top:-2rem;margin-left:-2rem;margin-right:-2rem;margin-bottom:1.75rem;"></div>
-
       <div class="panel-meta-row">
         <span class="label" style="color:var(--ink-faint);">${esc(typeLabel(f.source?.type))}</span>
         <span class="label" style="color:var(--ink-faint);">${esc(dateStr(f.date_analyse))}</span>
         <span class="signal ${s.cls}">${s.label}</span>
       </div>
-
       <h2 class="panel-title">${esc(f.source?.reference || '—')}</h2>
       <p class="panel-sub">
         ${f.source?.institution ? esc(f.source.institution) + ' — ' : ''}
@@ -648,7 +1267,6 @@ function signalClass(signal) {
       </p>
     `;
 
-    // ── Score block ──
     html += `
       <div class="panel-score-block">
         <div class="panel-score-big" style="color:${scoreColor};">${scorePct}%</div>
@@ -661,33 +1279,20 @@ function signalClass(signal) {
       </div>
     `;
 
-    // ── Contexte & parties prenantes ──
-    html += `<div class="panel-section">
-      <p class="panel-section-title">Contexte &amp; parties prenantes</p>`;
-
+    html += `<div class="panel-section"><p class="panel-section-title">Contexte &amp; parties prenantes</p>`;
     if (f.source?.url_source) {
-      html += `<p style="margin-bottom:0.75rem;">
-        <a class="panel-source-link" href="${esc(f.source.url_source)}" target="_blank" rel="noopener">
-          Texte officiel ↗
-        </a>
-      </p>`;
+      html += `<p style="margin-bottom:0.75rem;"><a class="panel-source-link" href="${esc(f.source.url_source)}" target="_blank" rel="noopener">Texte officiel ↗</a></p>`;
     }
-
     if (f.contexte_procedural?.note) {
       html += `<p class="contexte-text" style="margin-bottom:1rem;">${esc(f.contexte_procedural.note)}</p>`;
     }
-
     if (f.auteurs?.length) {
       html += `<div class="panel-parties">`;
       for (const a of f.auteurs) {
-        html += `<div class="panel-party">
-          <span class="panel-party-nom">${esc(a.nom)}</span>
-          <span class="panel-party-role">${esc(a.fonction)}${a.role ? ' — ' + esc(a.role) : ''}</span>
-        </div>`;
+        html += `<div class="panel-party"><span class="panel-party-nom">${esc(a.nom)}</span><span class="panel-party-role">${esc(a.fonction)}${a.role ? ' — ' + esc(a.role) : ''}</span></div>`;
       }
       html += `</div>`;
     }
-
     if (f.vote) {
       html += `<div style="margin-top:0.75rem;padding:0.6rem 0.75rem;background:var(--paper-dark);border-radius:2px;font-family:var(--mono);font-size:0.7rem;color:var(--ink-faint);">
         Vote : <strong style="color:var(--ink);">${f.vote.pour || 0}</strong> pour · 
@@ -696,7 +1301,6 @@ function signalClass(signal) {
         ${f.vote.note ? '<br><span style="margin-top:0.3rem;display:block;">' + esc(f.vote.note) + '</span>' : ''}
       </div>`;
     }
-
     if (f.declarations_publiques?.length) {
       html += `<div style="margin-top:0.75rem;display:flex;flex-direction:column;gap:0.4rem;">`;
       for (const d of f.declarations_publiques.slice(0, 4)) {
@@ -707,85 +1311,50 @@ function signalClass(signal) {
       }
       html += `</div>`;
     }
-
     html += `</div>`;
 
-    // ── Arguments favorables ──
     const argsFav = f.arguments_favorables?.arguments || [];
     if (argsFav.length) {
-      html += `<div class="panel-section">
-        <p class="panel-section-title">Arguments favorables <span style="font-style:italic;font-weight:400;">(agent 2)</span></p>
-        <div class="arg-list">`;
+      html += `<div class="panel-section"><p class="panel-section-title">Arguments favorables <span style="font-style:italic;font-weight:400;">(agent 2)</span></p><div class="arg-list">`;
       for (const a of argsFav) {
-        html += `<div class="arg-item arg-fav">
-          <p class="arg-titre">${esc(a.titre)}</p>
-          <p class="arg-corps">${esc(a.corps)}</p>
-          ${a.sources_citees?.length ? `<div class="arg-sources">${a.sources_citees.map(s => `<span class="arg-source-tag">${esc(s)}</span>`).join('')}</div>` : ''}
-        </div>`;
+        html += `<div class="arg-item arg-fav"><p class="arg-titre">${esc(a.titre)}</p><p class="arg-corps">${esc(a.corps)}</p>${a.sources_citees?.length ? `<div class="arg-sources">${a.sources_citees.map(s => `<span class="arg-source-tag">${esc(s)}</span>`).join('')}</div>` : ''}</div>`;
       }
       html += `</div></div>`;
     }
 
-    // ── Arguments défavorables ──
     const argsDef = f.arguments_defavorables?.arguments || [];
     if (argsDef.length) {
-      html += `<div class="panel-section">
-        <p class="panel-section-title">Arguments défavorables <span style="font-style:italic;font-weight:400;">(agent 3)</span></p>
-        <div class="arg-list">`;
+      html += `<div class="panel-section"><p class="panel-section-title">Arguments défavorables <span style="font-style:italic;font-weight:400;">(agent 3)</span></p><div class="arg-list">`;
       for (const a of argsDef) {
-        html += `<div class="arg-item arg-def">
-          <p class="arg-titre">${esc(a.titre)}</p>
-          <p class="arg-corps">${esc(a.corps)}</p>
-          ${a.sources_citees?.length ? `<div class="arg-sources">${a.sources_citees.map(s => `<span class="arg-source-tag">${esc(s)}</span>`).join('')}</div>` : ''}
-        </div>`;
+        html += `<div class="arg-item arg-def"><p class="arg-titre">${esc(a.titre)}</p><p class="arg-corps">${esc(a.corps)}</p>${a.sources_citees?.length ? `<div class="arg-sources">${a.sources_citees.map(s => `<span class="arg-source-tag">${esc(s)}</span>`).join('')}</div>` : ''}</div>`;
       }
       html += `</div></div>`;
     }
 
-    // ── Pondération / critères ──
-    const criteres = (f.scoring?.criteres || []);
-    const criteresApplicables = criteres.filter(c => c.applicable);
-    if (criteres.length) {
-      html += `<div class="panel-section">
-        <p class="panel-section-title">Pondération — critères applicables <span style="font-style:italic;font-weight:400;">(agent 4)</span></p>`;
-
+    const criteresList = (f.scoring?.criteres || []);
+    const criteresApplicables = criteresList.filter(c => c.applicable);
+    if (criteresList.length) {
+      html += `<div class="panel-section"><p class="panel-section-title">Pondération — critères applicables <span style="font-style:italic;font-weight:400;">(agent 4)</span></p>`;
       if (f.scoring?.note_agent) {
-        html += `<p style="font-family:var(--serif);font-size:0.82rem;color:var(--ink-light);line-height:1.6;margin-bottom:1rem;padding:0.6rem 0.75rem;background:var(--paper-dark);border-radius:2px;border-left:2px solid var(--rule);">
-          ${esc(f.scoring.note_agent)}
-        </p>`;
+        html += `<p style="font-family:var(--serif);font-size:0.82rem;color:var(--ink-light);line-height:1.6;margin-bottom:1rem;padding:0.6rem 0.75rem;background:var(--paper-dark);border-radius:2px;border-left:2px solid var(--rule);">${esc(f.scoring.note_agent)}</p>`;
       }
-
       html += `<div class="critere-detail-list">`;
-
-      // Show applicable first, then N/A
-      const ordered = [
-        ...criteresApplicables,
-        ...criteres.filter(c => !c.applicable),
-      ];
-
+      const ordered = [...criteresApplicables, ...criteresList.filter(c => !c.applicable)];
       for (const c of ordered) {
         let badge, badgeCls;
-        if (!c.applicable) {
-          badge = 'N/A'; badgeCls = 'badge-na';
-        } else if (c.score >= 1) {
-          badge = '1.0'; badgeCls = 'badge-full';
-        } else if (c.score > 0) {
-          badge = '0.5'; badgeCls = 'badge-half';
-        } else {
-          badge = '0'; badgeCls = 'badge-none';
-        }
-
+        if (!c.applicable)  { badge = 'N/A'; badgeCls = 'badge-na'; }
+        else if (c.score >= 1) { badge = '1.0'; badgeCls = 'badge-full'; }
+        else if (c.score > 0)  { badge = '0.5'; badgeCls = 'badge-half'; }
+        else                   { badge = '0';   badgeCls = 'badge-none'; }
         html += `<div class="critere-row" style="${!c.applicable ? 'opacity:0.45;' : ''}">
           <span class="critere-id">${esc(c.id)}</span>
           <span class="critere-justif">${esc(c.justification || '—')}</span>
           <span class="critere-score-badge ${badgeCls}">${badge}</span>
         </div>`;
       }
-
       html += `</div></div>`;
     }
 
-    // ── Footer: symetrie + source ──
     html += `<div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem;">`;
     if (f.symetrie?.statut === 'planifiee') {
       html += `<span class="symetrie-notice">⟳ Analyse symétrique planifiée avant ${esc(f.symetrie?.date_limite || '')}</span>`;
@@ -813,15 +1382,10 @@ function signalClass(signal) {
     content.innerHTML = buildPanel(fiche);
     panel.removeAttribute('hidden');
     backdrop.classList.add('is-open');
-
-    // Trigger transitions on next frame
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        panel.classList.add('is-open');
-        backdrop.classList.add('is-visible');
-      });
-    });
-
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      panel.classList.add('is-open');
+      backdrop.classList.add('is-visible');
+    }));
     content.scrollTop = 0;
     closeBtn.focus();
     document.body.style.overflow = 'hidden';
@@ -831,7 +1395,6 @@ function signalClass(signal) {
     panel.classList.remove('is-open');
     backdrop.classList.remove('is-visible');
     document.body.style.overflow = '';
-
     panel.addEventListener('transitionend', () => {
       panel.setAttribute('hidden', '');
       backdrop.classList.remove('is-open');
@@ -842,25 +1405,21 @@ function signalClass(signal) {
 
   closeBtn.addEventListener('click', closePanel);
   backdrop.addEventListener('click', closePanel);
-
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && panel.classList.contains('is-open')) closePanel();
   });
 
-  // ─── Wire up cards ────────────────────────────────────────────────────────
   document.querySelectorAll('[data-fiche]').forEach(card => {
     const open = () => {
       try {
         const fiche = JSON.parse(card.getAttribute('data-fiche'));
         openPanel(fiche);
-      } catch(e) {
-        console.error('Fiche parse error', e);
-      }
+      } catch(e) { console.error('Fiche parse error', e); }
     };
-
     card.addEventListener('click', open);
     card.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
     });
   });
+
 </script>
