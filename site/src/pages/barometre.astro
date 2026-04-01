@@ -331,19 +331,21 @@ function signalClass(signal) {
 /* ── Corps 4 colonnes ── */
 .hero__body {
   display: grid;
-  grid-template-columns: 140px 1fr 1fr 1fr;
+  grid-template-columns: 2fr 4fr 1fr 1fr;
   gap: 0;
   flex: 1;
   min-height: 0;
   border-top: none;
 }
 
+/* Toutes les colonnes clippent leur contenu */
+
 /* Séparateurs verticaux entre colonnes */
 .hero__kpis,
 .hero__center,
 .hero__criteres {
   border-right: 1px solid var(--h-rule);
-  padding: 0.9rem 1.1rem;
+  padding: 0.85rem 1.25rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -356,7 +358,6 @@ function signalClass(signal) {
 
 /* ── Col A — KPIs ── */
 .hero__kpis {
-  gap: 0;
   justify-content: space-between;
 }
 
@@ -364,55 +365,55 @@ function signalClass(signal) {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+  flex: 1;
+  justify-content: center;
 }
 
 .kpi__sep {
   height: 1px;
   background: var(--h-rule);
-  margin: 0 0;
   flex-shrink: 0;
 }
 
 .kpi__label {
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   color: var(--h-t2);
   letter-spacing: 0.04em;
-  line-height: 1.35;
+  line-height: 1.3;
 }
 
 .kpi__sub {
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   color: var(--h-t3);
   display: block;
-  margin-top: 0.05rem;
 }
 
 .kpi__value {
-  font-size: 1.85rem;
+  font-size: 2.6rem;
   font-weight: 500;
   line-height: 1;
   color: var(--h-t1);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.025em;
-  margin-top: 0.2rem;
+  letter-spacing: -0.03em;
+  margin-top: 0.15rem;
 }
 
 .kpi--signal { gap: 0.1rem; }
 
 .kpi__value--signal {
-  font-size: 1.35rem;
+  font-size: 1.75rem;
 }
 
 .kpi__sub--signal {
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   color: var(--h-t2);
-  margin-top: 0.1rem;
+  margin-top: 0.05rem;
   display: block;
 }
 
 /* ── Col B — Stripes + Vecteur ── */
 .hero__center {
-  gap: 0.7rem;
+  gap: 0.5rem;
 }
 
 /* Labels de section partagés */
@@ -489,12 +490,11 @@ function signalClass(signal) {
 }
 
 #canvas-vector {
-  /* Taille pilotée par JS selon hauteur disponible */
   flex-shrink: 0;
-  max-width: 140px;
-  max-height: 140px;
-  width: 140px;
-  height: 140px;
+  width: 130px;
+  height: 130px;
+  max-width: 130px;
+  max-height: 130px;
 }
 
 .vector-stats {
@@ -542,9 +542,10 @@ function signalClass(signal) {
 .crit-list {
   display: flex;
   flex-direction: column;
-  gap: 0.22rem;
+  gap: 0.18rem;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
 }
 
 .crit-row {
@@ -567,7 +568,7 @@ function signalClass(signal) {
 .crit-row__bars {
   position: relative;
   flex: 1;
-  height: 12px;
+  height: 11px;
   border-radius: 2px;
   background: var(--h-surf);
   border: 1px solid var(--h-border);
@@ -677,7 +678,7 @@ function signalClass(signal) {
 /* Responsive */
 @media (max-width: 900px) {
   .hero { height: auto; overflow: visible; }
-  .hero__body { grid-template-columns: 120px 1fr 1fr; }
+  .hero__body { grid-template-columns: 2fr 4fr 2fr; }
   .hero__criteres:last-child { grid-column: 2 / -1; border-top: 1px solid var(--h-rule); padding-top: 0.7rem; }
 }
 
@@ -805,7 +806,7 @@ function signalClass(signal) {
     const canvas = document.getElementById('canvas-vector');
     if (!canvas) return;
 
-    const S = 140;
+    const S = 130;
     canvas.width = canvas.height = S;
     const ctx = canvas.getContext('2d');
     const cx = S/2, cy = S/2, R = S/2 - 10;
@@ -832,7 +833,7 @@ function signalClass(signal) {
     ctx.stroke();
 
     // Labels canvas
-    const fs = 7;
+    const fs = 6;
     ctx.fillStyle = C.t2;
     ctx.font = `${fs}px "IBM Plex Mono", monospace`;
     ctx.textAlign = 'center';
