@@ -73,9 +73,9 @@ function signalClass(signal) {
 >
 
 <!-- ══════════════════════════════════════════════════════════════════════ -->
-<!-- HERO DASHBOARD — fond sombre, occupe un écran                        -->
+<!-- HERO DASHBOARD — pleine largeur, fond sombre, collé sous le menu     -->
 <!-- ══════════════════════════════════════════════════════════════════════ -->
-<div class="hero" id="hero">
+<div slot="hero" class="hero" id="hero">
 
   <header class="hero__header">
     <div class="hero__brand">
@@ -280,9 +280,7 @@ function signalClass(signal) {
 .hero {
   background: #0d0d0b;
   color: #ddd9d0;
-  /* Cassement du padding du layout parent — adapter si la valeur diffère */
-  margin: -2rem -2rem 0;
-  width: calc(100% + 4rem);
+  width: 100%;
   box-sizing: border-box;
   padding: 1.5rem 2rem 1.5rem;
   min-height: 100vh;
@@ -571,7 +569,7 @@ function signalClass(signal) {
 }
 
 @media (max-width: 640px) {
-  .hero { padding: 1rem; margin: -1rem -1rem 0; width: calc(100% + 2rem); min-height: auto; }
+  .hero { padding: 1rem; min-height: auto; }
   .hero__cards { grid-template-columns: 1fr; }
   .fiches-grid { grid-template-columns: 1fr; }
   .fiche-panel { width: 100vw; }
