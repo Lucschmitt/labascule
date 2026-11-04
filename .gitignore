@@ -21,3 +21,11 @@ build/
 
 # Logs
 *.log
+# Atelier : previews et réglages locaux
+_preview/
+.firebase/
+firebase-debug.log
+.claude/settings.local.json
+# Générés au build (copie des fiches par sync-fiches.js, types Astro)
+site/public/fiches/
+site/.astro/
