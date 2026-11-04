@@ -1,5 +1,5 @@
 # ── Build stage ──────────────────────────────────────────────
-FROM node:20-slim AS builder
+FROM node:26-slim AS builder
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN mkdir -p public/fiches
 RUN npm run build
 
 # ── Production stage ─────────────────────────────────────────
-FROM node:20-slim AS runner
+FROM node:26-slim AS runner
 
 WORKDIR /app
 
