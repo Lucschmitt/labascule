@@ -11,6 +11,8 @@ updates:
     groups:
       mineures:
         update-types: [minor, patch]
+      majeures:
+        update-types: [major]
   - package-ecosystem: pip
     directory: /pipeline
     schedule:
@@ -22,6 +24,8 @@ updates:
     groups:
       mineures:
         update-types: [minor, patch]
+      majeures:
+        update-types: [major]
   - package-ecosystem: docker
     directory: /
     schedule:
@@ -34,3 +38,6 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    groups:
+      toutes-les-actions:
+        patterns: ["*"]
