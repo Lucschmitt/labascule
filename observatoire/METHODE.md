@@ -88,6 +88,19 @@ Le lien au ministre, à son ministère, à son parti et à la source est porté 
 
 ## 6. Qualité : examen, leçons, fine-tuning
 
+**Premier audit de la référence (6 novembre 2026, 200 prises, 1 723 affirmations, 8,19 $).**
+- Verbatim valides : 99,2 % (14 rejets). Procédés : 7,8 % des affirmations, surtout « chiffre isolé ».
+- Signaux La Bascule : 14 codés, 13 retirés à l'audit (polémique parlementaire ordinaire). **C-10 (ostracisation
+  asymétrique) ne se code plus par affirmation** : l'asymétrie se mesure en agrégé, à partir des « mises en cause »
+  (qui vise qui, combien de fois).
+- Alertes de véracité : la « confiance » du modèle mesurait souvent le besoin de vérifier, pas la probabilité d'erreur
+  (5 alertes effacées : leur propre raison concluait que l'affirmation était juste). Un chiffre non sourcé relève du
+  procédé « chiffre isolé », pas d'une alerte.
+- Lexique : 2 corrections d'usage ou d'homonymie sur 47 occurrences. Candidats repérés pour la prochaine version :
+  « entrisme (islamiste) », « défrancisation », « préférence européenne ».
+- Les corrections sont des données versionnées (`corrections-reference.json` dans l'usine), tracées dans chaque
+  annotation avec leur motif.
+
 - **Échantillon de 200 prises de parole**, stratifié : par source (séance, QAG, questions écrites), par membre du
   gouvernement, par longueur, et en surreprésentant les textes contenant un terme du lexique.
 - **Référence (« or »)** : un modèle fort (Claude) annote les 200 avec la même consigne détaillée ; Claude audite

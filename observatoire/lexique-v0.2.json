@@ -227,12 +227,13 @@
   },
   {
    "terme": "assistanat",
-   "motif": "\\bassistanat\\b",
+   "motif": "\\bassistanat\\b(?!\\s+v[ée]t[ée]rinaire)",
    "famille_documentee": "droite",
    "statut": "à sourcer",
    "origine": "À documenter.",
    "usages_documentes": [],
-   "sources": []
+   "sources": [],
+   "faux_positifs": "« Assistanat vétérinaire » (statut d'étudiant) : exclu par le motif."
   },
   {
    "terme": "séparatisme",
@@ -250,7 +251,7 @@
    "faux_positifs": "Nom courant de la loi de 2021 et séparatismes régionaux (Corse, Nouvelle-Calédonie) : « designation_neutre » ou hors sujet."
   },
   {
-   "terme": "réarmement démographique",
+   "terme": "réarmement (démographique, civique, moral)",
    "motif": "\\br[ée]armement (civique|d[ée]mographique|moral)\\b",
    "famille_documentee": "centre et exécutif",
    "statut": "sourcé",
