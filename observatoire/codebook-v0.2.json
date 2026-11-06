@@ -1,5 +1,5 @@
 {
- "version": "0.1.0",
+ "version": "0.2.0",
  "statut": "brouillon — à valider par Luc ; libellés CAP traduits et à aligner sur le codebook français du Projet Agendas Comparés",
  "cap": {
   "source": "Comparative Agendas Project, master codebook (comparativeagendas.net) ; adaptation française : Projet Agendas Comparés (Sciences Po).",
@@ -1167,7 +1167,7 @@
   ]
  },
  "verifiabilite": {
-  "regle": "L'IA locale repère seulement les affirmations factuelles vérifiables (chiffre, fait daté, comparaison, causalité, prévision). Leur statut reste « non vérifié » ; la vérification est une étape séparée, avec source officielle et relecture humaine avant toute publication. Le mot « mensonge » n'est jamais employé (il suppose une intention).",
+  "regle": "L'IA locale repère les affirmations factuelles vérifiables (chiffre, fait daté, comparaison, causalité, prévision) ; leur statut est « non vérifié » tant qu'une source officielle n'a pas été consultée. Le mot « mensonge » n'est jamais employé dans les données publiées : il suppose une intention, que l'observatoire ne peut pas établir.",
   "types": [
    "chiffre",
    "fait",
@@ -1177,6 +1177,7 @@
   ],
   "statuts": [
    "non_verifie",
+   "a_verifier",
    "confirme",
    "inexact_selon_source",
    "trompeur_selon_source",
@@ -1223,6 +1224,39 @@
     "code": "C-19",
     "libelle": "Rejet de la légitimité des opposants"
    }
+  ]
+ },
+ "alerte_veracite": {
+  "regle": "Pour chaque affirmation vérifiable, le modèle estime la probabilité qu'elle soit inexacte ou trompeuse. À partir de 0,8, l'affirmation passe au statut « a_verifier » et entre dans le backlog de vérification. Une alerte n'est jamais publiée : elle déclenche une vérification.",
+  "seuil": 0.8,
+  "champs": {
+   "confiance": "probabilité (0 à 1) que l'affirmation soit inexacte ou trompeuse",
+   "nature": "inexact (fait ou chiffre faux) | trompeur (vrai mais présenté de façon à induire en erreur : sélection, comparaison biaisée, causalité abusive) | contradiction (contredit une autre affirmation du même orateur)",
+   "element_conteste": "la partie précise du verbatim qui pose problème",
+   "raison": "pourquoi, en une phrase",
+   "source_a_consulter": "où vérifier (INSEE, Cour des comptes, Légifrance, DREES…), sans inventer d'URL"
+  },
+  "backlog": [
+   "1. Alerte du modèle local (confiance ≥ 0,8) → statut « a_verifier ».",
+   "2. Pré-vérification par un modèle fort avec recherche web : il cherche une source officielle et propose un statut (confirme, inexact_selon_source, trompeur_selon_source, inverifiable) avec la source et l'extrait.",
+   "3. Relecture humaine obligatoire : seul un statut validé par Luc peut être publié, toujours avec la source.",
+   "4. Les alertes infirmées deviennent des exemples pour le carnet de stage (faux positifs à éviter)."
+  ],
+  "precautions": [
+   "Les connaissances du modèle s'arrêtent à une date : un fait récent qu'il ignore n'est pas un fait faux. Une alerte qui ne repose que sur l'absence de connaissance est classée « inverifiable », pas « a_verifier ».",
+   "Une opinion, une promesse ou une prévision n'est jamais « inexacte » ; seule une prévision présentée comme acquise peut être « trompeuse ».",
+   "La confiance du modèle est calibrée sur l'échantillon de référence : on mesure la part d'alertes ≥ 0,8 confirmées ; si elle est inférieure à 50 %, le seuil est relevé.",
+   "Mêmes règles et même seuil pour tous les orateurs ; le taux d'alertes par orateur n'est pas publié sans vérification (il refléterait les biais du modèle)."
+  ]
+ },
+ "lexique": {
+  "fichier": "lexique-v0.2.json",
+  "usages": [
+   "emploi_assume",
+   "denonciation",
+   "citation_tiers",
+   "designation_neutre",
+   "indetermine"
   ]
  }
 }

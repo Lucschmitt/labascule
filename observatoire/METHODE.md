@@ -1,6 +1,6 @@
 # Observatoire du gouvernement — méthode d'analyse des prises de parole
 
-**Version 0.1.0 — brouillon à discuter.** Complète la méthode La Bascule (`methode-labascule-v0.2.2.md`), dont elle
+**Version 0.2.0 — brouillon à discuter.** Complète la méthode La Bascule (`methode-labascule-v0.2.2.md`), dont elle
 reprend les principes : extraction factuelle d'abord, symétrie, « en cas de doute : non », validation humaine avant
 publication.
 
@@ -48,9 +48,10 @@ Pour chacune :
 | `cadrage` | principal (+ secondaire) | Policy Frames Codebook (14 cadres) + souveraineté |
 | `chiffres` | valeur, unité, objet, échéance, source citée | — |
 | `verifiable` | affirmation factuelle vérifiable ? type (chiffre, fait, comparaison, causalité, prévision) | statut « non vérifié » |
+| `alerte_veracite` | probabilité que l'affirmation soit inexacte ou trompeuse, nature, élément contesté, raison, où vérifier | `codebook.alerte_veracite` (seuil 0,8) |
 | `procedes` | procédés rhétoriques repérés dans le verbatim, avec explication | `codebook.procedes` (14) |
 | `bascule` | signaux des critères La Bascule observables dans un discours | C-01, C-02, C-09c, C-10, C-13, C-15, C-17, C-18, C-19 |
-| `lexique` | termes du lexique présents, et **usage** : emploi assumé, mention critique, citation d'un tiers | `lexique-v0.1.json` |
+| `lexique` | termes du lexique présents (détection par motif) et **usage** : emploi assumé, dénonciation, citation d'un tiers, désignation neutre, indéterminé | `lexique-v0.2.json` |
 
 Le lien au ministre, à son ministère, à son parti et à la source est porté par la prise de parole.
 
@@ -61,9 +62,12 @@ Le lien au ministre, à son ministère, à son parti et à la source est porté 
 3. **Cadrage, procédés, signaux La Bascule** (IA locale, consignes prudentes : en cas de doute, rien).
 4. **Contrôles déterministes** : chaque verbatim doit figurer mot pour mot dans le texte source (sinon l'affirmation est
    rejetée) ; codes hors référentiel rejetés ; termes du lexique détectés par motif exact.
-5. **Vérification des faits** (étape séparée, plus tard) : seulement les affirmations vérifiables jugées importantes ;
-   un modèle fort cherche une source officielle ; statut « confirmé / inexact selon [source] / trompeur selon [source] /
-   invérifiable » ; **relecture humaine obligatoire** avant publication. Le mot « mensonge » n'est jamais employé.
+5. **Alertes de véracité et backlog** : quand l'IA locale estime à 80 % ou plus qu'une affirmation est inexacte ou
+   trompeuse, l'affirmation passe « à vérifier » et entre dans le backlog. Un modèle fort avec recherche web cherche
+   alors une source officielle et propose un statut (confirmé / inexact selon [source] / trompeur selon [source] /
+   invérifiable) ; **relecture humaine obligatoire** avant publication. Une alerte n'est jamais publiée. Le mot
+   « mensonge » n'est jamais employé : il suppose une intention, que l'on ne peut pas établir. Une alerte fondée
+   seulement sur l'ignorance du modèle (fait postérieur à ses connaissances) n'en est pas une.
 6. **Liens et croisements** : proximité entre ministres par thème (affirmations comparées par similarité de sens),
    cohérence dans le temps (changement de position sur un même objet signalé « à vérifier »), diffusion d'un terme
    (qui l'emploie le premier, qui le reprend).
@@ -73,8 +77,14 @@ Le lien au ministre, à son ministère, à son parti et à la source est porté 
 - Chaque semaine : expressions dont la fréquence augmente nettement (fenêtre de 12 semaines) + tags nouveaux.
 - Claude examine, recherche l'origine des candidats pertinents et propose une entrée **sourcée** au lexique ; Luc valide.
 - Le lexique décrit des termes, avec leur origine documentée, jamais des personnes ; il doit rester **équilibré** entre
-  bords politiques (règle de symétrie). État v0.1 : 7 termes associés à la droite ou à l'extrême droite, 3 à la gauche,
-  2 au camp présidentiel — **à rééquilibrer avant toute publication**.
+  bords politiques (règle de symétrie).
+- **Usage d'un terme** : la présence est détectée par motif ; l'IA code seulement l'usage — emploi assumé, dénonciation,
+  citation d'un tiers, désignation neutre (nom d'une loi, d'un délit), indéterminé. En cas de doute : « indéterminé »,
+  jamais « emploi assumé ». Seul l'emploi assumé compte comme un emploi dans les comparaisons.
+- État v0.2 (30 termes, 21 sourcés) : extrême droite 7, droite 4, centre et exécutif 2, transpartisan ou critique du
+  centre 2, gauche (avec écologistes, syndicats, associations) 7 ; 9 entrées « à sourcer » ou « à relire » non publiées
+  (dont 3 de droite, 3 de gauche, 1 du centre). « Famille documentée » = où les sources situent l'origine du terme,
+  jamais une étiquette pour qui l'emploie.
 
 ## 6. Qualité : examen, leçons, fine-tuning
 
@@ -84,8 +94,9 @@ Le lien au ministre, à son ministère, à son parti et à la source est porté 
   ensuite les désaccords avec l'IA locale et tranche ; Luc relit un sous-échantillon de 20.
 - **Mesures** par champ : validité des verbatim (doit être 100 %), accord sur le thème majeur et le sous-thème, sur
   l'acte, la position, le cadrage ; faux positifs sur procédés et signaux (doivent rester rares) ; rappel des chiffres.
-- **Seuils v0.1** avant analyse du corpus entier : verbatim 100 %, thème majeur ≥ 85 %, sous-thème ≥ 65 %,
-  acte ≥ 75 %, faux positifs procédés/signaux ≤ 5 %.
+- **Seuils** avant analyse du corpus entier : verbatim 100 %, thème majeur ≥ 85 %, sous-thème ≥ 65 %,
+  acte ≥ 75 %, faux positifs procédés/signaux ≤ 5 %, usage du lexique ≥ 90 % (aucune dénonciation codée en emploi),
+  alertes de véracité confirmées ≥ 50 % (sinon le seuil de 0,8 est relevé).
 - **Leçons** : chaque erreur récurrente devient une leçon du carnet de stage, testée à l'examen avant activation ; les
   cas d'examen sont tirés de l'échantillon.
 - **Fine-tuning** : les annotations de référence validées forment le jeu d'entraînement (JSONL) d'un modèle local
@@ -106,3 +117,4 @@ Le lien au ministre, à son ministère, à son parti et à la source est porté 
 | Version | Date | Changements |
 |---|---|---|
 | 0.1.0 | 2026-11-06 | Première version : unité « affirmation », CAP, Policy Frames, procédés, lexique v0.1, protocole qualité. |
+| 0.2.0 | 2026-11-06 | Lexique v0.2 équilibré (30 termes) avec cinq usages ; alertes de véracité (seuil 0,8) et backlog « à vérifier ». |
