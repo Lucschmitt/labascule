@@ -1,0 +1,156 @@
+{
+ "version": "0.1.0",
+ "statut": "brouillon — chaque entrée doit être relue par Luc ; les entrées « à sourcer » ne sont pas utilisées pour la publication",
+ "principes": [
+  "Le lexique décrit des TERMES, jamais des personnes : on mesure qui emploie quel terme, quand et dans quel contexte ; on n'en déduit aucune étiquette idéologique pour l'orateur.",
+  "Chaque entrée documente l'origine et les usages du terme avec des sources vérifiables ; une affirmation non sourcée n'entre pas dans le lexique publié.",
+  "Équilibre : le lexique couvre des termes associés à tous les bords politiques ; toute nouvelle entrée pour un bord appelle la recherche de termes équivalents pour les autres (règle de symétrie de La Bascule).",
+  "La détection est déterministe (motifs exacts), pas laissée à l'IA : un terme est présent ou ne l'est pas.",
+  "Mention, citation ou critique d'un terme (« je refuse le mot ensauvagement ») est distinguée de son emploi : l'analyse code l'usage (emploi_assume, mention_critique, citation_d_un_tiers)."
+ ],
+ "termes": [
+  {
+   "terme": "ensauvagement",
+   "motif": "\\bensauvag\\w*",
+   "statut": "sourcé",
+   "origine": "Terme dont la diffusion dans le débat public français est associée par la presse à des milieux d'extrême droite, avant sa reprise par le ministre de l'Intérieur en 2020, qui a suscité un débat au sein même du Gouvernement.",
+   "usages_documentes": [
+    "Gérald Darmanin, ministre de l'Intérieur, 2020"
+   ],
+   "sources": [
+    "https://theworld.org/segments/2024/04/04/france-far-right-term-goes-mainstream",
+    "https://www.lecourrierdelatlas.com/?p=163820",
+    "https://www.thelocal.fr/20260310/french-word-of-the-day-ensauvagement"
+   ]
+  },
+  {
+   "terme": "submersion migratoire",
+   "motif": "\\bsubmer(sion|g\\w*)\\b.{0,40}\\b(migratoire|immigr\\w*|migrants?)|\\b(migratoire|immigr\\w*)\\b.{0,20}\\bsubmer\\w*",
+   "statut": "sourcé",
+   "origine": "Expression employée par le Premier ministre François Bayrou en janvier 2025 et maintenue malgré les critiques ; des commentateurs la rapprochent du vocabulaire de l'extrême droite.",
+   "usages_documentes": [
+    "François Bayrou, Premier ministre, janvier 2025"
+   ],
+   "sources": [
+    "https://www.publicsenat.fr/emission/et-maintenant/submersion-migratoire-bayrou-persiste-et-signe-e15",
+    "https://www.letemps.ch/opinions/chroniques/submerge-francois-bayrou-joue-avec-les-maux",
+    "https://aa.com.tr/en/europe/french-premier-defends-submersion-term-for-immigration-despite-opposition-backlash/3465385"
+   ]
+  },
+  {
+   "terme": "décivilisation",
+   "motif": "\\bd[ée]civilis\\w*",
+   "statut": "sourcé",
+   "origine": "Notion issue de la sociologie de Norbert Elias (processus de civilisation) ; titre d'un essai de Renaud Camus (2011) ; reprise par Emmanuel Macron en mai 2023, ce qui a suscité une polémique sur son origine.",
+   "usages_documentes": [
+    "Emmanuel Macron, président de la République, mai 2023"
+   ],
+   "sources": [
+    "https://forward.com/culture/548959/emmanel-macron-marine-lepen-camus-elias-decivilization-ensauvagement",
+    "https://www.herodote.net/Sommes_nous_entres_dans_un_processus_de_decivilisation_dixit_Emmanuel_Macron_-article-2899.php"
+   ]
+  },
+  {
+   "terme": "grand remplacement",
+   "motif": "\\bgrand remplacement\\b",
+   "statut": "à sourcer",
+   "origine": "Théorie complotiste formulée par Renaud Camus (2011) — entrée à sourcer avant publication.",
+   "usages_documentes": [],
+   "sources": []
+  },
+  {
+   "terme": "islamo-gauchisme",
+   "motif": "\\bislamo-?gauchis\\w*",
+   "statut": "sourcé",
+   "origine": "Terme forgé par Pierre-André Taguieff au début des années 2000 ; remis au centre du débat en 2021 par la ministre de l'Enseignement supérieur Frédérique Vidal, qui annonçait une enquête sur l'université ; contesté par une partie du monde académique.",
+   "usages_documentes": [
+    "Frédérique Vidal, ministre de l'Enseignement supérieur, février 2021"
+   ],
+   "sources": [
+    "https://en.wikipedia.org/wiki/Islamo-leftism",
+    "https://www.thelocal.fr/20210217/islamo-gauchisme-what-does-it-mean-and-why-is-it-controversial-in-france",
+    "https://berkleycenter.georgetown.edu/responses/what-does-islamo-gauchisme-mean-for-the-future-of-france-and-democracy"
+   ]
+  },
+  {
+   "terme": "wokisme",
+   "motif": "\\bwok(isme|istes?|es?)\\b",
+   "statut": "sourcé",
+   "origine": "Dérivé de l'anglais « woke » (éveillé aux injustices), employé en France surtout de façon critique à partir de 2021, notamment par le ministre de l'Éducation Jean-Michel Blanquer ; son usage est lui-même analysé comme une « panique morale » par d'autres auteurs.",
+   "usages_documentes": [
+    "Jean-Michel Blanquer, ministre de l'Éducation nationale, 2021"
+   ],
+   "sources": [
+    "https://media.ac-normandie.fr/-/communication/revue-presse/2021/10/21/Le%20Monde_nat_actu_De%20Samuel%20Paty%20au%20wokisme,%20le%20saut%20p%e9rilleux%20de%20Jean-Michel%20Blanquer.pdf",
+    "https://www.politis.fr/articles/2022/06/anatomie-de-la-panique-woke-44574",
+    "https://ltc.ulb.be/wokisme"
+   ]
+  },
+  {
+   "terme": "séparatisme",
+   "motif": "\\bs[ée]paratism\\w*",
+   "statut": "sourcé",
+   "origine": "Mis en avant par Emmanuel Macron dans son discours des Mureaux (2 octobre 2020) sur le « séparatisme islamiste » ; a donné son nom courant à la loi confortant le respect des principes de la République (2021).",
+   "usages_documentes": [
+    "Emmanuel Macron, président de la République, octobre 2020"
+   ],
+   "sources": [
+    "https://www.publicsenat.fr/actualites/politique/la-loi-contre-le-separatisme-a-ete-promulguee-190217",
+    "https://www.financialafrik.com/2020/10/02/france-emmanuel-macron-en-guerre-totale-contre-le-separatisme-islamiste/"
+   ]
+  },
+  {
+   "terme": "racisme d'État",
+   "motif": "\\bracismes? d'[ée]tat\\b",
+   "statut": "sourcé",
+   "origine": "Expression employée par des associations, chercheurs et responsables de gauche pour désigner des discriminations produites par des institutions ; son usage fait débat, y compris au sein des organisations antiracistes.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.ldh-france.org/wp-content/uploads/2021/07/DL193-Dossier-2.-A-propos-du-racisme-dEtat....pdf",
+    "https://www.middleeasteye.net/fr/decryptages/france-racisme-etat-discriminations-noirs-arabes-impossible-debat"
+   ]
+  },
+  {
+   "terme": "violences policières",
+   "motif": "\\bviolences? polici[èe]res?\\b",
+   "statut": "à sourcer",
+   "origine": "Expression descriptive dont l'emploi est lui-même politiquement disputé (certains responsables refusent l'expression) — entrée à sourcer avant publication.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.slate.fr/story/193290/gerald-darmanin-ministre-interieur-violence-police-jeune-homme-vos-etouffements-nous-ensauvagent"
+   ]
+  },
+  {
+   "terme": "ultra-riches",
+   "motif": "\\bultra-?riches?\\b",
+   "statut": "sourcé",
+   "origine": "Expression popularisée dans le débat sur la taxation des plus hauts patrimoines (« taxe Zucman »), surtout portée par la gauche ; reprise dans les comptes rendus parlementaires.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.publicsenat.fr/actualites/economie/50-nuances-de-taxe-zucman-quelles-autres-options-sont-sur-la-table-pour-taxer-les-ultra-riches",
+    "https://www.politis.fr/articles/2025/06/economie-taxer-les-riches-zucman-la-gauche-unie-face-a-lhimalaya-parlementaire/"
+   ]
+  },
+  {
+   "terme": "préférence nationale",
+   "motif": "\\bpr[ée]f[ée]rence nationale\\b",
+   "statut": "sourcé",
+   "origine": "Principe de réservation de droits ou d'emplois aux nationaux, caractéristique des programmes du FN/RN ; correspond aux cadres de référence CF-01 et CF-04 de La Bascule.",
+   "usages_documentes": [],
+   "sources": [
+    "grille-c09-cadres-reference-v0.1.md (CF-01, CF-04) ; Manifesto Project, catégories 608.1"
+   ]
+  },
+  {
+   "terme": "réarmement (civique, démographique)",
+   "motif": "\\br[ée]armement (civique|d[ée]mographique|moral)\\b",
+   "statut": "à sourcer",
+   "origine": "Métaphore employée par Emmanuel Macron en janvier 2024 — entrée à sourcer avant publication.",
+   "usages_documentes": [],
+   "sources": []
+  }
+ ],
+ "emergence": {
+  "regle": "Chaque semaine, le PC calcule les expressions (2 à 4 mots) dont la fréquence augmente nettement par rapport aux 12 semaines précédentes, et les concepts relevés librement par l'analyse. Claude examine la liste, recherche l'origine des candidats pertinents et propose une entrée sourcée ; Luc valide avant ajout au lexique."
+ }
+}
