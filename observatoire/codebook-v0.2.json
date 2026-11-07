@@ -1,0 +1,1262 @@
+{
+ "version": "0.2.0",
+ "statut": "brouillon — à valider par Luc ; libellés CAP traduits et à aligner sur le codebook français du Projet Agendas Comparés",
+ "cap": {
+  "source": "Comparative Agendas Project, master codebook (comparativeagendas.net) ; adaptation française : Projet Agendas Comparés (Sciences Po).",
+  "regle": "Un seul couple (thème majeur, sous-thème) par affirmation : le sujet principal de l'action publique dont il est question. Code « général » (x00) si l'affirmation reste générale ; « autre » (x99) si aucun sous-thème ne convient.",
+  "majeurs": [
+   {
+    "code": 1,
+    "libelle": "Macroéconomie",
+    "sous": [
+     {
+      "code": 100,
+      "libelle": "Macroéconomie (général)"
+     },
+     {
+      "code": 101,
+      "libelle": "Taux d'intérêt"
+     },
+     {
+      "code": 103,
+      "libelle": "Chômage (taux)"
+     },
+     {
+      "code": 104,
+      "libelle": "Politique monétaire"
+     },
+     {
+      "code": 105,
+      "libelle": "Budget de l'État et dette"
+     },
+     {
+      "code": 107,
+      "libelle": "Fiscalité"
+     },
+     {
+      "code": 108,
+      "libelle": "Politique industrielle"
+     },
+     {
+      "code": 110,
+      "libelle": "Contrôle des prix et inflation"
+     },
+     {
+      "code": 199,
+      "libelle": "Macroéconomie (autre)"
+     }
+    ]
+   },
+   {
+    "code": 2,
+    "libelle": "Droits civiques et libertés",
+    "sous": [
+     {
+      "code": 200,
+      "libelle": "Droits civiques et libertés (général)"
+     },
+     {
+      "code": 201,
+      "libelle": "Discriminations liées à l'origine"
+     },
+     {
+      "code": 202,
+      "libelle": "Égalité femmes-hommes, discriminations de genre"
+     },
+     {
+      "code": 204,
+      "libelle": "Discriminations liées à l'âge"
+     },
+     {
+      "code": 205,
+      "libelle": "Handicap (discriminations)"
+     },
+     {
+      "code": 206,
+      "libelle": "Droit de vote, élections"
+     },
+     {
+      "code": 207,
+      "libelle": "Liberté d'expression, de la presse"
+     },
+     {
+      "code": 208,
+      "libelle": "Vie privée, données personnelles"
+     },
+     {
+      "code": 209,
+      "libelle": "Contestation de l'État, ordre constitutionnel"
+     },
+     {
+      "code": 299,
+      "libelle": "Droits et libertés (autre)"
+     }
+    ]
+   },
+   {
+    "code": 3,
+    "libelle": "Santé",
+    "sous": [
+     {
+      "code": 300,
+      "libelle": "Santé (général)"
+     },
+     {
+      "code": 301,
+      "libelle": "Réforme du système de santé"
+     },
+     {
+      "code": 302,
+      "libelle": "Assurance maladie"
+     },
+     {
+      "code": 321,
+      "libelle": "Médicament, industrie pharmaceutique"
+     },
+     {
+      "code": 322,
+      "libelle": "Hôpital, établissements de santé"
+     },
+     {
+      "code": 323,
+      "libelle": "Complémentaires santé"
+     },
+     {
+      "code": 324,
+      "libelle": "Responsabilité médicale"
+     },
+     {
+      "code": 325,
+      "libelle": "Professionnels de santé, démographie médicale"
+     },
+     {
+      "code": 331,
+      "libelle": "Prévention, santé publique"
+     },
+     {
+      "code": 332,
+      "libelle": "Santé de l'enfant, périnatalité"
+     },
+     {
+      "code": 333,
+      "libelle": "Santé mentale"
+     },
+     {
+      "code": 334,
+      "libelle": "Dépendance, soins de longue durée"
+     },
+     {
+      "code": 335,
+      "libelle": "Prix et remboursement des médicaments"
+     },
+     {
+      "code": 341,
+      "libelle": "Tabac"
+     },
+     {
+      "code": 342,
+      "libelle": "Drogues et alcool (santé)"
+     },
+     {
+      "code": 398,
+      "libelle": "Recherche médicale"
+     },
+     {
+      "code": 399,
+      "libelle": "Santé (autre)"
+     }
+    ]
+   },
+   {
+    "code": 4,
+    "libelle": "Agriculture",
+    "sous": [
+     {
+      "code": 400,
+      "libelle": "Agriculture (général)"
+     },
+     {
+      "code": 401,
+      "libelle": "Commerce agricole"
+     },
+     {
+      "code": 402,
+      "libelle": "Aides aux agriculteurs, PAC"
+     },
+     {
+      "code": 403,
+      "libelle": "Sécurité sanitaire des aliments"
+     },
+     {
+      "code": 404,
+      "libelle": "Promotion des produits agricoles"
+     },
+     {
+      "code": 405,
+      "libelle": "Maladies animales et végétales"
+     },
+     {
+      "code": 408,
+      "libelle": "Pêche"
+     },
+     {
+      "code": 498,
+      "libelle": "Recherche agricole"
+     },
+     {
+      "code": 499,
+      "libelle": "Agriculture (autre)"
+     }
+    ]
+   },
+   {
+    "code": 5,
+    "libelle": "Travail et emploi",
+    "sous": [
+     {
+      "code": 500,
+      "libelle": "Travail et emploi (général)"
+     },
+     {
+      "code": 501,
+      "libelle": "Santé et sécurité au travail"
+     },
+     {
+      "code": 502,
+      "libelle": "Formation professionnelle"
+     },
+     {
+      "code": 503,
+      "libelle": "Retraites et avantages des salariés"
+     },
+     {
+      "code": 504,
+      "libelle": "Syndicats, dialogue social"
+     },
+     {
+      "code": 505,
+      "libelle": "Droit du travail, salaires, temps de travail"
+     },
+     {
+      "code": 506,
+      "libelle": "Emploi des jeunes"
+     },
+     {
+      "code": 529,
+      "libelle": "Travailleurs saisonniers et détachés"
+     },
+     {
+      "code": 599,
+      "libelle": "Travail (autre)"
+     }
+    ]
+   },
+   {
+    "code": 6,
+    "libelle": "Éducation",
+    "sous": [
+     {
+      "code": 600,
+      "libelle": "Éducation (général)"
+     },
+     {
+      "code": 601,
+      "libelle": "Enseignement supérieur"
+     },
+     {
+      "code": 602,
+      "libelle": "Écoles, collèges, lycées"
+     },
+     {
+      "code": 603,
+      "libelle": "Éducation prioritaire"
+     },
+     {
+      "code": 604,
+      "libelle": "Enseignement professionnel, apprentissage"
+     },
+     {
+      "code": 606,
+      "libelle": "Éducation spécialisée, inclusion scolaire"
+     },
+     {
+      "code": 607,
+      "libelle": "Excellence, réussite éducative"
+     },
+     {
+      "code": 698,
+      "libelle": "Recherche en éducation"
+     },
+     {
+      "code": 699,
+      "libelle": "Éducation (autre)"
+     }
+    ]
+   },
+   {
+    "code": 7,
+    "libelle": "Environnement",
+    "sous": [
+     {
+      "code": 700,
+      "libelle": "Environnement (général)"
+     },
+     {
+      "code": 701,
+      "libelle": "Eau potable"
+     },
+     {
+      "code": 703,
+      "libelle": "Déchets"
+     },
+     {
+      "code": 704,
+      "libelle": "Déchets dangereux, pollution des sols"
+     },
+     {
+      "code": 705,
+      "libelle": "Pollution de l'air, climat"
+     },
+     {
+      "code": 707,
+      "libelle": "Recyclage"
+     },
+     {
+      "code": 708,
+      "libelle": "Pollutions intérieures"
+     },
+     {
+      "code": 709,
+      "libelle": "Biodiversité, forêts, espèces"
+     },
+     {
+      "code": 711,
+      "libelle": "Protection des sols et des eaux"
+     },
+     {
+      "code": 798,
+      "libelle": "Recherche environnementale"
+     },
+     {
+      "code": 799,
+      "libelle": "Environnement (autre)"
+     }
+    ]
+   },
+   {
+    "code": 8,
+    "libelle": "Énergie",
+    "sous": [
+     {
+      "code": 800,
+      "libelle": "Énergie (général)"
+     },
+     {
+      "code": 801,
+      "libelle": "Nucléaire"
+     },
+     {
+      "code": 802,
+      "libelle": "Électricité"
+     },
+     {
+      "code": 803,
+      "libelle": "Gaz et pétrole, carburants"
+     },
+     {
+      "code": 805,
+      "libelle": "Charbon"
+     },
+     {
+      "code": 806,
+      "libelle": "Énergies renouvelables"
+     },
+     {
+      "code": 807,
+      "libelle": "Sobriété, efficacité énergétique"
+     },
+     {
+      "code": 898,
+      "libelle": "Recherche énergétique"
+     },
+     {
+      "code": 899,
+      "libelle": "Énergie (autre)"
+     }
+    ]
+   },
+   {
+    "code": 9,
+    "libelle": "Immigration, asile, nationalité",
+    "sous": [
+     {
+      "code": 900,
+      "libelle": "Immigration, asile, nationalité"
+     }
+    ]
+   },
+   {
+    "code": 10,
+    "libelle": "Transports",
+    "sous": [
+     {
+      "code": 1000,
+      "libelle": "Transports (général)"
+     },
+     {
+      "code": 1001,
+      "libelle": "Transports en commun"
+     },
+     {
+      "code": 1002,
+      "libelle": "Routes, sécurité routière"
+     },
+     {
+      "code": 1003,
+      "libelle": "Transport aérien"
+     },
+     {
+      "code": 1005,
+      "libelle": "Ferroviaire"
+     },
+     {
+      "code": 1007,
+      "libelle": "Maritime et fluvial"
+     },
+     {
+      "code": 1010,
+      "libelle": "Infrastructures de transport"
+     },
+     {
+      "code": 1098,
+      "libelle": "Recherche en transports"
+     },
+     {
+      "code": 1099,
+      "libelle": "Transports (autre)"
+     }
+    ]
+   },
+   {
+    "code": 12,
+    "libelle": "Justice et sécurité",
+    "sous": [
+     {
+      "code": 1200,
+      "libelle": "Justice et sécurité (général)"
+     },
+     {
+      "code": 1201,
+      "libelle": "Forces de l'ordre, services de sécurité"
+     },
+     {
+      "code": 1202,
+      "libelle": "Délinquance financière, corruption"
+     },
+     {
+      "code": 1203,
+      "libelle": "Stupéfiants, narcotrafic"
+     },
+     {
+      "code": 1204,
+      "libelle": "Organisation de la justice"
+     },
+     {
+      "code": 1205,
+      "libelle": "Prisons, exécution des peines"
+     },
+     {
+      "code": 1206,
+      "libelle": "Délinquance des mineurs"
+     },
+     {
+      "code": 1207,
+      "libelle": "Maltraitance des enfants"
+     },
+     {
+      "code": 1208,
+      "libelle": "Famille (droit, violences intrafamiliales)"
+     },
+     {
+      "code": 1210,
+      "libelle": "Droit pénal et civil"
+     },
+     {
+      "code": 1211,
+      "libelle": "Prévention et lutte contre la délinquance"
+     },
+     {
+      "code": 1227,
+      "libelle": "Police, gendarmerie"
+     },
+     {
+      "code": 1299,
+      "libelle": "Justice et sécurité (autre)"
+     }
+    ]
+   },
+   {
+    "code": 13,
+    "libelle": "Protection sociale",
+    "sous": [
+     {
+      "code": 1300,
+      "libelle": "Protection sociale (général)"
+     },
+     {
+      "code": 1302,
+      "libelle": "Minima sociaux, pauvreté"
+     },
+     {
+      "code": 1303,
+      "libelle": "Personnes âgées"
+     },
+     {
+      "code": 1304,
+      "libelle": "Personnes handicapées (aides)"
+     },
+     {
+      "code": 1305,
+      "libelle": "Associations, bénévolat"
+     },
+     {
+      "code": 1308,
+      "libelle": "Petite enfance, garde d'enfants"
+     },
+     {
+      "code": 1399,
+      "libelle": "Protection sociale (autre)"
+     }
+    ]
+   },
+   {
+    "code": 14,
+    "libelle": "Logement et territoires",
+    "sous": [
+     {
+      "code": 1400,
+      "libelle": "Logement et territoires (général)"
+     },
+     {
+      "code": 1401,
+      "libelle": "Développement local"
+     },
+     {
+      "code": 1403,
+      "libelle": "Politique de la ville, urbanisme"
+     },
+     {
+      "code": 1404,
+      "libelle": "Logement rural"
+     },
+     {
+      "code": 1405,
+      "libelle": "Développement rural"
+     },
+     {
+      "code": 1406,
+      "libelle": "Logement social"
+     },
+     {
+      "code": 1407,
+      "libelle": "Anciens combattants (logement)"
+     },
+     {
+      "code": 1408,
+      "libelle": "Logement des personnes âgées"
+     },
+     {
+      "code": 1409,
+      "libelle": "Sans-abri, hébergement"
+     },
+     {
+      "code": 1498,
+      "libelle": "Recherche (logement)"
+     },
+     {
+      "code": 1499,
+      "libelle": "Logement (autre)"
+     }
+    ]
+   },
+   {
+    "code": 15,
+    "libelle": "Économie intérieure et entreprises",
+    "sous": [
+     {
+      "code": 1500,
+      "libelle": "Économie intérieure et entreprises (général)"
+     },
+     {
+      "code": 1501,
+      "libelle": "Banque"
+     },
+     {
+      "code": 1502,
+      "libelle": "Marchés financiers"
+     },
+     {
+      "code": 1504,
+      "libelle": "Consommation, crédit"
+     },
+     {
+      "code": 1505,
+      "libelle": "Assurances"
+     },
+     {
+      "code": 1507,
+      "libelle": "Faillites, entreprises en difficulté"
+     },
+     {
+      "code": 1520,
+      "libelle": "Gouvernance des entreprises"
+     },
+     {
+      "code": 1521,
+      "libelle": "PME, artisans, commerce"
+     },
+     {
+      "code": 1522,
+      "libelle": "Propriété intellectuelle"
+     },
+     {
+      "code": 1523,
+      "libelle": "Catastrophes naturelles, aide aux sinistrés"
+     },
+     {
+      "code": 1524,
+      "libelle": "Tourisme"
+     },
+     {
+      "code": 1525,
+      "libelle": "Sécurité des consommateurs"
+     },
+     {
+      "code": 1526,
+      "libelle": "Sport"
+     },
+     {
+      "code": 1598,
+      "libelle": "Recherche (économie)"
+     },
+     {
+      "code": 1599,
+      "libelle": "Économie intérieure (autre)"
+     }
+    ]
+   },
+   {
+    "code": 16,
+    "libelle": "Défense",
+    "sous": [
+     {
+      "code": 1600,
+      "libelle": "Défense (général)"
+     },
+     {
+      "code": 1602,
+      "libelle": "Alliances, OTAN, défense européenne"
+     },
+     {
+      "code": 1603,
+      "libelle": "Renseignement"
+     },
+     {
+      "code": 1604,
+      "libelle": "Préparation des armées"
+     },
+     {
+      "code": 1605,
+      "libelle": "Dissuasion nucléaire"
+     },
+     {
+      "code": 1606,
+      "libelle": "Aide militaire, exportations d'armement"
+     },
+     {
+      "code": 1608,
+      "libelle": "Personnels militaires"
+     },
+     {
+      "code": 1610,
+      "libelle": "Équipements, programmation militaire"
+     },
+     {
+      "code": 1611,
+      "libelle": "Emprises militaires"
+     },
+     {
+      "code": 1612,
+      "libelle": "Réserves"
+     },
+     {
+      "code": 1614,
+      "libelle": "Pollution d'origine militaire"
+     },
+     {
+      "code": 1615,
+      "libelle": "Défense civile, protection civile"
+     },
+     {
+      "code": 1616,
+      "libelle": "Personnels civils de la défense"
+     },
+     {
+      "code": 1617,
+      "libelle": "Industrie de défense"
+     },
+     {
+      "code": 1619,
+      "libelle": "Opérations extérieures"
+     },
+     {
+      "code": 1620,
+      "libelle": "Contentieux militaires"
+     },
+     {
+      "code": 1698,
+      "libelle": "Recherche de défense"
+     },
+     {
+      "code": 1699,
+      "libelle": "Défense (autre)"
+     }
+    ]
+   },
+   {
+    "code": 17,
+    "libelle": "Sciences et numérique",
+    "sous": [
+     {
+      "code": 1700,
+      "libelle": "Sciences et numérique (général)"
+     },
+     {
+      "code": 1701,
+      "libelle": "Espace"
+     },
+     {
+      "code": 1704,
+      "libelle": "Usage commercial de l'espace"
+     },
+     {
+      "code": 1705,
+      "libelle": "Transfert de technologie, innovation"
+     },
+     {
+      "code": 1706,
+      "libelle": "Télécommunications"
+     },
+     {
+      "code": 1707,
+      "libelle": "Audiovisuel, médias"
+     },
+     {
+      "code": 1708,
+      "libelle": "Météorologie"
+     },
+     {
+      "code": 1709,
+      "libelle": "Numérique, IA, cybersécurité"
+     },
+     {
+      "code": 1798,
+      "libelle": "Recherche scientifique"
+     },
+     {
+      "code": 1799,
+      "libelle": "Sciences et numérique (autre)"
+     }
+    ]
+   },
+   {
+    "code": 18,
+    "libelle": "Commerce extérieur",
+    "sous": [
+     {
+      "code": 1800,
+      "libelle": "Commerce extérieur (général)"
+     },
+     {
+      "code": 1802,
+      "libelle": "Accords commerciaux"
+     },
+     {
+      "code": 1803,
+      "libelle": "Exportations"
+     },
+     {
+      "code": 1804,
+      "libelle": "Investissements étrangers"
+     },
+     {
+      "code": 1806,
+      "libelle": "Compétitivité, souveraineté économique"
+     },
+     {
+      "code": 1807,
+      "libelle": "Droits de douane, importations"
+     },
+     {
+      "code": 1808,
+      "libelle": "Taux de change"
+     },
+     {
+      "code": 1899,
+      "libelle": "Commerce extérieur (autre)"
+     }
+    ]
+   },
+   {
+    "code": 19,
+    "libelle": "Affaires internationales",
+    "sous": [
+     {
+      "code": 1900,
+      "libelle": "Affaires internationales (général)"
+     },
+     {
+      "code": 1901,
+      "libelle": "Aide au développement"
+     },
+     {
+      "code": 1902,
+      "libelle": "Ressources naturelles internationales"
+     },
+     {
+      "code": 1905,
+      "libelle": "Pays en développement"
+     },
+     {
+      "code": 1906,
+      "libelle": "Finance internationale"
+     },
+     {
+      "code": 1910,
+      "libelle": "Europe, Union européenne"
+     },
+     {
+      "code": 1921,
+      "libelle": "Pays ou région spécifique"
+     },
+     {
+      "code": 1925,
+      "libelle": "Droits humains (international)"
+     },
+     {
+      "code": 1926,
+      "libelle": "Organisations internationales"
+     },
+     {
+      "code": 1927,
+      "libelle": "Terrorisme"
+     },
+     {
+      "code": 1929,
+      "libelle": "Diplomatie"
+     },
+     {
+      "code": 1999,
+      "libelle": "Affaires internationales (autre)"
+     }
+    ]
+   },
+   {
+    "code": 20,
+    "libelle": "Fonctionnement de l'État",
+    "sous": [
+     {
+      "code": 2000,
+      "libelle": "Fonctionnement de l'État (général)"
+     },
+     {
+      "code": 2001,
+      "libelle": "Collectivités territoriales, décentralisation"
+     },
+     {
+      "code": 2002,
+      "libelle": "Administration, simplification"
+     },
+     {
+      "code": 2003,
+      "libelle": "Poste"
+     },
+     {
+      "code": 2004,
+      "libelle": "Fonction publique"
+     },
+     {
+      "code": 2005,
+      "libelle": "Nominations"
+     },
+     {
+      "code": 2006,
+      "libelle": "Monnaie"
+     },
+     {
+      "code": 2007,
+      "libelle": "Marchés publics"
+     },
+     {
+      "code": 2008,
+      "libelle": "Patrimoine de l'État"
+     },
+     {
+      "code": 2009,
+      "libelle": "Administration fiscale"
+     },
+     {
+      "code": 2010,
+      "libelle": "Affaires, scandales"
+     },
+     {
+      "code": 2011,
+      "libelle": "Relations entre pouvoirs (Gouvernement-Parlement)"
+     },
+     {
+      "code": 2012,
+      "libelle": "Vie politique, campagnes, partis"
+     },
+     {
+      "code": 2013,
+      "libelle": "Statistiques publiques"
+     },
+     {
+      "code": 2014,
+      "libelle": "Capitale"
+     },
+     {
+      "code": 2015,
+      "libelle": "Contentieux contre l'État"
+     },
+     {
+      "code": 2030,
+      "libelle": "Commémorations, fêtes nationales"
+     },
+     {
+      "code": 2099,
+      "libelle": "Fonctionnement de l'État (autre)"
+     }
+    ]
+   },
+   {
+    "code": 21,
+    "libelle": "Territoires et ressources publiques",
+    "sous": [
+     {
+      "code": 2100,
+      "libelle": "Territoires et ressources publiques (général)"
+     },
+     {
+      "code": 2101,
+      "libelle": "Parcs nationaux"
+     },
+     {
+      "code": 2102,
+      "libelle": "Peuples autochtones"
+     },
+     {
+      "code": 2103,
+      "libelle": "Domaine public"
+     },
+     {
+      "code": 2104,
+      "libelle": "Ressources en eau"
+     },
+     {
+      "code": 2105,
+      "libelle": "Outre-mer"
+     },
+     {
+      "code": 2199,
+      "libelle": "Territoires (autre)"
+     }
+    ]
+   },
+   {
+    "code": 23,
+    "libelle": "Culture, patrimoine",
+    "sous": [
+     {
+      "code": 2300,
+      "libelle": "Culture, patrimoine"
+     }
+    ]
+   }
+  ]
+ },
+ "types_acte": [
+  {
+   "code": "annonce",
+   "definition": "Fait connaître une mesure, une décision ou une action nouvelle du Gouvernement."
+  },
+  {
+   "code": "engagement",
+   "definition": "Promesse ou objectif daté ou chiffré (« d'ici 2027 », « 10 000 postes »)."
+  },
+  {
+   "code": "bilan",
+   "definition": "Revendique un résultat obtenu ou une action déjà menée."
+  },
+  {
+   "code": "diagnostic",
+   "definition": "Décrit une situation, un problème, des chiffres, sans annoncer de mesure."
+  },
+  {
+   "code": "justification",
+   "definition": "Explique ou défend un choix du Gouvernement."
+  },
+  {
+   "code": "refutation",
+   "definition": "Répond à une critique ou conteste une affirmation d'un interlocuteur."
+  },
+  {
+   "code": "mise_en_cause",
+   "definition": "Critique un adversaire politique, une institution ou un groupe nommé."
+  },
+  {
+   "code": "appel",
+   "definition": "Appelle au consensus, à l'unité, à la responsabilité, au calme ou à l'action."
+  },
+  {
+   "code": "avis_procedural",
+   "definition": "Avis du Gouvernement sur un amendement ou un texte (favorable, défavorable, sagesse) ou propos de procédure."
+  },
+  {
+   "code": "hommage_emotion",
+   "definition": "Hommage, condoléances, félicitations, expression d'émotion."
+  }
+ ],
+ "positions": {
+  "regle": "Seulement si l'affirmation exprime une position explicite sur un objet nommé (texte, mesure, amendement, proposition).",
+  "sens": [
+   "soutient",
+   "s_oppose",
+   "nuance",
+   "sagesse"
+  ]
+ },
+ "cadrages": {
+  "source": "Policy Frames Codebook (Boydstun, Card, Gross, Resnik, Smith, 2014) : 14 cadres + autre.",
+  "regle": "Un cadrage principal, un secondaire facultatif : l'angle sous lequel la question est présentée.",
+  "liste": [
+   {
+    "code": "economique",
+    "definition": "Coûts, bénéfices, croissance, emploi, compétitivité."
+   },
+   {
+    "code": "capacites_ressources",
+    "definition": "Moyens disponibles ou manquants (effectifs, budget, équipements)."
+   },
+   {
+    "code": "moralite",
+    "definition": "Bien, mal, valeurs, devoir, religion, éthique."
+   },
+   {
+    "code": "equite_egalite",
+    "definition": "Justice sociale, égalité de traitement, répartition."
+   },
+   {
+    "code": "legalite_constitution",
+    "definition": "Droit, Constitution, jurisprudence, compétences juridiques."
+   },
+   {
+    "code": "regulation_action_publique",
+    "definition": "Efficacité d'une politique, règles, mise en œuvre."
+   },
+   {
+    "code": "ordre_public_justice",
+    "definition": "Délinquance, sanctions, sécurité, autorité."
+   },
+   {
+    "code": "sante_securite",
+    "definition": "Santé et sécurité des personnes, risques, catastrophes."
+   },
+   {
+    "code": "qualite_de_vie",
+    "definition": "Effets concrets sur la vie quotidienne, bien-être."
+   },
+   {
+    "code": "identite_culturelle",
+    "definition": "Nation, traditions, langue, valeurs collectives, identité."
+   },
+   {
+    "code": "opinion_publique",
+    "definition": "Ce que pensent les Français, sondages, attentes."
+   },
+   {
+    "code": "jeu_politique",
+    "definition": "Stratégie, rapports de force, majorités, élections, adversaires."
+   },
+   {
+    "code": "relations_exterieures",
+    "definition": "Autres pays, Europe, rang de la France, menaces extérieures."
+   },
+   {
+    "code": "souverainete",
+    "definition": "Indépendance de la France (industrielle, énergétique, numérique, militaire) — ajout propre à La Bascule."
+   },
+   {
+    "code": "autre",
+    "definition": "Aucun des cadres ci-dessus."
+   }
+  ]
+ },
+ "chiffres": {
+  "regle": "Tout chiffre avancé : valeur, unité, objet, période ou échéance, source citée par l'orateur s'il y en a une. Un chiffre-objectif est aussi un engagement."
+ },
+ "procedes": {
+  "regle": "Seulement si le procédé est identifiable dans le verbatim lui-même, avec une explication d'une phrase. En cas de doute : ne pas coder. Un procédé rhétorique n'est pas une faute : beaucoup sont ordinaires dans le débat. Appliqué de façon identique à tous les orateurs.",
+  "liste": [
+   {
+    "code": "homme_de_paille",
+    "definition": "Prête à l'adversaire une position déformée, plus facile à réfuter."
+   },
+   {
+    "code": "faux_dilemme",
+    "definition": "Présente deux options comme les seules possibles."
+   },
+   {
+    "code": "pente_glissante",
+    "definition": "Annonce une suite de conséquences graves sans les établir."
+   },
+   {
+    "code": "generalisation_hative",
+    "definition": "Tire une règle générale d'un ou quelques cas."
+   },
+   {
+    "code": "attaque_personnelle",
+    "definition": "Vise la personne plutôt que l'argument (ad hominem)."
+   },
+   {
+    "code": "et_vous",
+    "definition": "Répond à une critique par une critique de l'autre (tu quoque, whataboutism)."
+   },
+   {
+    "code": "appel_a_la_peur",
+    "definition": "Mobilise la peur d'une menace pour emporter l'adhésion, sans en établir l'ampleur."
+   },
+   {
+    "code": "bouc_emissaire",
+    "definition": "Désigne un groupe comme responsable d'un problème collectif (lien critère C-02)."
+   },
+   {
+    "code": "delegitimation_adversaire",
+    "definition": "Conteste la légitimité même d'un adversaire à exister ou à participer (lien critère C-19)."
+   },
+   {
+    "code": "chiffre_isole",
+    "definition": "Chiffre sorti de son contexte, sans source ni comparaison, présenté comme décisif."
+   },
+   {
+    "code": "causalite_abusive",
+    "definition": "Présente une succession ou une corrélation comme une cause."
+   },
+   {
+    "code": "presuppose",
+    "definition": "Fait passer pour acquis un point contesté (« puisque tout le monde sait que… »)."
+   },
+   {
+    "code": "appel_au_bon_sens",
+    "definition": "Invoque l'évidence ou le peuple à la place d'un argument."
+   },
+   {
+    "code": "euphemisme_ou_dysphemisme",
+    "definition": "Choix de mots qui adoucit ou noircit une réalité de façon notable."
+   }
+  ]
+ },
+ "verifiabilite": {
+  "regle": "L'IA locale repère les affirmations factuelles vérifiables (chiffre, fait daté, comparaison, causalité, prévision) ; leur statut est « non vérifié » tant qu'une source officielle n'a pas été consultée. Le mot « mensonge » n'est jamais employé dans les données publiées : il suppose une intention, que l'observatoire ne peut pas établir.",
+  "types": [
+   "chiffre",
+   "fait",
+   "comparaison",
+   "causalite",
+   "prevision"
+  ],
+  "statuts": [
+   "non_verifie",
+   "a_verifier",
+   "confirme",
+   "inexact_selon_source",
+   "trompeur_selon_source",
+   "inverifiable"
+  ]
+ },
+ "bascule": {
+  "source": "methode-labascule (C-01 à C-19) et grille-c09-cadres-reference-v0.1.md (CF-01 à CF-05).",
+  "regle": "Seulement les critères observables dans un discours, codés « signal à examiner » avec verbatim et justification ; jamais une conclusion. Symétrie obligatoire (même critère pour tous les orateurs). En cas de doute : ne pas coder.",
+  "criteres": [
+   {
+    "code": "C-01",
+    "libelle": "Discours de déclin et victimisation nationale"
+   },
+   {
+    "code": "C-02",
+    "libelle": "Désignation d'un ennemi intérieur"
+   },
+   {
+    "code": "C-09c",
+    "libelle": "Reprise d'un cadre de référence CF-01 à CF-05 sans distanciation (α, β, γ)"
+   },
+   {
+    "code": "C-10",
+    "libelle": "Ostracisation asymétrique d'un bord politique"
+   },
+   {
+    "code": "C-13",
+    "libelle": "Justification de mesures d'exception"
+   },
+   {
+    "code": "C-15",
+    "libelle": "Mise en cause de la liberté de la presse"
+   },
+   {
+    "code": "C-17",
+    "libelle": "Mise en cause des corps intermédiaires"
+   },
+   {
+    "code": "C-18",
+    "libelle": "Mise en cause sélective des institutions indépendantes (juges, autorités, Conseil constitutionnel)"
+   },
+   {
+    "code": "C-19",
+    "libelle": "Rejet de la légitimité des opposants"
+   }
+  ]
+ },
+ "alerte_veracite": {
+  "regle": "Pour chaque affirmation vérifiable, le modèle estime la probabilité qu'elle soit inexacte ou trompeuse. À partir de 0,8, l'affirmation passe au statut « a_verifier » et entre dans le backlog de vérification. Une alerte n'est jamais publiée : elle déclenche une vérification.",
+  "seuil": 0.8,
+  "champs": {
+   "confiance": "probabilité (0 à 1) que l'affirmation soit inexacte ou trompeuse",
+   "nature": "inexact (fait ou chiffre faux) | trompeur (vrai mais présenté de façon à induire en erreur : sélection, comparaison biaisée, causalité abusive) | contradiction (contredit une autre affirmation du même orateur)",
+   "element_conteste": "la partie précise du verbatim qui pose problème",
+   "raison": "pourquoi, en une phrase",
+   "source_a_consulter": "où vérifier (INSEE, Cour des comptes, Légifrance, DREES…), sans inventer d'URL"
+  },
+  "backlog": [
+   "1. Alerte du modèle local (confiance ≥ 0,8) → statut « a_verifier ».",
+   "2. Pré-vérification par un modèle fort avec recherche web : il cherche une source officielle et propose un statut (confirme, inexact_selon_source, trompeur_selon_source, inverifiable) avec la source et l'extrait.",
+   "3. Relecture humaine obligatoire : seul un statut validé par Luc peut être publié, toujours avec la source.",
+   "4. Les alertes infirmées deviennent des exemples pour le carnet de stage (faux positifs à éviter)."
+  ],
+  "precautions": [
+   "Les connaissances du modèle s'arrêtent à une date : un fait récent qu'il ignore n'est pas un fait faux. Une alerte qui ne repose que sur l'absence de connaissance est classée « inverifiable », pas « a_verifier ».",
+   "Une opinion, une promesse ou une prévision n'est jamais « inexacte » ; seule une prévision présentée comme acquise peut être « trompeuse ».",
+   "La confiance du modèle est calibrée sur l'échantillon de référence : on mesure la part d'alertes ≥ 0,8 confirmées ; si elle est inférieure à 50 %, le seuil est relevé.",
+   "Mêmes règles et même seuil pour tous les orateurs ; le taux d'alertes par orateur n'est pas publié sans vérification (il refléterait les biais du modèle)."
+  ]
+ },
+ "lexique": {
+  "fichier": "lexique-v0.2.json",
+  "usages": [
+   "emploi_assume",
+   "denonciation",
+   "citation_tiers",
+   "designation_neutre",
+   "indetermine"
+  ]
+ }
+}

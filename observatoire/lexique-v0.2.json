@@ -1,0 +1,423 @@
+{
+ "version": "0.2.0",
+ "statut": "brouillon — chaque entrée doit être relue par Luc ; seules les entrées « sourcé » servent à la publication",
+ "principes": [
+  "Le lexique décrit des TERMES, jamais des personnes : on mesure qui emploie quel terme, quand et comment ; on n'en déduit aucune étiquette idéologique pour l'orateur.",
+  "« famille_documentee » indique où les sources situent l'origine ou la diffusion du terme ; « reprise_documentee », les reprises notables hors de cette famille. Ce n'est pas une affirmation sur les personnes qui l'emploient aujourd'hui.",
+  "Chaque entrée publiée est sourcée ; les entrées « à sourcer » ou « à relire » sont détectées mais pas publiées.",
+  "Équilibre : le lexique couvre tous les bords ; toute entrée pour un bord appelle la recherche d'équivalents pour les autres (règle de symétrie de La Bascule).",
+  "La présence d'un terme est détectée de façon déterministe (motif, sans tenir compte des majuscules) ; l'IA ne décide que de l'USAGE, avec le verbatim à l'appui.",
+  "Employer un terme n'est pas l'adopter : la dénonciation, la citation et la simple désignation d'un texte de loi sont codées à part et ne comptent jamais comme un emploi."
+ ],
+ "usages": {
+  "emploi_assume": {
+   "definition": "L'orateur emploie le terme à son compte pour décrire la réalité.",
+   "exemple": "« Nous faisons face à un ensauvagement de certains quartiers. »"
+  },
+  "denonciation": {
+   "definition": "L'orateur cite le terme pour le rejeter, le critiquer ou s'en démarquer.",
+   "exemple": "« Je refuse le mot d'ensauvagement, qui ne veut rien dire. »"
+  },
+  "citation_tiers": {
+   "definition": "L'orateur rapporte le terme comme employé par d'autres, sans le reprendre ni le rejeter.",
+   "exemple": "« Vous parlez de submersion migratoire ; parlons plutôt des chiffres. »"
+  },
+  "designation_neutre": {
+   "definition": "Le terme nomme un texte, un dispositif juridique ou une notion savante, sans prise de position.",
+   "exemple": "« Le délit d'écocide créé par la loi de 2021 a donné lieu à trois condamnations. »"
+  },
+  "indetermine": {
+   "definition": "Le contexte ne permet pas de trancher. En cas de doute, c'est ce code (jamais « emploi_assume »).",
+   "exemple": "Phrase coupée, ironie possible, terme entre guillemets sans commentaire."
+  }
+ },
+ "regles_usage": [
+  "Guillemets, « ce qu'on appelle », « le prétendu », « vous dites » : indices de distance, pas preuves ; lire la phrase entière.",
+  "Une négation porte parfois sur le phénomène, pas sur le mot : « il n'y a pas d'ensauvagement » emploie le terme pour en nier l'existence → « denonciation » si le mot est rejeté, « emploi_assume » si seul le constat est discuté (« l'ensauvagement n'est pas encore généralisé »).",
+  "Les occurrences dans une question posée par un député ne sont pas attribuées au ministre : seul le texte du ministre est analysé.",
+  "Chaque usage codé porte le verbatim (≤ 300 caractères) qui le justifie."
+ ],
+ "termes": [
+  {
+   "terme": "grand remplacement",
+   "motif": "\\bgrand remplacement\\b",
+   "famille_documentee": "extrême droite",
+   "statut": "sourcé",
+   "origine": "Théorie complotiste formulée par l'écrivain Renaud Camus (essai de 2011), selon laquelle la population européenne serait remplacée par des immigrés extra-européens avec la complicité des élites ; diffusée ensuite au-delà de l'extrême droite dans le débat présidentiel de 2022.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.publicsenat.fr/actualites/politique/le-grand-remplacement-la-trajectoire-politique-d-une-these-complotiste-192676",
+    "https://jean-jaures.org/nos-productions/le-grand-remplacement-est-il-un-concept-complotiste",
+    "https://en.wikipedia.org/wiki/Great_Replacement"
+   ]
+  },
+  {
+   "terme": "remigration",
+   "motif": "\\br[ée]migration\\w*",
+   "famille_documentee": "extrême droite",
+   "statut": "sourcé",
+   "origine": "Terme désignant le renvoi organisé de populations immigrées ou d'origine immigrée vers les pays d'origine, porté par des mouvements identitaires européens, puis repris en France dans des programmes d'extrême droite (notamment Reconquête).",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.lalanguefrancaise.com/dictionnaire/definition/remigration",
+    "https://www.theparliamentmagazine.eu/news/article/how-europes-remigration-movement-is-using-roadblocks-to-power-its-political-appeal",
+    "https://h24info.ma/monde/france-en-difficulte-eric-zemmour-franchit-un-pas-de-plus-dans-la-radicalite/"
+   ],
+   "faux_positifs": "Sens démographique neutre (« émigration de retour ») dans des rapports statistiques : à classer « designation_neutre »."
+  },
+  {
+   "terme": "francocide",
+   "motif": "\\bfrancocides?\\b",
+   "famille_documentee": "extrême droite",
+   "statut": "sourcé",
+   "origine": "Néologisme apparu en 2023 dans des milieux d'extrême droite pour qualifier des meurtres de Français présentés comme motivés par leur identité ; repris par des responsables politiques de ce bord.",
+   "usages_documentes": [],
+   "sources": [
+    "https://cms.thelocal.com/20230616/francocide-new-french-far-right-term-enters-language-battle"
+   ]
+  },
+  {
+   "terme": "ensauvagement",
+   "motif": "\\bensauvag\\w*",
+   "famille_documentee": "extrême droite",
+   "reprise_documentee": "exécutif (ministre de l'Intérieur, 2020)",
+   "statut": "sourcé",
+   "origine": "Terme dont la diffusion dans le débat public français est associée par la presse à des milieux d'extrême droite, avant sa reprise par le ministre de l'Intérieur en 2020, qui a suscité un débat au sein même du Gouvernement.",
+   "usages_documentes": [
+    "Gérald Darmanin, ministre de l'Intérieur, 2020"
+   ],
+   "sources": [
+    "https://theworld.org/segments/2024/04/04/france-far-right-term-goes-mainstream",
+    "https://www.lecourrierdelatlas.com/?p=163820",
+    "https://www.thelocal.fr/20260310/french-word-of-the-day-ensauvagement"
+   ]
+  },
+  {
+   "terme": "submersion migratoire",
+   "motif": "\\bsubmer(sion|g\\w*)\\b.{0,40}\\b(migratoire|immigr\\w*|migrants?)|\\b(migratoire|immigr\\w*)\\b.{0,20}\\bsubmer\\w*",
+   "famille_documentee": "extrême droite",
+   "reprise_documentee": "exécutif (Premier ministre, 2025)",
+   "statut": "sourcé",
+   "origine": "Expression employée par le Premier ministre François Bayrou en janvier 2025 et maintenue malgré les critiques ; des commentateurs la rapprochent du vocabulaire de l'extrême droite.",
+   "usages_documentes": [
+    "François Bayrou, Premier ministre, janvier 2025"
+   ],
+   "sources": [
+    "https://www.publicsenat.fr/emission/et-maintenant/submersion-migratoire-bayrou-persiste-et-signe-e15",
+    "https://www.letemps.ch/opinions/chroniques/submerge-francois-bayrou-joue-avec-les-maux",
+    "https://aa.com.tr/en/europe/french-premier-defends-submersion-term-for-immigration-despite-opposition-backlash/3465385"
+   ]
+  },
+  {
+   "terme": "décivilisation",
+   "motif": "\\bd[ée]civilis\\w*",
+   "famille_documentee": "extrême droite",
+   "reprise_documentee": "exécutif (président de la République, 2023)",
+   "statut": "sourcé",
+   "origine": "Notion issue de la sociologie de Norbert Elias (processus de civilisation) ; titre d'un essai de Renaud Camus (2011) ; reprise par Emmanuel Macron en mai 2023, ce qui a suscité une polémique sur son origine.",
+   "usages_documentes": [
+    "Emmanuel Macron, président de la République, mai 2023"
+   ],
+   "sources": [
+    "https://forward.com/culture/548959/emmanel-macron-marine-lepen-camus-elias-decivilization-ensauvagement",
+    "https://www.herodote.net/Sommes_nous_entres_dans_un_processus_de_decivilisation_dixit_Emmanuel_Macron_-article-2899.php"
+   ]
+  },
+  {
+   "terme": "préférence nationale",
+   "motif": "\\bpr[ée]f[ée]rence nationale\\b",
+   "famille_documentee": "extrême droite",
+   "statut": "sourcé",
+   "origine": "Principe de réservation de droits ou d'emplois aux nationaux, caractéristique des programmes du FN/RN ; correspond aux cadres de référence CF-01 et CF-04 de La Bascule.",
+   "usages_documentes": [],
+   "sources": [
+    "grille-c09-cadres-reference-v0.1.md (CF-01, CF-04) ; Manifesto Project, catégories 608.1"
+   ]
+  },
+  {
+   "terme": "racisme anti-Blancs",
+   "motif": "\\bracismes? anti-?blancs?\\b",
+   "famille_documentee": "débattu (extrême droite et droite, au-delà)",
+   "statut": "à relire",
+   "origine": "Expression controversée : promue d'abord par l'extrême droite, reprise ensuite par des responsables de droite puis, ponctuellement, du Gouvernement ; son existence comme phénomène social fait l'objet de travaux de recherche contradictoires.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.lyoncapitale.fr/actualite/racisme-anti-blancs-une-expression-controversee",
+    "https://www.letemps.ch/societe/racisme-antiblancs-lexpression-malaise",
+    "https://hal-sciencespo.archives-ouvertes.fr/hal-03386580"
+   ]
+  },
+  {
+   "terme": "islamo-gauchisme",
+   "motif": "\\bislamo-?gauchis\\w*",
+   "famille_documentee": "droite",
+   "reprise_documentee": "exécutif (ministre de l'Enseignement supérieur, 2021)",
+   "statut": "sourcé",
+   "origine": "Terme forgé par Pierre-André Taguieff au début des années 2000 ; remis au centre du débat en 2021 par la ministre de l'Enseignement supérieur Frédérique Vidal, qui annonçait une enquête sur l'université ; contesté par une partie du monde académique.",
+   "usages_documentes": [
+    "Frédérique Vidal, ministre de l'Enseignement supérieur, février 2021"
+   ],
+   "sources": [
+    "https://en.wikipedia.org/wiki/Islamo-leftism",
+    "https://www.thelocal.fr/20210217/islamo-gauchisme-what-does-it-mean-and-why-is-it-controversial-in-france",
+    "https://berkleycenter.georgetown.edu/responses/what-does-islamo-gauchisme-mean-for-the-future-of-france-and-democracy"
+   ]
+  },
+  {
+   "terme": "wokisme",
+   "motif": "\\bwok(isme|istes?|es?)\\b",
+   "famille_documentee": "droite",
+   "reprise_documentee": "exécutif (ministre de l'Éducation nationale, 2021)",
+   "statut": "sourcé",
+   "origine": "Dérivé de l'anglais « woke » (éveillé aux injustices), employé en France surtout de façon critique à partir de 2021, notamment par le ministre de l'Éducation Jean-Michel Blanquer ; son usage est lui-même analysé comme une « panique morale » par d'autres auteurs.",
+   "usages_documentes": [
+    "Jean-Michel Blanquer, ministre de l'Éducation nationale, 2021"
+   ],
+   "sources": [
+    "https://media.ac-normandie.fr/-/communication/revue-presse/2021/10/21/Le%20Monde_nat_actu_De%20Samuel%20Paty%20au%20wokisme,%20le%20saut%20p%e9rilleux%20de%20Jean-Michel%20Blanquer.pdf",
+    "https://www.politis.fr/articles/2022/06/anatomie-de-la-panique-woke-44574",
+    "https://ltc.ulb.be/wokisme"
+   ],
+   "faux_positifs": "Citations en anglais ou noms propres : à vérifier."
+  },
+  {
+   "terme": "théorie du genre",
+   "motif": "\\b(th[ée]orie|id[ée]ologie) du genre\\b",
+   "famille_documentee": "droite",
+   "statut": "sourcé",
+   "origine": "Expression employée par les opposants au mariage pour tous et aux programmes d'éducation à l'égalité (2013-2014) pour désigner les études de genre ; les chercheurs du domaine contestent l'existence d'une « théorie » unique.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.slate.fr/story/97071/genre-mise-au-point",
+    "https://www.lyoncapitale.fr/actualite/l-ideologie-du-genre-un-repoussoir-polemique",
+    "https://fr.aleteia.org/2013/09/04/rentree-la-theorie-du-genre-ne-fait-pas-lecole-buissonniere/"
+   ]
+  },
+  {
+   "terme": "gouvernement des juges",
+   "motif": "\\bgouvernement des juges\\b",
+   "famille_documentee": "droite et extrême droite (usage critique récent)",
+   "statut": "sourcé",
+   "origine": "Expression ancienne du droit constitutionnel (Édouard Lambert, 1921, à propos de la Cour suprême américaine) ; reprise dans le débat politique pour critiquer des décisions de justice ou du Conseil constitutionnel ; les magistrats et des juristes y voient une remise en cause de l'État de droit.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.universalis.fr/encyclopedie/gouvernement-des-juges/2-le-gouvernement-des-juges-dans-le-langage-courant/",
+    "https://www.ldh-france.org/wp-content/uploads/2026/02/DL212-Actualite-1.-Repondre-aux-attaques-contre-la-justice.pdf",
+    "https://www.actu-juridique.fr/justice/ces-vents-mauvais-qui-soufflent-sur-la-magistrature/"
+   ],
+   "faux_positifs": "Usage savant en droit constitutionnel : « designation_neutre »."
+  },
+  {
+   "terme": "laxisme judiciaire",
+   "motif": "\\blaxisme (judiciaire|de la justice|p[ée]nal)\\b",
+   "famille_documentee": "droite et extrême droite",
+   "statut": "à sourcer",
+   "origine": "À documenter.",
+   "usages_documentes": [],
+   "sources": []
+  },
+  {
+   "terme": "zones de non-droit",
+   "motif": "\\bzones? de non-droit\\b",
+   "famille_documentee": "droite",
+   "statut": "à sourcer",
+   "origine": "À documenter (usage aussi transpartisan).",
+   "usages_documentes": [],
+   "sources": []
+  },
+  {
+   "terme": "assistanat",
+   "motif": "\\bassistanat\\b(?!\\s+v[ée]t[ée]rinaire)",
+   "famille_documentee": "droite",
+   "statut": "à sourcer",
+   "origine": "À documenter.",
+   "usages_documentes": [],
+   "sources": [],
+   "faux_positifs": "« Assistanat vétérinaire » (statut d'étudiant) : exclu par le motif."
+  },
+  {
+   "terme": "séparatisme",
+   "motif": "\\bs[ée]paratism\\w*",
+   "famille_documentee": "centre et exécutif",
+   "statut": "sourcé",
+   "origine": "Mis en avant par Emmanuel Macron dans son discours des Mureaux (2 octobre 2020) sur le « séparatisme islamiste » ; a donné son nom courant à la loi confortant le respect des principes de la République (2021).",
+   "usages_documentes": [
+    "Emmanuel Macron, président de la République, octobre 2020"
+   ],
+   "sources": [
+    "https://www.publicsenat.fr/actualites/politique/la-loi-contre-le-separatisme-a-ete-promulguee-190217",
+    "https://www.financialafrik.com/2020/10/02/france-emmanuel-macron-en-guerre-totale-contre-le-separatisme-islamiste/"
+   ],
+   "faux_positifs": "Nom courant de la loi de 2021 et séparatismes régionaux (Corse, Nouvelle-Calédonie) : « designation_neutre » ou hors sujet."
+  },
+  {
+   "terme": "réarmement (démographique, civique, moral)",
+   "motif": "\\br[ée]armement (civique|d[ée]mographique|moral)\\b",
+   "famille_documentee": "centre et exécutif",
+   "statut": "sourcé",
+   "origine": "Formule employée par Emmanuel Macron lors de sa conférence de presse du 16 janvier 2024 (avec « réarmement civique ») ; critiquée à gauche et par des associations féministes comme une métaphore militaire appliquée à la natalité.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.vie-publique.fr/node/292703",
+    "https://www.publicsenat.fr/actualites/societe/mal-choisi-reactionnaire-fascisant-le-rearmement-demographique-de-macron-passe-mal",
+    "https://www.politis.fr/articles/2024/01/macron-rearmement-demographique-le-controle-raciste-de-nos-ventres/"
+   ],
+   "faux_positifs": "« Réarmement » militaire (défense) : non couvert par ce motif."
+  },
+  {
+   "terme": "start-up nation",
+   "motif": "\\bstart-?up nation\\b",
+   "famille_documentee": "centre et exécutif",
+   "statut": "à sourcer",
+   "origine": "À documenter (Emmanuel Macron, 2017).",
+   "usages_documentes": [],
+   "sources": []
+  },
+  {
+   "terme": "arc républicain",
+   "motif": "\\barc r[ée]publicain\\b",
+   "famille_documentee": "transpartisan (frontière disputée)",
+   "statut": "sourcé",
+   "origine": "Expression désignant les partis jugés attachés aux principes républicains ; sa frontière est disputée : l'exécutif et une partie de la droite en ont exclu tantôt le RN, tantôt LFI, et LFI conteste son exclusion.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.politis.fr/articles/2024/02/accusee-detre-hors-de-larc-republicain-la-france-insoumise-veut-jouer-bloc-contre-bloc/",
+    "https://www.publicsenat.fr/actualites/politique/derriere-un-arc-republicain-a-geometrie-variable-lexecutif-desarconne-par-la-montee-du-rn"
+   ]
+  },
+  {
+   "terme": "extrême centre",
+   "motif": "\\bextr[êe]me[- ]centre\\b",
+   "famille_documentee": "critique du centre (gauche et extrême droite)",
+   "statut": "sourcé",
+   "origine": "Notion de l'historien Pierre Serna (2005) désignant un pouvoir modéré en apparence mais autoritaire ; appliquée au macronisme par des critiques venant de la gauche comme de l'extrême droite.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.publicsenat.fr/actualites/politique/emmanuel-macron-l-extreme-centre-pour-lutter-contre-l-extreme-droite-57315",
+    "https://www.slate.fr/story/178899/gouvernance-macron-extreme-centre-gilets-jaunes",
+    "https://www.politis.fr/articles/2025/09/lextreme-centre-a-toujours-eu-une-pente-devant-lui-le-menant-a-lextreme-droite/",
+    "https://www.breizh-info.com/2024/08/31/237117/lextreme-centre-un-danger-totalitaire-par-jean-yves-le-gallou/"
+   ]
+  },
+  {
+   "terme": "racisme d'État",
+   "motif": "\\bracismes? d[’']\\s?[ée]tat\\b",
+   "famille_documentee": "gauche",
+   "statut": "sourcé",
+   "origine": "Expression employée par des associations, chercheurs et responsables de gauche pour désigner des discriminations produites par des institutions ; son usage fait débat, y compris au sein des organisations antiracistes.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.ldh-france.org/wp-content/uploads/2021/07/DL193-Dossier-2.-A-propos-du-racisme-dEtat....pdf",
+    "https://www.middleeasteye.net/fr/decryptages/france-racisme-etat-discriminations-noirs-arabes-impossible-debat"
+   ]
+  },
+  {
+   "terme": "racisme systémique",
+   "motif": "\\bracismes? (syst[ée]mique|structurel|institutionnel)\\b",
+   "famille_documentee": "gauche",
+   "statut": "sourcé",
+   "origine": "Notion des sciences sociales désignant des discriminations produites par le fonctionnement des institutions plutôt que par des intentions individuelles ; portée en France par la gauche et des associations antiracistes, refusée par l'exécutif et le RN en 2020.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.slate.fr/story/191766/universalisme-antiracisme-republique-france-histoire-coloniale",
+    "https://observalgerie.com/2020/06/17/politique/racisme-en-france-emmanuel-macron-et-marine-le-pen-refusent-le-debat/"
+   ]
+  },
+  {
+   "terme": "islamophobie",
+   "motif": "\\bislamophob\\w*",
+   "famille_documentee": "gauche et associations",
+   "statut": "sourcé",
+   "origine": "Terme désignant l'hostilité envers les musulmans ; employé par des associations et une partie de la gauche, contesté par d'autres (qui lui préfèrent « haine anti-musulmans ») au motif qu'il empêcherait la critique de la religion.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.paris.fr/pages/islamophobie-comment-ce-terme-s-est-il-impose-dans-le-debat-public-36572",
+    "https://www.amnesty.fr/reperes/10-questions-sur-islamophobie/"
+   ]
+  },
+  {
+   "terme": "ultra-riches",
+   "motif": "\\bultra-?riches?\\b",
+   "famille_documentee": "gauche",
+   "statut": "sourcé",
+   "origine": "Expression popularisée dans le débat sur la taxation des plus hauts patrimoines (« taxe Zucman »), surtout portée par la gauche ; reprise dans les comptes rendus parlementaires.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.publicsenat.fr/actualites/economie/50-nuances-de-taxe-zucman-quelles-autres-options-sont-sur-la-table-pour-taxer-les-ultra-riches",
+    "https://www.politis.fr/articles/2025/06/economie-taxer-les-riches-zucman-la-gauche-unie-face-a-lhimalaya-parlementaire/"
+   ]
+  },
+  {
+   "terme": "superprofits",
+   "motif": "\\bsuper-?profits?\\b",
+   "famille_documentee": "gauche",
+   "statut": "sourcé",
+   "origine": "Expression portée par la gauche (Nupes, 2022) pour réclamer une taxation des profits exceptionnels liés à la crise énergétique ; l'exécutif lui préférait « profits exceptionnels » ou « rente ».",
+   "usages_documentes": [],
+   "sources": [
+    "https://lcp.fr/actualites/taxation-des-superprofits-la-nupes-presente-sa-proposition-de-referendum-d-initiative",
+    "https://www.publicsenat.fr/actualites/politique/taxation-des-superprofits-au-senat-une-bataille-de-longue-haleine-entre-la-gauche-les",
+    "https://www.linfodurable.fr/taxer-les-superprofits-la-gauche-remet-la-pression-34237"
+   ]
+  },
+  {
+   "terme": "casse sociale",
+   "motif": "\\bcasse (sociale|des? services? publics?|du service public|de l[’']h[ôo]pital)\\b",
+   "famille_documentee": "gauche et syndicats",
+   "statut": "sourcé",
+   "origine": "Expression militante employée par les syndicats et la gauche pour qualifier des réformes jugées destructrices des protections sociales ou des services publics.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.lalanguefrancaise.com/dictionnaire/definition/casse-sociale",
+    "https://acteurspublics.fr/articles/mobilisation-syndicale-et-politique-contre-la-casse-des-services-publics/",
+    "https://www.politis.fr/dossiers/services-publics-la-casse-continue/"
+   ]
+  },
+  {
+   "terme": "écocide",
+   "motif": "\\b[ée]cocides?\\b",
+   "famille_documentee": "écologistes et gauche",
+   "statut": "sourcé",
+   "origine": "Notion de droit international proposée depuis les années 1970 ; demandée comme crime par la Convention citoyenne pour le climat (2020) ; la loi Climat et résilience (2021) a créé un « délit d'écocide » plus restreint, jugé insuffisant par la gauche.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.linfodurable.fr/politique/quest-ce-que-lecocide-remis-sur-la-table-par-la-convention-citoyenne-pour-le-climat-18589",
+    "https://www.publicsenat.fr/actualites/politique/delit-d-ecocide-une-avancee-mais-un-manque-d-ambition-pour-la-gauche-du-senat",
+    "https://www.leclubdesjuristes.com/?p=3168"
+   ],
+   "faux_positifs": "« Délit d'écocide » (article L. 231-3 du code de l'environnement) : « designation_neutre »."
+  },
+  {
+   "terme": "violences policières",
+   "motif": "\\bviolences? polici[èe]res?\\b",
+   "famille_documentee": "gauche",
+   "statut": "à sourcer",
+   "origine": "Expression descriptive dont l'emploi est lui-même politiquement disputé (certains responsables refusent l'expression) — entrée à sourcer avant publication.",
+   "usages_documentes": [],
+   "sources": [
+    "https://www.slate.fr/story/193290/gerald-darmanin-ministre-interieur-violence-police-jeune-homme-vos-etouffements-nous-ensauvagent"
+   ]
+  },
+  {
+   "terme": "État policier",
+   "motif": "\\b[ée]tat policier\\b",
+   "famille_documentee": "gauche",
+   "statut": "à sourcer",
+   "origine": "À documenter.",
+   "usages_documentes": [],
+   "sources": []
+  },
+  {
+   "terme": "fascisation",
+   "motif": "\\bfascis(ation|er|[ée]e?s?)\\b",
+   "famille_documentee": "gauche",
+   "statut": "à sourcer",
+   "origine": "À documenter.",
+   "usages_documentes": [],
+   "sources": []
+  }
+ ],
+ "emergence": {
+  "regle": "Chaque semaine, le PC calcule les expressions (2 à 4 mots) dont la fréquence augmente nettement par rapport aux 12 semaines précédentes, et les concepts relevés librement par l'analyse. Claude examine la liste, recherche l'origine des candidats pertinents et propose une entrée sourcée ; Luc valide avant ajout au lexique."
+ }
+}
